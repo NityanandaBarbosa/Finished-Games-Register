@@ -17,10 +17,10 @@ abstract class _LoginStoreBase with Store {
   @action
   Future singUp() async {
     try {
-      print("STORE do LOGIN");
+      print("Login from Store");
       await auth.singupByEmailPassword(emailField, passwordField);
     } catch (e) {
-      print("EROORRRORORO");
+      print("Fail");
     }
   }
 }

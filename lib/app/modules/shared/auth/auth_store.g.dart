@@ -12,25 +12,30 @@ mixin _$AuthStore on _AuthStoreBase, Store {
   final _$userAtom = Atom(name: '_AuthStoreBase.user');
 
   @override
-  Firebase get user {
+  UserCredential get user {
     _$userAtom.reportRead();
     return super.user;
   }
 
   @override
-  set user(Firebase value) {
+  set user(UserCredential value) {
     _$userAtom.reportWrite(value, super.user, () {
       super.user = value;
     });
   }
 
-  final _$singupByEmailPasswordAsyncAction =
-      AsyncAction('_AuthStoreBase.singupByEmailPassword');
+  final _$_AuthStoreBaseActionController =
+      ActionController(name: '_AuthStoreBase');
 
   @override
-  Future<dynamic> singupByEmailPassword(dynamic email, dynamic password) {
-    return _$singupByEmailPasswordAsyncAction
-        .run(() => super.singupByEmailPassword(email, password));
+  dynamic setUser(UserCredential value) {
+    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
+        name: '_AuthStoreBase.setUser');
+    try {
+      return super.setUser(value);
+    } finally {
+      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

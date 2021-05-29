@@ -12,18 +12,21 @@ abstract class _AuthStoreBase with Store {
   final IAuthRepository _authRepository = Modular.get();
 
   @observable
-  Firebase user;
+  UserCredential user;
 
   @action
-  //setUser(FirebaseAuth value) => user = value;
+  setUser(UserCredential value) => user = value;
 
-  /*_AuthStoreBase() {
+  _AuthStoreBase() {
     _authRepository.getUser().then(setUser);
-  }*/
+    print("Setou");
+    print(user);
+  }
 
   Future singupByEmailPassword(email, password) async {
     print("DENTRO da Auth_STORE");
-    user = await _authRepository.singupByEmailPassword(email, password)
-        as Firebase;
+    user = (await _authRepository.singupByEmailPassword(email, password));
+    print("Current");
+    print(user.user.uid);
   }
 }

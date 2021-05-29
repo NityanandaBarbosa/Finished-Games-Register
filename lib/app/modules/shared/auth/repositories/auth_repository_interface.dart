@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 abstract class IAuthRepository {
   Future singinByEmailPassword(email, password);
-  Future singupByEmailPassword(email, password);
-  Future<String> getUser();
+  Future<UserCredential> singupByEmailPassword(email, password);
+  Future<UserCredential> getUser();
 }

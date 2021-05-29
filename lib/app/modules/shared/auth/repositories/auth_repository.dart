@@ -4,7 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 class AuthRepository implements IAuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  String userData;
+  UserCredential userData;
 
   @override
   Future singinByEmailPassword(email, password) {
@@ -13,7 +13,7 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future singupByEmailPassword(userEmail, userPassword) async {
+  Future<UserCredential> singupByEmailPassword(userEmail, userPassword) async {
     try {
       print("Try to Sing Up");
       print(userEmail);
@@ -22,10 +22,10 @@ class AuthRepository implements IAuthRepository {
           .createUserWithEmailAndPassword(
               email: userEmail, password: userPassword);
       if (userCredential != null) {
+        userData = userCredential;
         print("Success Sing UP");
-        userData = userCredential.toString();
-        print(userCredential.user.uid);
         Modular.to.pushNamed('/lists');
+        return (userCredential);
       }
     } catch (e) {
       print("Sing Up FAILED");
@@ -34,7 +34,7 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<String> getUser() async {
-    return await this.userData;
+  Future<UserCredential> getUser() async {
+    return userData;
   }
 }
