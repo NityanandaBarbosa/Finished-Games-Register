@@ -11,7 +11,7 @@ class LoginPage extends StatefulWidget {
   LoginPageState createState() => LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
+class LoginPageState extends ModularState<LoginPage, LoginStore> {
   final LoginStore store = Modular.get();
 
   @override
@@ -78,7 +78,9 @@ class LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       onChanged: (value) {
-                        setState(() {});
+                        setState(() {
+                          store.emailField = value.trim();
+                        });
                       },
                     ),
                   ),
@@ -108,7 +110,9 @@ class LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       onChanged: (value) {
-                        setState(() {});
+                        setState(() {
+                          store.passwordField = value.trim();
+                        });
                       },
                     ),
                   ),
@@ -128,7 +132,8 @@ class LoginPageState extends State<LoginPage> {
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal)),
                         onPressed: () async {
-                          Modular.to.pushNamed('/lists');
+                          await store.singUp();
+                          //Modular.to.pushNamed('/lists');
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
