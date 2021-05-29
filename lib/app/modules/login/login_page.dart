@@ -1,18 +1,21 @@
-import 'package:flutter/material.dart';
+import 'package:finished_games_register/app/styles/gradient_containers.dart'
+    as gradientComp;
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:register_of_finished_games/app/styles/gradient_containers.dart';
+import 'package:finished_games_register/app/modules/login/login_store.dart';
+import 'package:flutter/material.dart';
 
-class Login extends StatefulWidget {
-  Login({Key key}) : super(key: key);
-
+class LoginPage extends StatefulWidget {
+  final String title;
+  const LoginPage({key, this.title = 'LoginPage'}) : super(key: key);
   @override
-  _LoginState createState() => _LoginState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class _LoginState extends State<Login> {
+class LoginPageState extends State<LoginPage> {
+  final LoginStore store = Modular.get();
+
   @override
   Widget build(BuildContext context) {
-    final gradientStyles = GradientStyle();
     final fullMediaWidth = MediaQuery.of(context).size.width;
     final fullMediaHeight = MediaQuery.of(context).size.height;
 
@@ -166,8 +169,8 @@ class _LoginState extends State<Login> {
       child: Scaffold(
         //0xFFF1b1c37
         backgroundColor: Color(0xFFF1b1c37),
-        body: gradientStyles.backgroundGradient(
-            context, loginComponents(context)),
+        body:
+            gradientComp.backgroundGradient(context, loginComponents(context)),
       ),
     );
   }

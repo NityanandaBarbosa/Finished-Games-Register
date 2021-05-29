@@ -5,13 +5,8 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Register of Finished Games',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: '/login',
-      navigatorKey: Modular.navigatorKey,
-      onGenerateRoute: Modular.generateRoute,
-    );
+      title: 'Flutter Slidy',
+      theme: ThemeData(primarySwatch: Colors.blue),
+    ).modular();
   }
 }

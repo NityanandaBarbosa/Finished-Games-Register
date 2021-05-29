@@ -1,19 +1,15 @@
-import 'package:register_of_finished_games/app/app_widget.dart';
-import 'package:register_of_finished_games/app/modules/lists/app_lists.dart';
-import 'package:register_of_finished_games/app/modules/login/login_page.dart';
-import 'package:flutter/material.dart';
+import 'package:finished_games_register/app/modules/login/login_module.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-class AppModule extends MainModule {
+import 'modules/home/home_module.dart';
+
+class AppModule extends Module {
   @override
-  List<Bind> get binds => [];
+  final List<Bind> binds = [];
 
   @override
-  List<ModularRouter> get routers => [
-        ModularRouter('/login', child: (_, __) => Login()),
-        ModularRouter('/lists', child: (_, __) => Lists()),
-      ];
+  final List<ModularRoute> routes = [
+    ModuleRoute(Modular.initialRoute, module: LoginModule()),
+  ];
 
-  @override
-  Widget get bootstrap => AppWidget();
 }
