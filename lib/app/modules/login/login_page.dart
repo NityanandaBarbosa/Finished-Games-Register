@@ -153,7 +153,16 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal)),
                           onPressed: () async {
-                            Modular.to.pushNamed('/lists');
+                            await store.singIn();
+                            /*try {
+                              var response =
+                                  await _auth.signInWithEmailAndPassword(
+                                      email: store.emailField,
+                                      password: store.passwordField);
+                              print(response);
+                            } on FirebaseAuthException catch (e) {
+                              print(e.message);
+                            }*/
                           },
                           style: ButtonStyle(
                             backgroundColor:

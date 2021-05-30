@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nityanandabarbosa.finished_games_register">
+      <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="finished_games_register"
+        android:usesCleartextTraffic="true"
+        android:label="Finished Games Register"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

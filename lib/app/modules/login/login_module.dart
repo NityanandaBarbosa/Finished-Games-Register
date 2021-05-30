@@ -1,4 +1,4 @@
-import 'package:finished_games_register/app/modules/list/list_module.dart';
+//import 'package:finished_games_register/app/modules/list/list_module.dart';
 import 'package:finished_games_register/app/modules/list/list_page.dart';
 import 'package:finished_games_register/app/modules/list/list_store.dart';
 import 'package:finished_games_register/app/modules/login/login_page.dart';

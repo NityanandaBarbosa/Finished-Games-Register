@@ -15,10 +15,24 @@ abstract class _LoginStoreBase with Store {
   String passwordField;
 
   @action
+  setEmail(String value) => emailField = value;
+
+  @action
+  setPassword(String value) => passwordField = value;
+
+  @action
   Future singUp() async {
     try {
-      print("Login from Store");
       await auth.singupByEmailPassword(emailField, passwordField);
+    } catch (e) {
+      print("Fail");
+    }
+  }
+
+  @action
+  Future singIn() async {
+    try {
+      await auth.singinByEmailPassword(emailField, passwordField);
     } catch (e) {
       print("Fail");
     }

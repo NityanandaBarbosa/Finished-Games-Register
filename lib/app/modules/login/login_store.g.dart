@@ -46,6 +46,38 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     return _$singUpAsyncAction.run(() => super.singUp());
   }
 
+  final _$singInAsyncAction = AsyncAction('_LoginStoreBase.singIn');
+
+  @override
+  Future<dynamic> singIn() {
+    return _$singInAsyncAction.run(() => super.singIn());
+  }
+
+  final _$_LoginStoreBaseActionController =
+      ActionController(name: '_LoginStoreBase');
+
+  @override
+  dynamic setEmail(String value) {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.setEmail');
+    try {
+      return super.setEmail(value);
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setPassword(String value) {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.setPassword');
+    try {
+      return super.setPassword(value);
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

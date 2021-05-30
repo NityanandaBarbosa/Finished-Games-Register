@@ -7,9 +7,24 @@ class AuthRepository implements IAuthRepository {
   UserCredential userData;
 
   @override
-  Future singinByEmailPassword(email, password) {
-    // TODO: implement singinByEmailPassword
-    throw UnimplementedError();
+  Future<UserCredential> singinByEmailPassword(userEmail, userPassword) async {
+    try {
+      print("Try to Sing In");
+      print(userEmail);
+      print(userPassword);
+      UserCredential response = await _auth.signInWithEmailAndPassword(
+          email: userEmail, password: userPassword);
+      if (response != null) {
+        userData = response;
+        print("Success Sing UP");
+        Modular.to.pushNamed('/lists');
+        return (response);
+      }
+    } on FirebaseAuthException catch (e) {
+      print("Sing Up FAILED");
+      print(e.message);
+      //print(userPassword);
+    }
   }
 
   @override
@@ -18,8 +33,8 @@ class AuthRepository implements IAuthRepository {
       print("Try to Sing Up");
       print(userEmail);
       print(userPassword);
-      final UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
+      final UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
               email: userEmail, password: userPassword);
       if (userCredential != null) {
         userData = userCredential;

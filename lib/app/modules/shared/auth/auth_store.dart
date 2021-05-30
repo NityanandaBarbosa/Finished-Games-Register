@@ -24,9 +24,18 @@ abstract class _AuthStoreBase with Store {
   }
 
   Future singupByEmailPassword(email, password) async {
-    print("DENTRO da Auth_STORE");
     user = (await _authRepository.singupByEmailPassword(email, password));
-    print("Current");
-    print(user.user.uid);
+    setUser(user);
+  }
+
+  Future singinByEmailPassword(email, password) async {
+    user = (await _authRepository.singinByEmailPassword(email, password));
+    setUser(user);
+  }
+
+  Future<String> getUserCredential() async {
+    UserCredential getCredent = await _authRepository.getUser();
+    String userUid = getCredent.user.uid;
+    return userUid;
   }
 }
