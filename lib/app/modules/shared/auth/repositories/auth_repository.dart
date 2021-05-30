@@ -42,7 +42,7 @@ class AuthRepository implements IAuthRepository {
         Modular.to.pushNamed('/lists');
         return (userCredential);
       }
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       print("Sing Up FAILED");
       print(e);
     }

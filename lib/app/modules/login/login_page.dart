@@ -1,5 +1,6 @@
 import 'package:finished_games_register/app/styles/gradient_containers.dart'
     as gradientComp;
+import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/login/login_store.dart';
 import 'package:flutter/material.dart';
@@ -133,6 +134,10 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                                 fontWeight: FontWeight.normal)),
                         onPressed: () async {
                           await store.singUp();
+                          if (store.auth.user == null) {
+                            var error = await store.getErrorSingUp();
+                            return ShowAlertDialog(context, '${error}');
+                          }
                           //Modular.to.pushNamed('/lists');
                         },
                         style: ButtonStyle(
@@ -154,15 +159,10 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
                                   fontWeight: FontWeight.normal)),
                           onPressed: () async {
                             await store.singIn();
-                            /*try {
-                              var response =
-                                  await _auth.signInWithEmailAndPassword(
-                                      email: store.emailField,
-                                      password: store.passwordField);
-                              print(response);
-                            } on FirebaseAuthException catch (e) {
-                              print(e.message);
-                            }*/
+                            if (store.auth.user == null) {
+                              var error = await store.getErrorSingIn();
+                              return ShowAlertDialog(context, '${error}');
+                            }
                           },
                           style: ButtonStyle(
                             backgroundColor:

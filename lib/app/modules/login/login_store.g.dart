@@ -53,6 +53,22 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     return _$singInAsyncAction.run(() => super.singIn());
   }
 
+  final _$getErrorSingUpAsyncAction =
+      AsyncAction('_LoginStoreBase.getErrorSingUp');
+
+  @override
+  Future<dynamic> getErrorSingUp() {
+    return _$getErrorSingUpAsyncAction.run(() => super.getErrorSingUp());
+  }
+
+  final _$getErrorSingInAsyncAction =
+      AsyncAction('_LoginStoreBase.getErrorSingIn');
+
+  @override
+  Future<dynamic> getErrorSingIn() {
+    return _$getErrorSingInAsyncAction.run(() => super.getErrorSingIn());
+  }
+
   final _$_LoginStoreBaseActionController =
       ActionController(name: '_LoginStoreBase');
 

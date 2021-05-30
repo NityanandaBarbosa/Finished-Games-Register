@@ -37,4 +37,32 @@ abstract class _LoginStoreBase with Store {
       print("Fail");
     }
   }
+
+  @action
+  Future getErrorSingUp() async {
+    var messageError;
+    if (emailField == null || passwordField == null) {
+      messageError = "Email or Password Empty!";
+    } else if ((!emailField.contains("@") || !emailField.contains(".")) &&
+        passwordField != null) {
+      messageError = "Email out of pattern!";
+    } else {
+      messageError = "Email already used!";
+    }
+    return messageError;
+  }
+
+  @action
+  Future getErrorSingIn() async {
+    var messageError;
+    if (emailField == null || passwordField == null) {
+      messageError = "Email or Password Empty!";
+    } else if ((!emailField.contains("@") || !emailField.contains(".")) &&
+        passwordField != null) {
+      messageError = "Email out of pattern!";
+    } else {
+      messageError = "Email or Password incorrect!";
+    }
+    return messageError;
+  }
 }

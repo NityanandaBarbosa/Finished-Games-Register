@@ -19,7 +19,7 @@ abstract class _AuthStoreBase with Store {
 
   _AuthStoreBase() {
     _authRepository.getUser().then(setUser);
-    print("Setou");
+    print("User seted up");
     print(user);
   }
 
