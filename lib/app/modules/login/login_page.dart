@@ -1,5 +1,6 @@
 import 'package:finished_games_register/app/styles/gradient_containers.dart'
     as gradientComp;
+import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/login/login_store.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class LoginPage extends StatefulWidget {
   LoginPageState createState() => LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
+class LoginPageState extends ModularState<LoginPage, LoginStore> {
   final LoginStore store = Modular.get();
 
   @override
@@ -78,7 +79,9 @@ class LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       onChanged: (value) {
-                        setState(() {});
+                        setState(() {
+                          store.emailField = value.trim();
+                        });
                       },
                     ),
                   ),
@@ -108,7 +111,9 @@ class LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       onChanged: (value) {
-                        setState(() {});
+                        setState(() {
+                          store.passwordField = value.trim();
+                        });
                       },
                     ),
                   ),
@@ -128,7 +133,12 @@ class LoginPageState extends State<LoginPage> {
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal)),
                         onPressed: () async {
-                          Modular.to.pushNamed('/lists');
+                          await store.singUp();
+                          if (store.auth.user == null) {
+                            var error = await store.getErrorSingUp();
+                            return ShowAlertDialog(context, '${error}');
+                          }
+                          //Modular.to.pushNamed('/lists');
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
@@ -148,7 +158,11 @@ class LoginPageState extends State<LoginPage> {
                                   color: Colors.white,
                                   fontWeight: FontWeight.normal)),
                           onPressed: () async {
-                            Modular.to.pushNamed('/lists');
+                            await store.singIn();
+                            if (store.auth.user == null) {
+                              var error = await store.getErrorSingIn();
+                              return ShowAlertDialog(context, '${error}');
+                            }
                           },
                           style: ButtonStyle(
                             backgroundColor:

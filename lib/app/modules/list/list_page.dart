@@ -11,19 +11,22 @@ class ListPage extends StatefulWidget {
   ListPageState createState() => ListPageState();
 }
 
-class ListPageState extends State<ListPage> {
-  final ListStore store = Modular.get();
+class ListPageState extends ModularState<ListPage, ListStore> {
+  final ListStore store = Modular.get<ListStore>();
 
   @override
   Widget build(BuildContext context) {
+    store.getCredential();
     Widget listComponents(context) {
       return Container(
         alignment: Alignment.center,
-        child: Text("AQUI !",
-            style: TextStyle(
-                fontSize: 50,
-                color: Colors.white,
-                fontWeight: FontWeight.normal)),
+        child: store.userId == null
+            ? CircularProgressIndicator()
+            : Text('${store.userId}',
+                style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal)),
       );
     }
 

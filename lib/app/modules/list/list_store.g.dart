@@ -9,18 +9,18 @@ part of 'list_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ListStore on _ListStoreBase, Store {
-  final _$valueAtom = Atom(name: '_ListStoreBase.value');
+  final _$userIdAtom = Atom(name: '_ListStoreBase.userId');
 
   @override
-  int get value {
-    _$valueAtom.reportRead();
-    return super.value;
+  String get userId {
+    _$userIdAtom.reportRead();
+    return super.userId;
   }
 
   @override
-  set value(int value) {
-    _$valueAtom.reportWrite(value, super.value, () {
-      super.value = value;
+  set userId(String value) {
+    _$userIdAtom.reportWrite(value, super.userId, () {
+      super.userId = value;
     });
   }
 
@@ -28,11 +28,11 @@ mixin _$ListStore on _ListStoreBase, Store {
       ActionController(name: '_ListStoreBase');
 
   @override
-  void increment() {
+  dynamic setUser(String value) {
     final _$actionInfo = _$_ListStoreBaseActionController.startAction(
-        name: '_ListStoreBase.increment');
+        name: '_ListStoreBase.setUser');
     try {
-      return super.increment();
+      return super.setUser(value);
     } finally {
       _$_ListStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -41,7 +41,7 @@ mixin _$ListStore on _ListStoreBase, Store {
   @override
   String toString() {
     return '''
-value: ${value}
+userId: ${userId}
     ''';
   }
 }

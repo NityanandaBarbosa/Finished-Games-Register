@@ -1,7 +1,7 @@
-import 'package:finished_games_register/app/modules/list/list_module.dart';
+//import 'package:finished_games_register/app/modules/list/list_module.dart';
 import 'package:finished_games_register/app/modules/list/list_page.dart';
 import 'package:finished_games_register/app/modules/list/list_store.dart';
-import 'package:finished_games_register/app/modules/login/login_Page.dart';
+import 'package:finished_games_register/app/modules/login/login_page.dart';
 import 'package:finished_games_register/app/modules/login/login_store.dart';
 import 'package:finished_games_register/app/styles/gradient_containers.dart';
 import 'package:flutter_modular/flutter_modular.dart';
