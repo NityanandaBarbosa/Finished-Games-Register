@@ -4,12 +4,13 @@ import 'dart:convert';
 
 class UsersApi implements IUsersApi {
   var url = Uri.parse(
-      'https://finishedgamesregister-default-rtdb.firebaseio.com//user.json');
+      'https://finishedgamesregister-default-rtdb.firebaseio.com/user.json');
 
   @override
-  Future getUsers() {
-    // TODO: implement getUsers
-    throw UnimplementedError();
+  Future getUsers()async {
+    var response = await get(url);
+    var responseDec = jsonDecode(response.body);
+    return responseDec;
   }
 
   @override
