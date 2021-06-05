@@ -34,6 +34,17 @@ abstract class _AuthStoreBase with Store {
   Future singinByEmailPassword(email, password) async {
     user = (await _authRepository.singinByEmailPassword(email, password));
     setUser(user);
+    var users = _usersApi.getUsers();
+    getMyId(users);
+  }
+
+  Future getMyId(users){
+    print(users);
+    for(var id in users){
+      print(id['email']);
+      /*if(id['email'] == user.user.email){
+      }*/
+    }
   }
 
   Future<UserCredential> getUserCredential() async {

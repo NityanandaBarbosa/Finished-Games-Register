@@ -1,5 +1,7 @@
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
@@ -33,4 +35,47 @@ abstract class _ListStoreBase with Store {
     setUser(userId.user.uid);
     setUserEmail(userId.user.email);
   }
+
+  Widget cardBase(){
+    return Container(
+      padding: EdgeInsets.all(3),
+      height: 180,
+      width: double.maxFinite,
+      child: Card(
+        elevation: 5,
+      ),
+    );
+  }
+
+  Widget crudLists(sizewidth, sizeHeight){
+    if(selectedIndex == 0){
+      return Container(
+        width: sizewidth/1.1,
+        height: sizeHeight/1.3,
+        child: ListView(
+          children: [
+          ],
+        ),
+      );
+    }else if(selectedIndex == 1){
+      return Container(
+        width: sizewidth/1.1,
+        height: sizeHeight/1.3,
+        child: ListView(
+          children: [
+        ],
+        ),
+      );
+    }else{
+      return Container(
+        width: sizewidth/1.1,
+        height: sizeHeight/1.3,
+        child: ListView(
+          children: [
+          ],
+        ),
+      );
+    }
+  }
+
 }

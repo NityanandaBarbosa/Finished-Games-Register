@@ -22,28 +22,25 @@ class ListPageState extends ModularState<ListPage, ListStore> {
 
   @override
   Widget build(BuildContext context) {
+    final fullMediaWidth = MediaQuery.of(context).size.width;
+    final fullMediaHeight = MediaQuery.of(context).size.height;
+
     store.getCredential();
+
     Widget listComponents(context) {
       return Container(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(10.0),
-              child: CircularProgressIndicator(),
-            ),
-            Padding(
-              padding: EdgeInsets.all(5.0),
-              child: Text('${store.userEmail}\nSelected Item : ${store.selectedIndex}',
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal)),
-            ),
-          ],
-        ),
-      );
+          alignment: Alignment.center,
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            children: [
+              /*Padding(
+                padding: EdgeInsets.all(5.0),
+                child: Text('${store.selectedIndex}')
+              ),*/
+              store.crudLists(fullMediaWidth, fullMediaHeight),
+            ],
+          ),
+       );
     }
 
     return Scaffold(
