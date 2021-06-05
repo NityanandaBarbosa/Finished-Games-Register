@@ -36,9 +36,8 @@ abstract class _AuthStoreBase with Store {
     setUser(user);
   }
 
-  Future<String> getUserCredential() async {
+  Future<UserCredential> getUserCredential() async {
     UserCredential getCredent = await _authRepository.getUser();
-    String userUid = getCredent.user.uid;
-    return userUid;
+    return getCredent;
   }
 }

@@ -34,6 +34,18 @@ Widget appBarGradient(context, barTitle) {
   );
 }
 
+Widget containerGradient(context, code){
+  return Container(
+      decoration: BoxDecoration(
+      gradient: LinearGradient(
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
+      colors: [Color(colorEnd), Color(colorInit)]),
+      ),
+      child: code,
+  );
+}
+
 Widget buildScreen(context, code) {
   return code;
 }

@@ -13,12 +13,24 @@ abstract class _ListStoreBase with Store {
   @observable
   String userId;
 
+  @observable
+  String userEmail;
+
+  @observable
+  int selectedIndex = 0;
+
   @action
   setUser(String value) => userId = value;
 
+  @action
+  setUserEmail(String value) => userEmail = value;
+
+  @action
+  setIndex(int value) => selectedIndex = value;
+
   Future getCredential() async {
-    userId = await auth.getUserCredential();
-    setUser(userId);
-    return userId;
+    var userId = await auth.getUserCredential();
+    setUser(userId.user.uid);
+    setUserEmail(userId.user.email);
   }
 }
