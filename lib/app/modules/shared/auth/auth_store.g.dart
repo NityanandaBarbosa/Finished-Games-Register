@@ -24,6 +24,21 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
+  final _$myIdAtom = Atom(name: '_AuthStoreBase.myId');
+
+  @override
+  dynamic get myId {
+    _$myIdAtom.reportRead();
+    return super.myId;
+  }
+
+  @override
+  set myId(dynamic value) {
+    _$myIdAtom.reportWrite(value, super.myId, () {
+      super.myId = value;
+    });
+  }
+
   final _$_AuthStoreBaseActionController =
       ActionController(name: '_AuthStoreBase');
 
@@ -39,9 +54,21 @@ mixin _$AuthStore on _AuthStoreBase, Store {
   }
 
   @override
+  dynamic setMyId(dynamic value) {
+    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
+        name: '_AuthStoreBase.setMyId');
+    try {
+      return super.setMyId(value);
+    } finally {
+      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-user: ${user}
+user: ${user},
+myId: ${myId}
     ''';
   }
 }

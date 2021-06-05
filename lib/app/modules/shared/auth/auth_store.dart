@@ -16,8 +16,14 @@ abstract class _AuthStoreBase with Store {
   @observable
   UserCredential user;
 
+  @observable
+  var myId;
+
   @action
   setUser(UserCredential value) => user = value;
+
+  @action
+  setMyId(var value) => myId = value;
 
   _AuthStoreBase() {
     _authRepository.getUser().then(setUser);
@@ -34,17 +40,17 @@ abstract class _AuthStoreBase with Store {
   Future singinByEmailPassword(email, password) async {
     user = (await _authRepository.singinByEmailPassword(email, password));
     setUser(user);
-    var users = _usersApi.getUsers();
+    var users = await _usersApi.getUsers();
     getMyId(users);
   }
 
   Future getMyId(users){
-    print(users);
-    for(var id in users){
-      print(id['email']);
-      /*if(id['email'] == user.user.email){
-      }*/
-    }
+    print("AQUI ${users}");
+    users.forEach((key, value){
+      if(value['email'] == user.user.email){
+        setMyId(key);
+      }
+    });
   }
 
   Future<UserCredential> getUserCredential() async {

@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  firebase_database: ^7.1.0
   flutter_mobx: ^2.0.0
   mobx: ^2.0.1
   firebase_core: ^1.0.3
