@@ -23,16 +23,14 @@ environment:
 dependencies:
   flutter_mobx: ^2.0.0
   mobx: ^2.0.1
+  firebase_auth: ^1.0.2
   firebase_core: ^1.0.3
   asuka: ^1.0.4
-  firebase_auth: ^1.0.2
   flutter_modular: ^3.2.2+1
   flutter:
     sdk: flutter
   flutter_triple: ^1.0.6
   http:
-  dio:
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
 
@@ -44,7 +42,9 @@ dev_dependencies:
     sdk: flutter
   flutter_modular_test: ^1.0.1
   triple_test: ^0.0.6
+  dio:
 
+#dependency_overrides:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
