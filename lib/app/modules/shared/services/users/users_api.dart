@@ -1,17 +1,22 @@
 import 'package:finished_games_register/app/modules/shared/services/users/users_api_interface.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'dart:core';
 
 class UsersApi implements IUsersApi {
-  var url = Uri.parse(
-      'https://finishedgamesregister-default-rtdb.firebaseio.com/user.json');
+  final Dio dio;
+
+  var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user.json';
+
+  UsersApi(this.dio);
 
   @override
   Future getUsers()async {
-    var response = await get(url);
-    var responseDec = jsonDecode(response.body);
-    return responseDec;
+    var responseDec = await dio.get(url);
+    //var response = await get(url);
+    //var responseDec = jsonDecode(response.body);
+    return responseDec.data;
   }
 
   @override
@@ -19,9 +24,7 @@ class UsersApi implements IUsersApi {
     print("userId");
     print(user.user.email);
     print(user.user.uid);
-    var response = await post(url,
-        body: json.encode({'userId': user.user.uid, 'email': user.user.email}));
-    var id = jsonDecode(response.body);
-    print("Try to post");
+    var response = await dio.post(url, data:{'userId': user.user.uid, 'email': user.user.email});
+    return response.data['name'];
   }
 }

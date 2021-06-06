@@ -1,4 +1,5 @@
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
+import 'package:finished_games_register/app/modules/shared/services/publishers/publishers_api_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class ListStore = _ListStoreBase with _$ListStore;
 
 abstract class _ListStoreBase with Store {
   AuthStore auth = Modular.get();
+  final IPublisherApi _publisherApi = Modular.get();
 
   @observable
   String userId;
@@ -34,6 +36,8 @@ abstract class _ListStoreBase with Store {
     var userId = await auth.getUserCredential();
     setUser(userId.user.uid);
     setUserEmail(userId.user.email);
+    var pubs = await _publisherApi.getPublisher(auth.myId);
+    print(pubs);
   }
 
   Widget cardBase(){

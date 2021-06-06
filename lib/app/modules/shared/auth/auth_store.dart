@@ -34,7 +34,8 @@ abstract class _AuthStoreBase with Store {
   Future singupByEmailPassword(email, password) async {
     user = (await _authRepository.singupByEmailPassword(email, password));
     setUser(user);
-    _usersApi.postUser(user);
+    var id = _usersApi.postUser(user);
+    setMyId(id);
   }
 
   Future singinByEmailPassword(email, password) async {
@@ -49,12 +50,19 @@ abstract class _AuthStoreBase with Store {
     users.forEach((key, value){
       if(value['email'] == user.user.email){
         setMyId(key);
+        print("Achou");
+        return key;
       }
     });
+  }
+
+  Future userId(){
+    return myId;
   }
 
   Future<UserCredential> getUserCredential() async {
     UserCredential getCredent = await _authRepository.getUser();
     return getCredent;
   }
+
 }
