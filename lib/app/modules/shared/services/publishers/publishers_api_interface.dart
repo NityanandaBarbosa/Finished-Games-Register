@@ -3,4 +3,5 @@ abstract class IPublisherApi {
   Future getPublisher(id);
   Future putPublisher(id,idPublisher,name, foundingDate, closedDate);
   Future getSinglePublisher(id,idPublisher);
+  Future deletePublisher(id,idPublisher);
 }
