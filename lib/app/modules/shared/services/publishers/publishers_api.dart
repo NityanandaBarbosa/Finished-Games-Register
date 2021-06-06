@@ -19,9 +19,23 @@ class PublisherApi implements IPublisherApi {
   }
 
   @override
-  Future postPublisher(id,name, foundingDate, closedDate) async {
+  Future postPublisher(id,name, foundingDate,[closedDate = ""]) async {
     var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/publisher.json';
     var response = await dio.post(url, data:{'name': name, 'foundingDate': foundingDate, 'closedDate': closedDate});
     print("Try to post");
+  }
+
+  @override
+  Future putPublisher(id, idPublisher, name, foundingDate, closedDate) async{
+    var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/publisher/${idPublisher}/.json';
+    var response = await dio.post(url, data:{'name': name, 'foundingDate': foundingDate, 'closedDate': closedDate});
+    print("Try to put");
+  }
+
+  @override
+  Future getSinglePublisher(id, idPublisher) async {
+    var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/publisher/${idPublisher}/.json';
+    var responseDec = await dio.get(url);
+    return responseDec.data;
   }
 }
