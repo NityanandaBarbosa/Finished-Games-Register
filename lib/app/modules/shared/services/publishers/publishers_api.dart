@@ -38,4 +38,10 @@ class PublisherApi implements IPublisherApi {
     var responseDec = await dio.get(url);
     return responseDec.data;
   }
+
+  @override
+  Future deletePublisher(id, idPublisher) async {
+    var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/publisher/${idPublisher}/.json';
+    var responseDec = await dio.delete(url);
+  }
 }
