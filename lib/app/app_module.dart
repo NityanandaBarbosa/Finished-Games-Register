@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/modules/list/list_module.dart';
 import 'package:finished_games_register/app/modules/login/login_module.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/auth/repositories/auth_repository.dart';
@@ -21,6 +22,7 @@ class AppModule extends Module {
   @override
   final List<ModularRoute> routes = [
     ModuleRoute(Modular.initialRoute, module: LoginModule()),
+    ModuleRoute('/lists', module: ListModule()),
   ];
 
   static set dio(Dio dio) {}

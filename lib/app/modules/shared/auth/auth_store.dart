@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
-
 part 'auth_store.g.dart';
 
 class AuthStore = _AuthStoreBase with _$AuthStore;
@@ -40,23 +39,23 @@ abstract class _AuthStoreBase with Store {
 
   Future singinByEmailPassword(email, password) async {
     user = (await _authRepository.singinByEmailPassword(email, password));
-    setUser(user);
-    var users = await _usersApi.getUsers();
-    getMyId(users);
+    if (user != null) {
+      setUser(user);
+      var users = await _usersApi.getUsers();
+      getMyId(users);
+    }
   }
 
-  Future getMyId(users){
-    print("AQUI ${users}");
-    users.forEach((key, value){
-      if(value['email'] == user.user.email){
+  Future getMyId(users) {
+    users.forEach((key, value) {
+      if (value['email'] == user.user.email) {
         setMyId(key);
-        print("Achou");
         return key;
       }
     });
   }
 
-  Future userId(){
+  Future userId() {
     return myId;
   }
 
@@ -64,5 +63,4 @@ abstract class _AuthStoreBase with Store {
     UserCredential getCredent = await _authRepository.getUser();
     return getCredent;
   }
-
 }

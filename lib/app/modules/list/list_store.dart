@@ -40,7 +40,17 @@ abstract class _ListStoreBase with Store {
     print(pubs);
   }
 
-  Widget cardBase(){
+  Future openCrud() async {
+    if (selectedIndex == 0) {
+      Modular.to.pushNamed('/lists/publisher');
+    } else if (selectedIndex == 1) {
+      Modular.to.pushNamed('/lists/game');
+    } else {
+      Modular.to.pushNamed('/lists/register');
+    }
+  }
+
+  Widget cardBase() {
     return Container(
       padding: EdgeInsets.all(3),
       height: 180,
@@ -51,35 +61,31 @@ abstract class _ListStoreBase with Store {
     );
   }
 
-  Widget crudLists(sizewidth, sizeHeight){
-    if(selectedIndex == 0){
+  Widget crudLists(sizewidth, sizeHeight) {
+    if (selectedIndex == 0) {
       return Container(
-        width: sizewidth/1.1,
-        height: sizeHeight/1.3,
+        width: sizewidth / 1.1,
+        height: sizeHeight / 1.3,
         child: ListView(
-          children: [
-          ],
+          children: [],
         ),
       );
-    }else if(selectedIndex == 1){
+    } else if (selectedIndex == 1) {
       return Container(
-        width: sizewidth/1.1,
-        height: sizeHeight/1.3,
+        width: sizewidth / 1.1,
+        height: sizeHeight / 1.3,
         child: ListView(
-          children: [
-        ],
+          children: [],
         ),
       );
-    }else{
+    } else {
       return Container(
-        width: sizewidth/1.1,
-        height: sizeHeight/1.3,
+        width: sizewidth / 1.1,
+        height: sizeHeight / 1.3,
         child: ListView(
-          children: [
-          ],
+          children: [],
         ),
       );
     }
   }
-
 }

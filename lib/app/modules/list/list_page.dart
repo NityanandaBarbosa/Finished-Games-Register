@@ -29,47 +29,55 @@ class ListPageState extends ModularState<ListPage, ListStore> {
 
     Widget listComponents(context) {
       return Container(
-          alignment: Alignment.center,
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            children: [
-              /*Padding(
+        alignment: Alignment.center,
+        child: Wrap(
+          alignment: WrapAlignment.center,
+          children: [
+            /*Padding(
                 padding: EdgeInsets.all(5.0),
                 child: Text('${store.selectedIndex}')
               ),*/
-              store.crudLists(fullMediaWidth, fullMediaHeight),
-            ],
-          ),
-       );
+            store.crudLists(fullMediaWidth, fullMediaHeight),
+          ],
+        ),
+      );
     }
 
     return Scaffold(
-      appBar: gradientComp.appBarGradient(context, "Finished Games"),
-      body: gradientComp.backgroundGradient(context, listComponents(context)),
-      bottomNavigationBar:gradientComp.containerGradient(context,
-      BottomNavigationBar(
-        showUnselectedLabels: false,
-        backgroundColor: Colors.transparent,
-        //ype: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Publisher',
+        appBar: gradientComp.appBarGradient(context, "Finished Games"),
+        body: gradientComp.backgroundGradient(context, listComponents(context)),
+        bottomNavigationBar: gradientComp.containerGradient(
+          context,
+          BottomNavigationBar(
+            showUnselectedLabels: false,
+            backgroundColor: Colors.transparent,
+            //ype: BottomNavigationBarType.fixed,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.business),
+                label: 'Publisher',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.videogame_asset),
+                label: 'Games',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.app_registration),
+                label: 'Register',
+              ),
+            ],
+            currentIndex: store.selectedIndex,
+            selectedItemColor: Colors.white,
+            onTap: _onItemTapped,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.videogame_asset),
-            label: 'Games',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.app_registration),
-            label: 'Register',
-          ),
-        ],
-        currentIndex: store.selectedIndex,
-        selectedItemColor: Colors.white,
-        onTap: _onItemTapped,
         ),
-      ),
-    );
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xFF13213b),
+          onPressed: () async {
+            await store.openCrud();
+          },
+          child: Icon(Icons.my_library_add),
+        ),
+      );
   }
 }
