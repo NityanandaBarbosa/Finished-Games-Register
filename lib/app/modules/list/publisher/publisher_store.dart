@@ -6,10 +6,12 @@ class PublisherStore = _PublisherStoreBase with _$PublisherStore;
 
 abstract class _PublisherStoreBase with Store {
   @observable
-  int value = 0;
+  DateTime foundingDate;
 
-  @action
-  void increment() {
-    value++;
-  }
+  @observable
+  DateTime closedDate;
+
+  @observable
+  String publisherName;
+
 }
