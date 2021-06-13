@@ -187,7 +187,12 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
           if (_formKey.currentState.validate()) {}
           var responseSave = await store.savePublisher();
           if(responseSave == false){
-            return ShowAlertDialog(context, 'Some Fields are empty');
+            return ShowAlertDialog(context, 'Fill the required fields!');
+          }else if(responseSave == null) {
+            return ShowAlertDialog(context, 'Could not connect to server!');
+          }else{
+            store.response == null ? CircularProgressIndicator() : null;
+            Navigator.of(context).pop();
           }
         },
         child: Icon(Icons.save_rounded),

@@ -30,7 +30,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_triple: ^1.0.6
-  http:
+  #http:
+  dio:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
 
@@ -42,7 +43,6 @@ dev_dependencies:
     sdk: flutter
   flutter_modular_test: ^1.0.1
   triple_test: ^0.0.6
-  dio:
 
 #dependency_overrides:
 

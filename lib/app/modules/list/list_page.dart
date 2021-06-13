@@ -14,10 +14,11 @@ class ListPage extends StatefulWidget {
 class ListPageState extends ModularState<ListPage, ListStore> {
   final ListStore store = Modular.get<ListStore>();
 
-  void _onItemTapped(int index) {
+  Future _onItemTapped(int index) async {
     setState(() {
       store.setIndex(index);
     });
+    await store.getSelected();
   }
 
   @override
@@ -44,40 +45,40 @@ class ListPageState extends ModularState<ListPage, ListStore> {
     }
 
     return Scaffold(
-        appBar: gradientComp.appBarGradient(context, "Finished Games"),
-        body: gradientComp.backgroundGradient(context, listComponents(context)),
-        bottomNavigationBar: gradientComp.containerGradient(
-          context,
-          BottomNavigationBar(
-            showUnselectedLabels: false,
-            backgroundColor: Colors.transparent,
-            //ype: BottomNavigationBarType.fixed,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.business),
-                label: 'Publisher',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.videogame_asset),
-                label: 'Games',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.app_registration),
-                label: 'Register',
-              ),
-            ],
-            currentIndex: store.selectedIndex,
-            selectedItemColor: Colors.white,
-            onTap: _onItemTapped,
-          ),
+      appBar: gradientComp.appBarGradient(context, "Finished Games"),
+      body: gradientComp.backgroundGradient(context, listComponents(context)),
+      bottomNavigationBar: gradientComp.containerGradient(
+        context,
+        BottomNavigationBar(
+          showUnselectedLabels: false,
+          backgroundColor: Colors.transparent,
+          //ype: BottomNavigationBarType.fixed,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Publisher',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.videogame_asset),
+              label: 'Games',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.app_registration),
+              label: 'Register',
+            ),
+          ],
+          currentIndex: store.selectedIndex,
+          selectedItemColor: Colors.white,
+          onTap: _onItemTapped,
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xFF13213b),
-          onPressed: () async {
-            await store.openCrud();
-          },
-          child: Icon(Icons.my_library_add),
-        ),
-      );
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF13213b),
+        onPressed: () async {
+          await store.openCrud();
+        },
+        child: Icon(Icons.my_library_add),
+      ),
+    );
   }
 }

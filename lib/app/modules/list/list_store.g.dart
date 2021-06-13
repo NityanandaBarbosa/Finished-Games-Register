@@ -54,6 +54,21 @@ mixin _$ListStore on _ListStoreBase, Store {
     });
   }
 
+  final _$responseAtom = Atom(name: '_ListStoreBase.response');
+
+  @override
+  dynamic get response {
+    _$responseAtom.reportRead();
+    return super.response;
+  }
+
+  @override
+  set response(dynamic value) {
+    _$responseAtom.reportWrite(value, super.response, () {
+      super.response = value;
+    });
+  }
+
   final _$_ListStoreBaseActionController =
       ActionController(name: '_ListStoreBase');
 
@@ -95,7 +110,8 @@ mixin _$ListStore on _ListStoreBase, Store {
     return '''
 userId: ${userId},
 userEmail: ${userEmail},
-selectedIndex: ${selectedIndex}
+selectedIndex: ${selectedIndex},
+response: ${response}
     ''';
   }
 }

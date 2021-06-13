@@ -1,5 +1,4 @@
 import 'package:finished_games_register/app/modules/shared/services/users/users_api_interface.dart';
-import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'dart:core';

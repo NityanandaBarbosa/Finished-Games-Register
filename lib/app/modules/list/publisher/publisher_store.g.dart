@@ -54,12 +54,28 @@ mixin _$PublisherStore on _PublisherStoreBase, Store {
     });
   }
 
+  final _$responseAtom = Atom(name: '_PublisherStoreBase.response');
+
+  @override
+  dynamic get response {
+    _$responseAtom.reportRead();
+    return super.response;
+  }
+
+  @override
+  set response(dynamic value) {
+    _$responseAtom.reportWrite(value, super.response, () {
+      super.response = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 foundingDate: ${foundingDate},
 closedDate: ${closedDate},
-publisherName: ${publisherName}
+publisherName: ${publisherName},
+response: ${response}
     ''';
   }
 }
