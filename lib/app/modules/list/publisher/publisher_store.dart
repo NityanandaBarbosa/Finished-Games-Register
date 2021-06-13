@@ -14,4 +14,21 @@ abstract class _PublisherStoreBase with Store {
   @observable
   String publisherName;
 
+  Future<bool> savePublisher() async{
+    if(await verifyFields() == false){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  Future<bool> verifyFields() async {
+    print('${publisherName},${foundingDate}');
+    if(publisherName == null || publisherName == "" || foundingDate == null){
+      return false;
+    }else{
+      return true;
+    }
+  }
+
 }

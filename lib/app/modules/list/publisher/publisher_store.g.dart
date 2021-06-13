@@ -24,10 +24,42 @@ mixin _$PublisherStore on _PublisherStoreBase, Store {
     });
   }
 
+  final _$closedDateAtom = Atom(name: '_PublisherStoreBase.closedDate');
+
+  @override
+  DateTime get closedDate {
+    _$closedDateAtom.reportRead();
+    return super.closedDate;
+  }
+
+  @override
+  set closedDate(DateTime value) {
+    _$closedDateAtom.reportWrite(value, super.closedDate, () {
+      super.closedDate = value;
+    });
+  }
+
+  final _$publisherNameAtom = Atom(name: '_PublisherStoreBase.publisherName');
+
+  @override
+  String get publisherName {
+    _$publisherNameAtom.reportRead();
+    return super.publisherName;
+  }
+
+  @override
+  set publisherName(String value) {
+    _$publisherNameAtom.reportWrite(value, super.publisherName, () {
+      super.publisherName = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
-foundingDate: ${foundingDate}
+foundingDate: ${foundingDate},
+closedDate: ${closedDate},
+publisherName: ${publisherName}
     ''';
   }
 }
