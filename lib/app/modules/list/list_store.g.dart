@@ -54,18 +54,63 @@ mixin _$ListStore on _ListStoreBase, Store {
     });
   }
 
-  final _$responseAtom = Atom(name: '_ListStoreBase.response');
+  final _$responsePubsAtom = Atom(name: '_ListStoreBase.responsePubs');
 
   @override
-  dynamic get response {
-    _$responseAtom.reportRead();
-    return super.response;
+  dynamic get responsePubs {
+    _$responsePubsAtom.reportRead();
+    return super.responsePubs;
   }
 
   @override
-  set response(dynamic value) {
-    _$responseAtom.reportWrite(value, super.response, () {
-      super.response = value;
+  set responsePubs(dynamic value) {
+    _$responsePubsAtom.reportWrite(value, super.responsePubs, () {
+      super.responsePubs = value;
+    });
+  }
+
+  final _$responseGamesAtom = Atom(name: '_ListStoreBase.responseGames');
+
+  @override
+  dynamic get responseGames {
+    _$responseGamesAtom.reportRead();
+    return super.responseGames;
+  }
+
+  @override
+  set responseGames(dynamic value) {
+    _$responseGamesAtom.reportWrite(value, super.responseGames, () {
+      super.responseGames = value;
+    });
+  }
+
+  final _$responseRegisterAtom = Atom(name: '_ListStoreBase.responseRegister');
+
+  @override
+  dynamic get responseRegister {
+    _$responseRegisterAtom.reportRead();
+    return super.responseRegister;
+  }
+
+  @override
+  set responseRegister(dynamic value) {
+    _$responseRegisterAtom.reportWrite(value, super.responseRegister, () {
+      super.responseRegister = value;
+    });
+  }
+
+  final _$isGetListsAtom = Atom(name: '_ListStoreBase.isGetLists');
+
+  @override
+  bool get isGetLists {
+    _$isGetListsAtom.reportRead();
+    return super.isGetLists;
+  }
+
+  @override
+  set isGetLists(bool value) {
+    _$isGetListsAtom.reportWrite(value, super.isGetLists, () {
+      super.isGetLists = value;
     });
   }
 
@@ -111,7 +156,10 @@ mixin _$ListStore on _ListStoreBase, Store {
 userId: ${userId},
 userEmail: ${userEmail},
 selectedIndex: ${selectedIndex},
-response: ${response}
+responsePubs: ${responsePubs},
+responseGames: ${responseGames},
+responseRegister: ${responseRegister},
+isGetLists: ${isGetLists}
     ''';
   }
 }

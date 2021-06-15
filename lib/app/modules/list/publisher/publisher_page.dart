@@ -186,6 +186,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
         onPressed: () async {
           if (_formKey.currentState.validate()) {}
           var responseSave = await store.savePublisher();
+          print("RESPONSE ${responseSave}");
           if(responseSave == false){
             return ShowAlertDialog(context, 'Fill the required fields!');
           }else if(responseSave == null) {

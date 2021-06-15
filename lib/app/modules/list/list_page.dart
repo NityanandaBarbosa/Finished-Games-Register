@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/list/list_store.dart';
 import 'package:finished_games_register/app/styles/gradient_containers.dart'
@@ -14,11 +15,29 @@ class ListPage extends StatefulWidget {
 class ListPageState extends ModularState<ListPage, ListStore> {
   final ListStore store = Modular.get<ListStore>();
 
+  final _refresh = GlobalKey<FormState>();
+
+  Future<bool> _futureLoadLists;
+
+  final colorInit = 0xFFde6262;
+  final colorEnd = 0xFFffb88c;
+
+  @override
+  void initState(){
+    _futureLoadLists = store.getSelected();
+    super.initState();
+  }
+
   Future _onItemTapped(int index) async {
     setState(() {
       store.setIndex(index);
     });
-    await store.getSelected();
+  }
+
+  Future refreshList() async {
+    setState(() {
+      _futureLoadLists = store.getSelected();
+    });
   }
 
   @override
@@ -27,6 +46,7 @@ class ListPageState extends ModularState<ListPage, ListStore> {
     final fullMediaHeight = MediaQuery.of(context).size.height;
 
     store.getCredential();
+    store.getSelected();
 
     Widget listComponents(context) {
       return Container(
@@ -34,11 +54,37 @@ class ListPageState extends ModularState<ListPage, ListStore> {
         child: Wrap(
           alignment: WrapAlignment.center,
           children: [
-            /*Padding(
-                padding: EdgeInsets.all(5.0),
-                child: Text('${store.selectedIndex}')
-              ),*/
-            store.crudLists(fullMediaWidth, fullMediaHeight),
+            //_futureLoadLists == false ? store.crudListsFailed(fullMediaWidth, fullMediaHeight) : store.crudLists(fullMediaWidth, fullMediaHeight),
+            FutureBuilder(
+              future: _futureLoadLists,
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.active:
+                  case ConnectionState.waiting:
+                    return store.crudListsWaiting(fullMediaWidth, fullMediaHeight);
+                  case ConnectionState.done:
+                    if (snapshot.data == false) {
+                      return new RefreshIndicator(
+                          key:_refresh,
+                          color: Colors.blue,
+                          onRefresh: refreshList,
+                      child: store.crudListsFailed(fullMediaWidth, fullMediaHeight),
+                      );
+                    }
+                    if (snapshot.data == true) {}
+                    return new RefreshIndicator(
+                        key: _refresh,
+                        color: Colors.blue,
+                        onRefresh: refreshList,
+                    child: store.crudLists(fullMediaWidth, fullMediaHeight),
+                    );
+                      //store.crudLists(fullMediaWidth, fullMediaHeight);
+                    break;
+                  default:
+                    return null;
+                }
+              },
+            )
           ],
         ),
       );

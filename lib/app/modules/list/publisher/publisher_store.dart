@@ -24,10 +24,10 @@ abstract class _PublisherStoreBase with Store {
   var response;
 
   Future savePublisher() async{
-    await verifyFields();
-    if(response == false) {
+   var returnResponse = await verifyFields();
+    if(returnResponse == false) {
       return false;
-    }else if(response == null){
+    }else if(returnResponse == null){
       return null;
     }else{
       return true;
@@ -40,9 +40,9 @@ abstract class _PublisherStoreBase with Store {
       return false;
     }else{
       response = await _publisherApi.postPublisher(_auth.myId, publisherName, foundingDate.toString());
-      /*if(response == null){
+      if(response == null){
         return null;
-      }*/
+      }
     }
   }
 

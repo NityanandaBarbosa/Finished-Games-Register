@@ -27,7 +27,16 @@ abstract class _ListStoreBase with Store {
   int selectedIndex = 0;
 
   @observable
-  var response;
+  var responsePubs;
+
+  @observable
+  var responseGames;
+
+  @observable
+  var responseRegister;
+
+  @observable
+  bool isGetLists = true;
 
   @action
   setUser(String value) => userId = value;
@@ -54,16 +63,20 @@ abstract class _ListStoreBase with Store {
     }
   }
 
-  Future getSelected() async {
-    if (selectedIndex == 0) {
-      response = await _publisherApi.getPublisher(auth.myId);
-    } else if (selectedIndex == 1) {
-      response = await _gameApi.getGame(auth.myId);
-    } else {
-      response = await _registerApi.getRegister(auth.myId);
+  Future<bool> getSelected() async {
+    try{
+      responsePubs = await _publisherApi.getPublisher(auth.myId);
+      responseGames = await _gameApi.getGame(auth.myId);
+      responseRegister = await _registerApi.getRegister(auth.myId);
+      isGetLists = true;
+      return true;
+    }catch(e){
+      isGetLists = false;
+      responsePubs = null;
+      responseGames = null;
+      responseRegister = null;
+      return false;
     }
-    print("Retorno ${response.data}");
-    return response.data;
   }
 
   Widget cardBase() {
@@ -79,19 +92,56 @@ abstract class _ListStoreBase with Store {
 
   Widget crudLists(sizewidth, sizeHeight) {
     if (selectedIndex == 0) {
-      return response != null
-          ? CircularProgressIndicator()
-          : Container(
+        return responsePubs != null
+            ? Container(
+              width: sizewidth / 1.1,
+              height: sizeHeight / 1.3,
+              child: ListView(
+                children: [
+                  Text("Something Here"),
+                ],
+              ),
+            )
+            : Container(
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,
               child: ListView(
                 children: [],
               ),
-            );
-    } else if (selectedIndex == 1) {
-      return response != null
-          ? CircularProgressIndicator()
-          : Container(
+          );
+      }else if (selectedIndex == 1) {
+        return responseGames != null
+            ? Container(
+              width: sizewidth / 1.1,
+              height: sizeHeight / 1.3,
+              child: ListView(
+                children: [
+                  Text("Something Here"),
+                ],
+              ),
+            )
+            : Container(
+              width: sizewidth / 1.1,
+              height: sizeHeight / 1.3,
+              child: ListView(
+                children: [
+                  Text("Empty List"),
+                ],
+              ),
+          );
+      }else {
+      print(responseRegister);
+        return responseRegister != null
+            ?Container(
+              width: sizewidth / 1.1,
+              height: sizeHeight / 1.3,
+              child: ListView(
+                children: [
+                  Text("Something Here"),
+                ],
+              ),
+            )
+            : Container(
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,
               child: ListView(
@@ -100,18 +150,67 @@ abstract class _ListStoreBase with Store {
                 ],
               ),
             );
-    } else {
-      return response == null
-          ? CircularProgressIndicator()
-          : Container(
-              width: sizewidth / 1.1,
-              height: sizeHeight / 1.3,
-              child: ListView(
-                children: [
-                  Text("Empty List"),
-                ],
-              ),
-            );
+          }
+      }
+
+    Widget crudListsFailed(sizewidth, sizeHeight) {
+      if (selectedIndex == 0) {
+        return Container(
+          alignment: Alignment.center,
+          width: sizewidth / 1.1,
+          height: sizeHeight / 1.3,
+          child: ListView(
+            children: [
+              Center(
+                child: Text("Error"),
+              )
+            ],
+          ),
+        );
+      }else if (selectedIndex == 1) {
+        return Container(
+          alignment: Alignment.center,
+          width: sizewidth / 1.1,
+          height: sizeHeight / 1.3,
+          child: ListView(
+            children: [
+              Center(
+                child: Text("Error"),
+              )
+            ],
+          ),
+        );
+      }else {
+        return Container(
+          alignment: Alignment.center,
+          width: sizewidth / 1.1,
+          height: sizeHeight / 1.3,
+          child: ListView(
+            children: [
+              Center(
+                child: Text("Error"),
+              )
+            ],
+          ),
+        );
+      }
+    }
+
+  Widget crudListsWaiting(sizewidth, sizeHeight) {
+    if (selectedIndex == 0) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }else if (selectedIndex == 1) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }else {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
     }
   }
-}
+  }
+
+
