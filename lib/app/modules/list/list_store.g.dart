@@ -99,21 +99,6 @@ mixin _$ListStore on _ListStoreBase, Store {
     });
   }
 
-  final _$isGetListsAtom = Atom(name: '_ListStoreBase.isGetLists');
-
-  @override
-  bool get isGetLists {
-    _$isGetListsAtom.reportRead();
-    return super.isGetLists;
-  }
-
-  @override
-  set isGetLists(bool value) {
-    _$isGetListsAtom.reportWrite(value, super.isGetLists, () {
-      super.isGetLists = value;
-    });
-  }
-
   final _$_ListStoreBaseActionController =
       ActionController(name: '_ListStoreBase');
 
@@ -158,8 +143,7 @@ userEmail: ${userEmail},
 selectedIndex: ${selectedIndex},
 responsePubs: ${responsePubs},
 responseGames: ${responseGames},
-responseRegister: ${responseRegister},
-isGetLists: ${isGetLists}
+responseRegister: ${responseRegister}
     ''';
   }
 }

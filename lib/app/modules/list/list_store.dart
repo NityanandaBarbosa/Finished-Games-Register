@@ -2,6 +2,8 @@ import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart'
 import 'package:finished_games_register/app/modules/shared/services/games/games_api_interface.dart';
 import 'package:finished_games_register/app/modules/shared/services/publishers/publishers_api_interface.dart';
 import 'package:finished_games_register/app/modules/shared/services/registers/registers_api_interface.dart';
+import 'package:finished_games_register/app/modules/shared/services/users/users_api_interface.dart';
+import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -35,9 +37,6 @@ abstract class _ListStoreBase with Store {
   @observable
   var responseRegister;
 
-  @observable
-  bool isGetLists = true;
-
   @action
   setUser(String value) => userId = value;
 
@@ -63,15 +62,14 @@ abstract class _ListStoreBase with Store {
     }
   }
 
-  Future<bool> getSelected() async {
+  Future getCRUDs() async {
     try{
       responsePubs = await _publisherApi.getPublisher(auth.myId);
       responseGames = await _gameApi.getGame(auth.myId);
       responseRegister = await _registerApi.getRegister(auth.myId);
-      isGetLists = true;
       return true;
     }catch(e){
-      isGetLists = false;
+      print("FALHOU");
       responsePubs = null;
       responseGames = null;
       responseRegister = null;
@@ -106,7 +104,9 @@ abstract class _ListStoreBase with Store {
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,
               child: ListView(
-                children: [],
+                children: [
+                  Text("Empty List"),
+                ],
               ),
           );
       }else if (selectedIndex == 1) {
@@ -116,7 +116,7 @@ abstract class _ListStoreBase with Store {
               height: sizeHeight / 1.3,
               child: ListView(
                 children: [
-                  Text("Something Here"),
+                  Text("Empty List"),
                 ],
               ),
             )
@@ -130,7 +130,6 @@ abstract class _ListStoreBase with Store {
               ),
           );
       }else {
-      print(responseRegister);
         return responseRegister != null
             ?Container(
               width: sizewidth / 1.1,

@@ -17,14 +17,12 @@ class ListPageState extends ModularState<ListPage, ListStore> {
 
   final _refresh = GlobalKey<FormState>();
 
-  Future<bool> _futureLoadLists;
-
-  final colorInit = 0xFFde6262;
-  final colorEnd = 0xFFffb88c;
+  Future _futureLoadLists;
 
   @override
-  void initState(){
-    _futureLoadLists = store.getSelected();
+  void initState() {
+    //store.getMyId();
+    _futureLoadLists = store.getCRUDs();
     super.initState();
   }
 
@@ -36,7 +34,7 @@ class ListPageState extends ModularState<ListPage, ListStore> {
 
   Future refreshList() async {
     setState(() {
-      _futureLoadLists = store.getSelected();
+      _futureLoadLists = store.getCRUDs();
     });
   }
 
@@ -45,8 +43,6 @@ class ListPageState extends ModularState<ListPage, ListStore> {
     final fullMediaWidth = MediaQuery.of(context).size.width;
     final fullMediaHeight = MediaQuery.of(context).size.height;
 
-    store.getCredential();
-    store.getSelected();
 
     Widget listComponents(context) {
       return Container(
@@ -54,34 +50,29 @@ class ListPageState extends ModularState<ListPage, ListStore> {
         child: Wrap(
           alignment: WrapAlignment.center,
           children: [
-            //_futureLoadLists == false ? store.crudListsFailed(fullMediaWidth, fullMediaHeight) : store.crudLists(fullMediaWidth, fullMediaHeight),
             FutureBuilder(
               future: _futureLoadLists,
               builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.active:
-                  case ConnectionState.waiting:
-                    return store.crudListsWaiting(fullMediaWidth, fullMediaHeight);
-                  case ConnectionState.done:
-                    if (snapshot.data == false) {
-                      return new RefreshIndicator(
-                          key:_refresh,
-                          color: Colors.blue,
-                          onRefresh: refreshList,
-                      child: store.crudListsFailed(fullMediaWidth, fullMediaHeight),
-                      );
-                    }
-                    if (snapshot.data == true) {}
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.data == false) {
                     return new RefreshIndicator(
-                        key: _refresh,
-                        color: Colors.blue,
-                        onRefresh: refreshList,
-                    child: store.crudLists(fullMediaWidth, fullMediaHeight),
+                      key: _refresh,
+                      color: Colors.blue,
+                      onRefresh: refreshList,
+                      child: store.crudListsFailed(
+                          fullMediaWidth, fullMediaHeight),
                     );
-                      //store.crudLists(fullMediaWidth, fullMediaHeight);
-                    break;
-                  default:
-                    return null;
+                  }else{
+                    return new RefreshIndicator(
+                      key: _refresh,
+                      color: Colors.blue,
+                      onRefresh: refreshList,
+                      child: store.crudLists(fullMediaWidth, fullMediaHeight),
+                    );
+                  }
+                }else{
+                  return store.crudListsWaiting(
+                      fullMediaWidth, fullMediaHeight);
                 }
               },
             )
