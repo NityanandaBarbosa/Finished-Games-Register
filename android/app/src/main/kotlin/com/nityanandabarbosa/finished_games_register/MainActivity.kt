@@ -1,4 +1,4 @@
-package com.nityananda_barbosa.finished_games_register
+package com.nityanandabarbosa.finished_games_register
 
 import io.flutter.embedding.android.FlutterActivity
 

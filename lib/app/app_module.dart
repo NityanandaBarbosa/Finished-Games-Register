@@ -1,17 +1,27 @@
-import 'package:register_of_finished_games/app/app_widget.dart';
-import 'package:register_of_finished_games/app/modules/login/login_page.dart';
-import 'package:flutter/material.dart';
+import 'package:finished_games_register/app/modules/login/login_module.dart';
+import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
+import 'package:finished_games_register/app/modules/shared/auth/repositories/auth_repository.dart';
+import 'package:finished_games_register/app/modules/shared/auth/repositories/auth_repository_interface.dart';
+import 'package:finished_games_register/app/modules/shared/services/users/users_api.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'modules/home/home_module.dart';
+import 'package:dio/dio.dart';
 
-class AppModule extends MainModule {
+import 'modules/shared/services/publishers/publishers_api.dart';
+
+class AppModule extends Module {
   @override
-  List<Bind> get binds => [];
+  final List<Bind> binds = [
+    Bind.lazySingleton((i) => AuthRepository()),
+    Bind.lazySingleton((i) => UsersApi(dio = Dio())),
+    Bind.lazySingleton((i) => PublisherApi(dio = Dio())),
+    Bind.lazySingleton((i) => AuthStore())
+  ];
 
   @override
-  List<ModularRouter> get routers => [
-        ModularRouter('/login', child: (_, __) => Login()),
-      ];
+  final List<ModularRoute> routes = [
+    ModuleRoute(Modular.initialRoute, module: LoginModule()),
+  ];
 
-  @override
-  Widget get bootstrap => AppWidget();
+  static set dio(Dio dio) {}
 }
