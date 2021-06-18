@@ -1,9 +1,12 @@
+import 'package:finished_games_register/app/modules/list/list_store.dart';
 import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/list/publisher/publisher_store.dart';
 import 'package:flutter/material.dart';
 import 'package:finished_games_register/app/styles/gradient_containers.dart'
     as gradientComp;
+
+import '../list_page.dart';
 
 class PublisherPage extends StatefulWidget {
   final String title;
@@ -14,6 +17,8 @@ class PublisherPage extends StatefulWidget {
 
 class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
   final PublisherStore store = Modular.get<PublisherStore>();
+  final ListStore listStore = Modular.get<ListStore>();
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -193,7 +198,8 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
             return ShowAlertDialog(context, 'Could not connect to server!');
           }else{
             store.response == null ? CircularProgressIndicator() : null;
-            Navigator.of(context).pop();
+            //Navigator.of(context).pop();
+            Modular.to.pushNamed('/lists');
           }
         },
         child: Icon(Icons.save_rounded),

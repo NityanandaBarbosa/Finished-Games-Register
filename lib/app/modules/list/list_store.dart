@@ -29,6 +29,7 @@ abstract class _ListStoreBase with Store {
   @observable
   int selectedIndex = 0;
 
+  @observable
   List<PublisherModel> responsePubs;
 
   @observable
@@ -36,6 +37,12 @@ abstract class _ListStoreBase with Store {
 
   @observable
   var responseRegister;
+
+  @observable
+  Future futureLoadLists;
+
+  @action
+  setFutureLoadList(Future value) => futureLoadLists = value;
 
   @action
   setUser(String value) => userId = value;
@@ -63,12 +70,12 @@ abstract class _ListStoreBase with Store {
   }
 
   Future getCRUDs() async {
-    try{
+    try {
       responsePubs = await _publisherApi.getPublisher(auth.myId);
       responseGames = await _gameApi.getGame(auth.myId);
       responseRegister = await _registerApi.getRegister(auth.myId);
       return true;
-    }catch(e){
+    } catch (e) {
       print("FALHOU  ${e}");
       responsePubs = null;
       responseGames = null;
@@ -90,7 +97,7 @@ abstract class _ListStoreBase with Store {
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(10,20,1,5),
+                  padding: EdgeInsets.fromLTRB(10, 20, 1, 5),
                   child: Text(
                     "Name : ",
                     style: TextStyle(
@@ -100,59 +107,57 @@ abstract class _ListStoreBase with Store {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(5,20,5,5),
+                  padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
                   child: Text(publisher.name),
                 ),
               ],
             ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10,15,1,5),
-                    child: Text(
-                      "Founding Date : ",
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal),
-                    ),
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10, 15, 1, 5),
+                  child: Text(
+                    "Founding Date : ",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal),
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(5,15,5,5),
-                    child: Text(publisher.foundingDate),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+                  child: Text(publisher.foundingDate),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10, 15, 1, 5),
+                  child: Text(
+                    "Closed Date : ",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal),
                   ),
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10,15,1,5),
-                    child: Text(
-                      "Closed Date : ",
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(5,15,5,5),
-                    child: Text(publisher.closedDate),
-                  ),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+                  child: Text(publisher.closedDate),
+                ),
+              ],
+            ),
           ],
-        )
-        ,
+        ),
       ),
     );
   }
 
   Widget crudLists(sizewidth, sizeHeight) {
-    print("TAMANIN ${responsePubs.length}");
     if (selectedIndex == 0) {
-        return responsePubs != null
-            ? Container(
+      return responsePubs != null
+          ? Container(
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,
               child: ListView.builder(
@@ -160,55 +165,8 @@ abstract class _ListStoreBase with Store {
                   itemBuilder: (context, index) {
                     return cardBase(responsePubs[index]);
                   }),
-              /*ListView(
-                children: [
-                  Text("Something Here"),
-                  cardBase(),
-                  cardBase(),
-                ],
-              ),*/
             )
-            : Container(
-              width: sizewidth / 1.1,
-              height: sizeHeight / 1.3,
-              child: ListView(
-                children: [
-                  Text("Empty List"),
-                ],
-              ),
-          );
-      }else if (selectedIndex == 1) {
-        return responseGames != null
-            ? Container(
-              width: sizewidth / 1.1,
-              height: sizeHeight / 1.3,
-              child: ListView(
-                children: [
-                  Text("Empty List"),
-                ],
-              ),
-            )
-            : Container(
-              width: sizewidth / 1.1,
-              height: sizeHeight / 1.3,
-              child: ListView(
-                children: [
-                  Text("Empty List"),
-                ],
-              ),
-          );
-      }else {
-        return responseRegister != null
-            ?Container(
-              width: sizewidth / 1.1,
-              height: sizeHeight / 1.3,
-              child: ListView(
-                children: [
-                  Text("Something Here"),
-                ],
-              ),
-            )
-            : Container(
+          : Container(
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,
               child: ListView(
@@ -217,67 +175,105 @@ abstract class _ListStoreBase with Store {
                 ],
               ),
             );
-          }
-      }
-
-    Widget crudListsFailed(sizewidth, sizeHeight) {
-      if (selectedIndex == 0) {
-        return Container(
-          alignment: Alignment.center,
-          width: sizewidth / 1.1,
-          height: sizeHeight / 1.3,
-          child: ListView(
-            children: [
-              Center(
-                child: Text("Error"),
-              )
-            ],
-          ),
-        );
-      }else if (selectedIndex == 1) {
-        return Container(
-          alignment: Alignment.center,
-          width: sizewidth / 1.1,
-          height: sizeHeight / 1.3,
-          child: ListView(
-            children: [
-              Center(
-                child: Text("Error"),
-              )
-            ],
-          ),
-        );
-      }else {
-        return Container(
-          alignment: Alignment.center,
-          width: sizewidth / 1.1,
-          height: sizeHeight / 1.3,
-          child: ListView(
-            children: [
-              Center(
-                child: Text("Error"),
-              )
-            ],
-          ),
-        );
-      }
+    } else if (selectedIndex == 1) {
+      return responseGames != null
+          ? Container(
+              width: sizewidth / 1.1,
+              height: sizeHeight / 1.3,
+              child: ListView(
+                children: [
+                  Text("Empty List"),
+                ],
+              ),
+            )
+          : Container(
+              width: sizewidth / 1.1,
+              height: sizeHeight / 1.3,
+              child: ListView(
+                children: [
+                  Text("Empty List"),
+                ],
+              ),
+            );
+    } else {
+      return responseRegister != null
+          ? Container(
+              width: sizewidth / 1.1,
+              height: sizeHeight / 1.3,
+              child: ListView(
+                children: [
+                  Text("Something Here"),
+                ],
+              ),
+            )
+          : Container(
+              width: sizewidth / 1.1,
+              height: sizeHeight / 1.3,
+              child: ListView(
+                children: [
+                  Text("Empty List"),
+                ],
+              ),
+            );
     }
+  }
+
+  Widget crudListsFailed(sizewidth, sizeHeight) {
+    if (selectedIndex == 0) {
+      return Container(
+        alignment: Alignment.center,
+        width: sizewidth / 1.1,
+        height: sizeHeight / 1.3,
+        child: ListView(
+          children: [
+            Center(
+              child: Text("Error"),
+            )
+          ],
+        ),
+      );
+    } else if (selectedIndex == 1) {
+      return Container(
+        alignment: Alignment.center,
+        width: sizewidth / 1.1,
+        height: sizeHeight / 1.3,
+        child: ListView(
+          children: [
+            Center(
+              child: Text("Error"),
+            )
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        alignment: Alignment.center,
+        width: sizewidth / 1.1,
+        height: sizeHeight / 1.3,
+        child: ListView(
+          children: [
+            Center(
+              child: Text("Error"),
+            )
+          ],
+        ),
+      );
+    }
+  }
 
   Widget crudListsWaiting(sizewidth, sizeHeight) {
     if (selectedIndex == 0) {
       return Center(
         child: CircularProgressIndicator(),
       );
-    }else if (selectedIndex == 1) {
+    } else if (selectedIndex == 1) {
       return Center(
         child: CircularProgressIndicator(),
       );
-    }else {
+    } else {
       return Center(
         child: CircularProgressIndicator(),
       );
     }
   }
-  }
-
-
+}

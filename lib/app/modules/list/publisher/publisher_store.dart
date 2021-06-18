@@ -23,27 +23,28 @@ abstract class _PublisherStoreBase with Store {
   @observable
   var response;
 
-  Future savePublisher() async{
-   var returnResponse = await verifyFields();
-    if(returnResponse == false) {
+  Future savePublisher() async {
+    var returnResponse = await verifyFields();
+    if (returnResponse == false) {
       return false;
-    }else if(returnResponse == null){
+    } else if (returnResponse == null) {
       return null;
-    }else{
+    } else {
       return true;
     }
   }
 
   Future verifyFields() async {
     print('${publisherName},${foundingDate}');
-    if(publisherName == null || publisherName == "" || foundingDate == null){
+    if (publisherName == null || publisherName == "" || foundingDate == null) {
       return false;
-    }else{
-      response = await _publisherApi.postPublisher(_auth.myId, publisherName, foundingDate.toString(),closedDate.toString());
-      if(response == null){
+    } else {
+      response = await _publisherApi.postPublisher(_auth.myId, publisherName,
+          foundingDate.toString(), closedDate.toString());
+      if (response == null) {
         return null;
       }
+      return response;
     }
   }
-
 }

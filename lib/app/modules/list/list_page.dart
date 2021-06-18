@@ -17,12 +17,12 @@ class ListPageState extends ModularState<ListPage, ListStore> {
 
   final _refresh = GlobalKey<FormState>();
 
-  Future _futureLoadLists;
+  //Future _futureLoadLists;
 
   @override
   void initState() {
-    //store.getMyId();
-    _futureLoadLists = store.getCRUDs();
+    var response = store.getCRUDs();
+    store.setFutureLoadList(response);
     super.initState();
   }
 
@@ -34,7 +34,8 @@ class ListPageState extends ModularState<ListPage, ListStore> {
 
   Future refreshList() async {
     setState(() {
-      _futureLoadLists = store.getCRUDs();
+      var response = store.getCRUDs();
+      store.setFutureLoadList(response);
     });
   }
 
@@ -51,7 +52,7 @@ class ListPageState extends ModularState<ListPage, ListStore> {
           alignment: WrapAlignment.center,
           children: [
             FutureBuilder(
-              future: _futureLoadLists,
+              future: store.futureLoadLists,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.data == false) {

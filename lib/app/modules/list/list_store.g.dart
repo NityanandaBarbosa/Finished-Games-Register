@@ -54,6 +54,21 @@ mixin _$ListStore on _ListStoreBase, Store {
     });
   }
 
+  final _$responsePubsAtom = Atom(name: '_ListStoreBase.responsePubs');
+
+  @override
+  List<PublisherModel> get responsePubs {
+    _$responsePubsAtom.reportRead();
+    return super.responsePubs;
+  }
+
+  @override
+  set responsePubs(List<PublisherModel> value) {
+    _$responsePubsAtom.reportWrite(value, super.responsePubs, () {
+      super.responsePubs = value;
+    });
+  }
+
   final _$responseGamesAtom = Atom(name: '_ListStoreBase.responseGames');
 
   @override
@@ -84,8 +99,34 @@ mixin _$ListStore on _ListStoreBase, Store {
     });
   }
 
+  final _$futureLoadListsAtom = Atom(name: '_ListStoreBase.futureLoadLists');
+
+  @override
+  Future<dynamic> get futureLoadLists {
+    _$futureLoadListsAtom.reportRead();
+    return super.futureLoadLists;
+  }
+
+  @override
+  set futureLoadLists(Future<dynamic> value) {
+    _$futureLoadListsAtom.reportWrite(value, super.futureLoadLists, () {
+      super.futureLoadLists = value;
+    });
+  }
+
   final _$_ListStoreBaseActionController =
       ActionController(name: '_ListStoreBase');
+
+  @override
+  dynamic setFutureLoadList(Future<dynamic> value) {
+    final _$actionInfo = _$_ListStoreBaseActionController.startAction(
+        name: '_ListStoreBase.setFutureLoadList');
+    try {
+      return super.setFutureLoadList(value);
+    } finally {
+      _$_ListStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic setUser(String value) {
@@ -126,8 +167,10 @@ mixin _$ListStore on _ListStoreBase, Store {
 userId: ${userId},
 userEmail: ${userEmail},
 selectedIndex: ${selectedIndex},
+responsePubs: ${responsePubs},
 responseGames: ${responseGames},
-responseRegister: ${responseRegister}
+responseRegister: ${responseRegister},
+futureLoadLists: ${futureLoadLists}
     ''';
   }
 }
