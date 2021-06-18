@@ -54,21 +54,6 @@ mixin _$ListStore on _ListStoreBase, Store {
     });
   }
 
-  final _$responsePubsAtom = Atom(name: '_ListStoreBase.responsePubs');
-
-  @override
-  dynamic get responsePubs {
-    _$responsePubsAtom.reportRead();
-    return super.responsePubs;
-  }
-
-  @override
-  set responsePubs(dynamic value) {
-    _$responsePubsAtom.reportWrite(value, super.responsePubs, () {
-      super.responsePubs = value;
-    });
-  }
-
   final _$responseGamesAtom = Atom(name: '_ListStoreBase.responseGames');
 
   @override
@@ -141,7 +126,6 @@ mixin _$ListStore on _ListStoreBase, Store {
 userId: ${userId},
 userEmail: ${userEmail},
 selectedIndex: ${selectedIndex},
-responsePubs: ${responsePubs},
 responseGames: ${responseGames},
 responseRegister: ${responseRegister}
     ''';

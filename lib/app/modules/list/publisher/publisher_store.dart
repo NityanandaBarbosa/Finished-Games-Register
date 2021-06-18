@@ -39,7 +39,7 @@ abstract class _PublisherStoreBase with Store {
     if(publisherName == null || publisherName == "" || foundingDate == null){
       return false;
     }else{
-      response = await _publisherApi.postPublisher(_auth.myId, publisherName, foundingDate.toString());
+      response = await _publisherApi.postPublisher(_auth.myId, publisherName, foundingDate.toString(),closedDate.toString());
       if(response == null){
         return null;
       }

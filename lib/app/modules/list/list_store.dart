@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/games/games_api_interface.dart';
 import 'package:finished_games_register/app/modules/shared/services/publishers/publishers_api_interface.dart';
@@ -28,8 +29,7 @@ abstract class _ListStoreBase with Store {
   @observable
   int selectedIndex = 0;
 
-  @observable
-  var responsePubs;
+  List<PublisherModel> responsePubs;
 
   @observable
   var responseGames;
@@ -69,7 +69,7 @@ abstract class _ListStoreBase with Store {
       responseRegister = await _registerApi.getRegister(auth.myId);
       return true;
     }catch(e){
-      print("FALHOU");
+      print("FALHOU  ${e}");
       responsePubs = null;
       responseGames = null;
       responseRegister = null;
@@ -77,28 +77,96 @@ abstract class _ListStoreBase with Store {
     }
   }
 
-  Widget cardBase() {
+  Widget cardBase(publisher) {
     return Container(
       padding: EdgeInsets.all(3),
-      height: 180,
+      height: 150,
       width: double.maxFinite,
       child: Card(
-        elevation: 5,
+        elevation: 3,
+        child: Wrap(
+          alignment: WrapAlignment.start,
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10,20,1,5),
+                  child: Text(
+                    "Name : ",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.black,
+                        fontWeight: FontWeight.normal),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5,20,5,5),
+                  child: Text(publisher.name),
+                ),
+              ],
+            ),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10,15,1,5),
+                    child: Text(
+                      "Founding Date : ",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(5,15,5,5),
+                    child: Text(publisher.foundingDate),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10,15,1,5),
+                    child: Text(
+                      "Closed Date : ",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(5,15,5,5),
+                    child: Text(publisher.closedDate),
+                  ),
+                ],
+              ),
+          ],
+        )
+        ,
       ),
     );
   }
 
   Widget crudLists(sizewidth, sizeHeight) {
+    print("TAMANIN ${responsePubs.length}");
     if (selectedIndex == 0) {
         return responsePubs != null
             ? Container(
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,
-              child: ListView(
+              child: ListView.builder(
+                  itemCount: responsePubs.length,
+                  itemBuilder: (context, index) {
+                    return cardBase(responsePubs[index]);
+                  }),
+              /*ListView(
                 children: [
                   Text("Something Here"),
+                  cardBase(),
+                  cardBase(),
                 ],
-              ),
+              ),*/
             )
             : Container(
               width: sizewidth / 1.1,

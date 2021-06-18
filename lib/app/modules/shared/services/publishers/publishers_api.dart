@@ -1,6 +1,9 @@
+import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/shared/services/publishers/publishers_api_interface.dart';
 import 'package:dio/dio.dart';
 import 'dart:core';
+
+import 'package:flutter/material.dart';
 
 class PublisherApi implements IPublisherApi {
   final Dio dio;
@@ -10,10 +13,17 @@ class PublisherApi implements IPublisherApi {
   @override
   Future getPublisher(id) async {
     var responseDec;
+    List<PublisherModel> list = [];
     var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/publisher.json';
     try{
        responseDec = await dio.get(url);
-       return responseDec.data;
+       var publishersJson = responseDec.data;
+       publishersJson.forEach((key, value) {
+         PublisherModel newPub = new PublisherModel(idPub: key,closedDate: value["closedDate"], foundingDate: value["foundingDate"],name: value["name"]);
+         list.add(newPub);
+       });
+       print("Number of Publishers : ${list.length}");
+       return list;
     }catch(e){
       return null;
     }
