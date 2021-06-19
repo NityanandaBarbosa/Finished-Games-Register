@@ -66,9 +66,11 @@ class PublisherApi implements IPublisherApi {
     var response;
     var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/publisher/${idPublisher}/.json';
     try{
-      var responseDec = await dio.delete(url);
-      return responseDec.data;
+      response = await dio.delete(url);
+      print("RESPOSTA ${response.statusCode}");
+      return response;
     }catch(e){
+      print("RESPOSTA ${response.statusCode}");
       return null;
     }
   }

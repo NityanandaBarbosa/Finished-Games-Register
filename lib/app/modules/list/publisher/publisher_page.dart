@@ -200,7 +200,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
     }
 
     return Scaffold(
-      appBar: publisher == null ? gradientComp.appBarGradient(context, "Publisher Page") : gradientComp.appBarDelete(context, store.publisherName, null),
+      appBar: publisher == null ? gradientComp.appBarGradient(context, "Publisher Page") : gradientComp.appBarDelete(context, store.publisherName, store.delete),
       body: gradientComp.backgroundGradient(context, publisherPage(context)),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,

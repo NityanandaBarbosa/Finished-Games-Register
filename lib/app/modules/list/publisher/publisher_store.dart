@@ -77,4 +77,14 @@ abstract class _PublisherStoreBase with Store {
       return response;
     }
   }
+
+  Future delete() async{
+    try{
+      var response = await _publisherApi.deletePublisher(_auth.myId, pub.idPub);
+      return response;
+    }catch(e){
+      return null;
+    }
+
+  }
 }

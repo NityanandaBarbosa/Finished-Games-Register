@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +45,9 @@ Widget appBarDelete(context, barTitle,[deletefunc = null]) {
       IconButton(
         icon: Icon(Icons.delete_forever_outlined),
         onPressed:() async{
-          //deletefunc();
+          var response = await deletefunc();
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/lists', ModalRoute.withName('/'));
         },
       ),
     ],
