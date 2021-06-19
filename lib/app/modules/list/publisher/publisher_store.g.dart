@@ -99,6 +99,39 @@ mixin _$PublisherStore on _PublisherStoreBase, Store {
   }
 
   @override
+  dynamic setName(String value) {
+    final _$actionInfo = _$_PublisherStoreBaseActionController.startAction(
+        name: '_PublisherStoreBase.setName');
+    try {
+      return super.setName(value);
+    } finally {
+      _$_PublisherStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setFoundingDate(DateTime value) {
+    final _$actionInfo = _$_PublisherStoreBaseActionController.startAction(
+        name: '_PublisherStoreBase.setFoundingDate');
+    try {
+      return super.setFoundingDate(value);
+    } finally {
+      _$_PublisherStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setClosedDate(DateTime value) {
+    final _$actionInfo = _$_PublisherStoreBaseActionController.startAction(
+        name: '_PublisherStoreBase.setClosedDate');
+    try {
+      return super.setClosedDate(value);
+    } finally {
+      _$_PublisherStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 foundingDate: ${foundingDate},

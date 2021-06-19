@@ -34,7 +34,7 @@ Widget appBarGradient(context, barTitle) {
   );
 }
 
-Widget appBarList(context, barTitle) {
+Widget appBarDelete(context, barTitle,[deletefunc = null]) {
   return AppBar(
     backgroundColor: Color(0xFFF8F8F8),
     iconTheme: new IconThemeData(color: Color(0xFF686868)),
@@ -42,9 +42,9 @@ Widget appBarList(context, barTitle) {
     centerTitle: true,
     actions: [
       IconButton(
-        icon: Icon(Icons.refresh),
+        icon: Icon(Icons.delete_forever_outlined),
         onPressed:() async{
-
+          //deletefunc();
         },
       ),
     ],

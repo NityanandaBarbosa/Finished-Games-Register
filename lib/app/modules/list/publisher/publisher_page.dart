@@ -21,14 +21,19 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
   PublisherModel publisher = Modular.args.data;
 
   @override
-  Widget build(BuildContext context) {
-    final fullMediaWidth = MediaQuery.of(context).size.width;
-    final fullMediaHeight = MediaQuery.of(context).size.height;
-
+  void initState() {
+    print("AQUI INIT");
     if(publisher != null) {
       store.setPub(publisher);
       store.setPubValues();
     }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final fullMediaWidth = MediaQuery.of(context).size.width;
+    final fullMediaHeight = MediaQuery.of(context).size.height;
 
     Widget publisherPage(context) {
       return Container(
@@ -81,7 +86,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      store.publisherName = value.trim();
+                      store.setName(value);
                     });
                   },
                 ),
@@ -126,8 +131,9 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                             lastDate: DateTime(2100))
                         .then((date) {
                       if (date != null && date != store.foundingDate) {
+                        print(date);
                         setState(() {
-                          store.foundingDate = date;
+                          store.setFoundingDate(date);
                         });
                       }
                     });
@@ -170,7 +176,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                         .then((date) {
                       if (date != null && date != store.closedDate) {
                         setState(() {
-                          store.closedDate = date;
+                          store.setClosedDate(date);
                         });
                       }
                     });
@@ -194,7 +200,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
     }
 
     return Scaffold(
-      appBar: gradientComp.appBarGradient(context, "Publisher Page"),
+      appBar: publisher == null ? gradientComp.appBarGradient(context, "Publisher Page") : gradientComp.appBarDelete(context, store.publisherName, null),
       body: gradientComp.backgroundGradient(context, publisherPage(context)),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,

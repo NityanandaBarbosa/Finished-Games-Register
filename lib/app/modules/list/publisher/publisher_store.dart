@@ -30,6 +30,15 @@ abstract class _PublisherStoreBase with Store {
   @action
   setPub(PublisherModel value) => pub = value;
 
+  @action
+  setName(String value) => publisherName = value;
+
+  @action
+  setFoundingDate(DateTime value) => foundingDate = value;
+
+  @action
+  setClosedDate(DateTime value) => closedDate = value;
+
   void setPubValues(){
     DateTime dtFounding = DateTime.parse(pub.foundingDate);
     if(pub.closedDate != 'null') {
@@ -52,12 +61,16 @@ abstract class _PublisherStoreBase with Store {
   }
 
   Future verifyFields() async {
-    print('${publisherName},${foundingDate}');
     if (publisherName == null || publisherName == "" || foundingDate == null) {
       return false;
     } else {
-      response = await _publisherApi.postPublisher(_auth.myId, publisherName,
-          foundingDate.toString(), closedDate.toString());
+      if(pub == null){
+        response = await _publisherApi.postPublisher(_auth.myId, publisherName,
+            foundingDate.toString(), closedDate.toString());
+      }else{
+        response = await _publisherApi.putPublisher(_auth.myId, pub.idPub, publisherName,
+            foundingDate.toString(), closedDate.toString());
+      }
       if (response == null) {
         return null;
       }
