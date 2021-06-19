@@ -17,7 +17,7 @@ class AuthRepository implements IAuthRepository {
       if (response != null) {
         userData = response;
         print("Success Sing UP");
-        Modular.to.pushNamed('/lists');
+        //Modular.to.pushNamed('/lists');
         return (response);
       }
     } on FirebaseAuthException catch (e) {
@@ -39,7 +39,7 @@ class AuthRepository implements IAuthRepository {
       if (userCredential != null) {
         userData = userCredential;
         print("Success Sing UP");
-        Modular.to.pushNamed('/lists');
+        //Modular.to.pushNamed('/lists');
         return (userCredential);
       }
     } on FirebaseAuthException catch (e) {
