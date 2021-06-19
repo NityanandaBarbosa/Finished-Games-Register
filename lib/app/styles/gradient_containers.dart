@@ -34,6 +34,31 @@ Widget appBarGradient(context, barTitle) {
   );
 }
 
+Widget appBarList(context, barTitle) {
+  return AppBar(
+    backgroundColor: Color(0xFFF8F8F8),
+    iconTheme: new IconThemeData(color: Color(0xFF686868)),
+    title: Text(barTitle),
+    centerTitle: true,
+    actions: [
+      IconButton(
+        icon: Icon(Icons.refresh),
+        onPressed:() async{
+
+        },
+      ),
+    ],
+    flexibleSpace: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [Color(colorInit), Color(colorEnd)]),
+      ),
+    ),
+  );
+}
+
 Widget containerGradient(context, code){
   return Container(
       decoration: BoxDecoration(
@@ -49,3 +74,5 @@ Widget containerGradient(context, code){
 Widget buildScreen(context, code) {
   return code;
 }
+
+

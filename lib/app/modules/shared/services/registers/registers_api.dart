@@ -1,9 +1,4 @@
-import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
-import 'package:finished_games_register/app/modules/shared/services/games/games_api_interface.dart';
 import 'package:finished_games_register/app/modules/shared/services/registers/registers_api_interface.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'dart:core';
 
