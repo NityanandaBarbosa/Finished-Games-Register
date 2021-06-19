@@ -85,6 +85,15 @@ abstract class _ListStoreBase with Store {
   }
 
   Widget cardBase(publisher) {
+    DateTime dtFounding = DateTime.parse(publisher.foundingDate);
+    DateTime dtClosed;
+    try{
+      dtClosed = DateTime.parse(publisher.closedDate);
+    }catch(e){
+
+    }
+
+
     return Container(
       padding: EdgeInsets.all(3),
       height: 150,
@@ -126,7 +135,7 @@ abstract class _ListStoreBase with Store {
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
-                  child: Text(publisher.foundingDate),
+                  child: Text('${dtFounding.day}/${dtFounding.month}/${dtFounding.year}')//publisher.foundingDate),
                 ),
               ],
             ),
@@ -144,7 +153,7 @@ abstract class _ListStoreBase with Store {
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
-                  child: Text(publisher.closedDate),
+                  child: Text(publisher.closedDate == "null" ? "-" : '${dtClosed.day}/${dtClosed.month}/${dtClosed.year}')//publisher.closedDate),
                 ),
               ],
             ),

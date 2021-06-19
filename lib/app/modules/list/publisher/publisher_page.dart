@@ -17,7 +17,6 @@ class PublisherPage extends StatefulWidget {
 
 class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
   final PublisherStore store = Modular.get<PublisherStore>();
-  final ListStore listStore = Modular.get<ListStore>();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -31,11 +30,11 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
         alignment: Alignment.topCenter,
         child: Form(
           key: _formKey,
-          child:Wrap(
+          child: Wrap(
             alignment: WrapAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(10,20,5,10),
+                padding: EdgeInsets.fromLTRB(10, 20, 5, 10),
                 child: Text(
                   "Name : ",
                   style: TextStyle(
@@ -55,20 +54,19 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(10,3,10,3),
+                padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
                 child: TextFormField(
-                  validator: (value){
+                  validator: (value) {
                     if (value.isEmpty) {
                       return 'Fill in the field';
                     }
-                      return null;
+                    return null;
                   },
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: "Publisher Name",
                     labelText: "Name",
-                    labelStyle:
-                    TextStyle(fontSize: 13, color: Colors.black54),
+                    labelStyle: TextStyle(fontSize: 13, color: Colors.black54),
                     border: OutlineInputBorder(
                         borderSide: new BorderSide(color: Colors.black54)),
                     suffixIcon: IconButton(
@@ -83,7 +81,8 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left:10.0, top: 10, right: 5, bottom: 10),
+                padding:
+                    EdgeInsets.only(left: 10.0, top: 10, right: 5, bottom: 10),
                 child: Text(
                   "Founding Date : ",
                   style: TextStyle(
@@ -103,22 +102,24 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(10,3,10,3),
+                padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
                 child: TextFormField(
-                  validator: (value){
-                    if (store.foundingDate == null || store.foundingDate == "") {
+                  validator: (value) {
+                    if (store.foundingDate == null ||
+                        store.foundingDate == "") {
                       return 'Fill in the field';
                     }
                     return null;
                   },
                   readOnly: true,
-                  onTap:(){
-                    showDatePicker(context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime(2100)
-                    ).then((date){
-                      if(date != null && date != store.foundingDate){
+                  onTap: () {
+                    showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100))
+                        .then((date) {
+                      if (date != null && date != store.foundingDate) {
                         setState(() {
                           store.foundingDate = date;
                         });
@@ -126,9 +127,10 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                     });
                   },
                   decoration: InputDecoration(
-                    hintText: (store.foundingDate == null ? "-" : '${store.foundingDate.day}/${store.foundingDate.month}/${store.foundingDate.year}'),
-                    labelStyle:
-                    TextStyle(fontSize: 13, color: Colors.black),
+                    hintText: (store.foundingDate == null
+                        ? "-"
+                        : '${store.foundingDate.day}/${store.foundingDate.month}/${store.foundingDate.year}'),
+                    labelStyle: TextStyle(fontSize: 13, color: Colors.black),
                     border: OutlineInputBorder(
                         borderSide: new BorderSide(color: Colors.black54)),
                     suffixIcon: IconButton(
@@ -138,7 +140,8 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left:10.0, top: 10, right: 5, bottom: 10),
+                padding:
+                    EdgeInsets.only(left: 10.0, top: 10, right: 5, bottom: 10),
                 child: Text(
                   "Closed Date : ",
                   style: TextStyle(
@@ -148,17 +151,18 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(10,3,10,3),
+                padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
                 child: TextField(
                   keyboardType: TextInputType.emailAddress,
                   readOnly: true,
-                  onTap:(){
-                    showDatePicker(context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime(2100)
-                    ).then((date){
-                      if(date != null && date != store.closedDate){
+                  onTap: () {
+                    showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100))
+                        .then((date) {
+                      if (date != null && date != store.closedDate) {
                         setState(() {
                           store.closedDate = date;
                         });
@@ -166,20 +170,20 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                     });
                   },
                   decoration: InputDecoration(
-                    hintText: (store.closedDate == null ? "-" : '${store.closedDate.day}/${store.closedDate.month}/${store.closedDate.year}'),
-                    labelStyle:
-                    TextStyle(fontSize: 13, color: Colors.black),
+                    hintText: (store.closedDate == null
+                        ? "-"
+                        : '${store.closedDate.day}/${store.closedDate.month}/${store.closedDate.year}'),
+                    labelStyle: TextStyle(fontSize: 13, color: Colors.black),
                     border: OutlineInputBorder(
                         borderSide: new BorderSide(color: Colors.black54)),
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.date_range_outlined)
-                    ),
+                    suffixIcon:
+                        IconButton(icon: Icon(Icons.date_range_outlined)),
                   ),
                 ),
               ),
             ],
           ),
-        ) ,
+        ),
       );
     }
 
@@ -192,14 +196,14 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
           if (_formKey.currentState.validate()) {}
           var responseSave = await store.savePublisher();
           print("RESPONSE ${responseSave}");
-          if(responseSave == false){
+          if (responseSave == false) {
             return ShowAlertDialog(context, 'Fill the required fields!');
-          }else if(responseSave == null) {
+          } else if (responseSave == null) {
             return ShowAlertDialog(context, 'Could not connect to server!');
-          }else{
+          } else {
             store.response == null ? CircularProgressIndicator() : null;
-            //Navigator.of(context).pop();
-            Modular.to.pushNamed('/lists');
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/lists', ModalRoute.withName('/'));
           }
         },
         child: Icon(Icons.save_rounded),
