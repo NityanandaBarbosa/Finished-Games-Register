@@ -93,71 +93,76 @@ abstract class _ListStoreBase with Store {
 
     }
 
-
     return Container(
       padding: EdgeInsets.all(3),
       height: 150,
       width: double.maxFinite,
-      child: Card(
-        elevation: 3,
-        child: Wrap(
-          alignment: WrapAlignment.start,
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, 20, 1, 5),
-                  child: Text(
-                    "Name : ",
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal),
+      child: InkWell(
+        onTap: () {
+          Modular.to.pushNamed('/lists/publisher',
+              arguments: publisher);
+        },
+        child: Card(
+          elevation: 3,
+          child: Wrap(
+            alignment: WrapAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 20, 1, 5),
+                    child: Text(
+                      "Name : ",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
-                  child: Text(publisher.name),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, 15, 1, 5),
-                  child: Text(
-                    "Founding Date : ",
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
+                    child: Text(publisher.name),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
-                  child: Text('${dtFounding.day}/${dtFounding.month}/${dtFounding.year}')//publisher.foundingDate),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, 15, 1, 5),
-                  child: Text(
-                    "Closed Date : ",
-                    style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.normal),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 15, 1, 5),
+                    child: Text(
+                      "Founding Date : ",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
-                  child: Text(publisher.closedDate == "null" ? "-" : '${dtClosed.day}/${dtClosed.month}/${dtClosed.year}')//publisher.closedDate),
-                ),
-              ],
-            ),
-          ],
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+                    child: Text('${dtFounding.day}/${dtFounding.month}/${dtFounding.year}')//publisher.foundingDate),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 15, 1, 5),
+                    child: Text(
+                      "Closed Date : ",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+                    child: Text(publisher.closedDate == "null" ? "-" : '${dtClosed.day}/${dtClosed.month}/${dtClosed.year}')//publisher.closedDate),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

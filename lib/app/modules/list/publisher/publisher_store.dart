@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/publishers/publishers_api_interface.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -22,6 +23,22 @@ abstract class _PublisherStoreBase with Store {
 
   @observable
   var response;
+
+  @observable
+  PublisherModel pub;
+
+  @action
+  setPub(PublisherModel value) => pub = value;
+
+  void setPubValues(){
+    DateTime dtFounding = DateTime.parse(pub.foundingDate);
+    if(pub.closedDate != 'null') {
+      DateTime dtClosed = DateTime.parse(pub.closedDate);
+      closedDate = dtClosed;
+    }
+    foundingDate = dtFounding;
+    publisherName = pub.name;
+  }
 
   Future savePublisher() async {
     var returnResponse = await verifyFields();

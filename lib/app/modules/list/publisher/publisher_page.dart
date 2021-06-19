@@ -1,12 +1,10 @@
-import 'package:finished_games_register/app/modules/list/list_store.dart';
+import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/list/publisher/publisher_store.dart';
 import 'package:flutter/material.dart';
 import 'package:finished_games_register/app/styles/gradient_containers.dart'
     as gradientComp;
-
-import '../list_page.dart';
 
 class PublisherPage extends StatefulWidget {
   final String title;
@@ -20,10 +18,17 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
 
   final _formKey = GlobalKey<FormState>();
 
+  PublisherModel publisher = Modular.args.data;
+
   @override
   Widget build(BuildContext context) {
     final fullMediaWidth = MediaQuery.of(context).size.width;
     final fullMediaHeight = MediaQuery.of(context).size.height;
+
+    if(publisher != null) {
+      store.setPub(publisher);
+      store.setPubValues();
+    }
 
     Widget publisherPage(context) {
       return Container(
@@ -56,6 +61,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
               Padding(
                 padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
                 child: TextFormField(
+                  initialValue: store.publisherName != null ? store.publisherName : null,
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Fill in the field';
