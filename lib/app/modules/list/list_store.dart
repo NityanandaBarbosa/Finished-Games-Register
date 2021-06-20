@@ -84,11 +84,11 @@ abstract class _ListStoreBase with Store {
     }
   }
 
-  Widget cardBase(publisher) {
+  Widget cardPublisher(publisher) {
     DateTime dtFounding = DateTime.parse(publisher.foundingDate);
     DateTime dtClosed;
     try{
-      dtClosed = DateTime.parse(publisher.closedDate);
+      dtClosed = DateTime.parse(publisher.closedDate );
     }catch(e){
 
     }
@@ -119,10 +119,14 @@ abstract class _ListStoreBase with Store {
                           fontWeight: FontWeight.normal),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
-                    child: Text(publisher.name),
-                  ),
+                  Container(
+                    child: Flexible(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
+                          child: Text(publisher.name, overflow: TextOverflow.ellipsis,),
+                        ),
+                      ),
+                    ),
                 ],
               ),
               Row(
@@ -177,7 +181,7 @@ abstract class _ListStoreBase with Store {
               child: ListView.builder(
                   itemCount: responsePubs.length,
                   itemBuilder: (context, index) {
-                    return cardBase(responsePubs[index]);
+                    return cardPublisher(responsePubs[index]);
                   }),
             )
           : Container(
