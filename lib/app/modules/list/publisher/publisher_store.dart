@@ -1,5 +1,7 @@
+import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/publishers/publishers_api_interface.dart';
+import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
@@ -23,28 +25,71 @@ abstract class _PublisherStoreBase with Store {
   @observable
   var response;
 
-  Future savePublisher() async {
-    var returnResponse = await verifyFields();
+  @observable
+  PublisherModel pub;
+
+  @action
+  setPub(PublisherModel value) => pub = value;
+
+  @action
+  setName(String value) => publisherName = value;
+
+  @action
+  setFoundingDate(DateTime value) => foundingDate = value;
+
+  @action
+  setClosedDate(DateTime value) => closedDate = value;
+
+  void setPubValues(){
+    DateTime dtFounding = DateTime.parse(pub.foundingDate);
+    if(pub.closedDate != 'null') {
+      DateTime dtClosed = DateTime.parse(pub.closedDate);
+      closedDate = dtClosed;
+    }
+    foundingDate = dtFounding;
+    publisherName = pub.name;
+  }
+
+  Future savePublisher(context) async {
+    var returnResponse = await verifyFields(context);
     if (returnResponse == false) {
+      ShowAlertDialog(context, 'Fill the required fields!');
       return false;
     } else if (returnResponse == null) {
+      ShowAlertDialog(context, 'Could not connect to server!');
       return null;
-    } else {
+    } else if(returnResponse != "none") {
       return true;
     }
   }
 
-  Future verifyFields() async {
-    print('${publisherName},${foundingDate}');
+  Future verifyFields(context) async {
     if (publisherName == null || publisherName == "" || foundingDate == null) {
       return false;
     } else {
-      response = await _publisherApi.postPublisher(_auth.myId, publisherName,
-          foundingDate.toString(), closedDate.toString());
-      if (response == null) {
-        return null;
+      if(closedDate.compareTo(foundingDate)>0){
+        if(pub == null){
+          response = await _publisherApi.postPublisher(_auth.myId, publisherName,
+              foundingDate.toString(), closedDate.toString());
+        }else{
+          response = await _publisherApi.putPublisher(_auth.myId, pub.idPub, publisherName,
+              foundingDate.toString(), closedDate.toString());
+        }
+      }else{
+        ShowAlertDialog(context, "Closed Date are bigger then Founding Date!");
+        return "none";
       }
       return response;
     }
+  }
+
+  Future delete() async{
+    try{
+      var response = await _publisherApi.deletePublisher(_auth.myId, pub.idPub);
+      return response;
+    }catch(e){
+      return null;
+    }
+
   }
 }

@@ -43,10 +43,15 @@ class PublisherApi implements IPublisherApi {
 
   @override
   Future putPublisher(id, idPublisher, name, foundingDate, closedDate) async {
+    print("Try to put / ID ${id} / PUB ID ${idPublisher}");
+    var response;
     var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/publisher/${idPublisher}/.json';
-    var response = await dio.post(url, data:{'name': name, 'foundingDate': foundingDate, 'closedDate': closedDate});
-    print("Try to put");
-    return response.data;
+    try{
+      response = await dio.patch(url, data:{'closedDate': closedDate,'foundingDate': foundingDate, 'name': name});
+      return response.data;
+    }catch(e){
+      return null;
+    }
   }
 
   @override
@@ -58,8 +63,15 @@ class PublisherApi implements IPublisherApi {
 
   @override
   Future deletePublisher(id, idPublisher) async {
+    var response;
     var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/publisher/${idPublisher}/.json';
-    var responseDec = await dio.delete(url);
-    return responseDec.data;
+    try{
+      response = await dio.delete(url);
+      print("RESPOSTA ${response.statusCode}");
+      return response;
+    }catch(e){
+      print("RESPOSTA ${response.statusCode}");
+      return null;
+    }
   }
 }

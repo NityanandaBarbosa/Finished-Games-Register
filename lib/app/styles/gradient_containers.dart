@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ Widget appBarGradient(context, barTitle) {
   return AppBar(
     backgroundColor: Color(0xFFF8F8F8),
     iconTheme: new IconThemeData(color: Color(0xFF686868)),
-    title: Text(barTitle),
+    title: Text(barTitle, overflow: TextOverflow.ellipsis,),
     centerTitle: true,
     flexibleSpace: Container(
       decoration: BoxDecoration(
@@ -34,17 +35,21 @@ Widget appBarGradient(context, barTitle) {
   );
 }
 
-Widget appBarList(context, barTitle) {
+Widget appBarDelete(context, barTitle,[deletefunc = null]) {
   return AppBar(
     backgroundColor: Color(0xFFF8F8F8),
     iconTheme: new IconThemeData(color: Color(0xFF686868)),
-    title: Text(barTitle),
-    centerTitle: true,
+    title: Container(
+      child: Text(barTitle,overflow: TextOverflow.ellipsis,),
+    ),
+    //centerTitle: true,
     actions: [
       IconButton(
-        icon: Icon(Icons.refresh),
+        icon: Icon(Icons.delete_forever_outlined),
         onPressed:() async{
-
+          var response = await deletefunc();
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/lists', ModalRoute.withName('/'));
         },
       ),
     ],

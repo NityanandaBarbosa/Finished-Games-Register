@@ -69,13 +69,76 @@ mixin _$PublisherStore on _PublisherStoreBase, Store {
     });
   }
 
+  final _$pubAtom = Atom(name: '_PublisherStoreBase.pub');
+
+  @override
+  PublisherModel get pub {
+    _$pubAtom.reportRead();
+    return super.pub;
+  }
+
+  @override
+  set pub(PublisherModel value) {
+    _$pubAtom.reportWrite(value, super.pub, () {
+      super.pub = value;
+    });
+  }
+
+  final _$_PublisherStoreBaseActionController =
+      ActionController(name: '_PublisherStoreBase');
+
+  @override
+  dynamic setPub(PublisherModel value) {
+    final _$actionInfo = _$_PublisherStoreBaseActionController.startAction(
+        name: '_PublisherStoreBase.setPub');
+    try {
+      return super.setPub(value);
+    } finally {
+      _$_PublisherStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setName(String value) {
+    final _$actionInfo = _$_PublisherStoreBaseActionController.startAction(
+        name: '_PublisherStoreBase.setName');
+    try {
+      return super.setName(value);
+    } finally {
+      _$_PublisherStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setFoundingDate(DateTime value) {
+    final _$actionInfo = _$_PublisherStoreBaseActionController.startAction(
+        name: '_PublisherStoreBase.setFoundingDate');
+    try {
+      return super.setFoundingDate(value);
+    } finally {
+      _$_PublisherStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setClosedDate(DateTime value) {
+    final _$actionInfo = _$_PublisherStoreBaseActionController.startAction(
+        name: '_PublisherStoreBase.setClosedDate');
+    try {
+      return super.setClosedDate(value);
+    } finally {
+      _$_PublisherStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 foundingDate: ${foundingDate},
 closedDate: ${closedDate},
 publisherName: ${publisherName},
-response: ${response}
+response: ${response},
+pub: ${pub}
     ''';
   }
 }
