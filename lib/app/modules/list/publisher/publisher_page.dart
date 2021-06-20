@@ -22,7 +22,6 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
 
   @override
   void initState() {
-    print("AQUI INIT");
     if(publisher != null) {
       store.setPub(publisher);
       store.setPubValues();
@@ -126,7 +125,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                   onTap: () {
                     showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
+                            initialDate: store.foundingDate == null ? DateTime.now() : store.foundingDate,
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100))
                         .then((date) {
@@ -170,7 +169,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                   onTap: () {
                     showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
+                            initialDate: store.closedDate == null ? DateTime.now() : store.closedDate,
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100))
                         .then((date) {
@@ -206,13 +205,8 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
         backgroundColor: Colors.blue,
         onPressed: () async {
           if (_formKey.currentState.validate()) {}
-          var responseSave = await store.savePublisher();
-          print("RESPONSE ${responseSave}");
-          if (responseSave == false) {
-            return ShowAlertDialog(context, 'Fill the required fields!');
-          } else if (responseSave == null) {
-            return ShowAlertDialog(context, 'Could not connect to server!');
-          } else {
+          var responseSave = await store.savePublisher(context);
+          if (responseSave == true) {
             store.response == null ? CircularProgressIndicator() : null;
             Navigator.of(context)
                 .pushNamedAndRemoveUntil('/lists', ModalRoute.withName('/'));

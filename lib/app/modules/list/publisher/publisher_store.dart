@@ -1,6 +1,7 @@
 import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/publishers/publishers_api_interface.dart';
+import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
@@ -49,30 +50,34 @@ abstract class _PublisherStoreBase with Store {
     publisherName = pub.name;
   }
 
-  Future savePublisher() async {
-    var returnResponse = await verifyFields();
+  Future savePublisher(context) async {
+    var returnResponse = await verifyFields(context);
     if (returnResponse == false) {
+      ShowAlertDialog(context, 'Fill the required fields!');
       return false;
     } else if (returnResponse == null) {
+      ShowAlertDialog(context, 'Could not connect to server!');
       return null;
-    } else {
+    } else if(returnResponse != "none") {
       return true;
     }
   }
 
-  Future verifyFields() async {
+  Future verifyFields(context) async {
     if (publisherName == null || publisherName == "" || foundingDate == null) {
       return false;
     } else {
-      if(pub == null){
-        response = await _publisherApi.postPublisher(_auth.myId, publisherName,
-            foundingDate.toString(), closedDate.toString());
+      if(closedDate.compareTo(foundingDate)>0){
+        if(pub == null){
+          response = await _publisherApi.postPublisher(_auth.myId, publisherName,
+              foundingDate.toString(), closedDate.toString());
+        }else{
+          response = await _publisherApi.putPublisher(_auth.myId, pub.idPub, publisherName,
+              foundingDate.toString(), closedDate.toString());
+        }
       }else{
-        response = await _publisherApi.putPublisher(_auth.myId, pub.idPub, publisherName,
-            foundingDate.toString(), closedDate.toString());
-      }
-      if (response == null) {
-        return null;
+        ShowAlertDialog(context, "Closed Date are bigger then Founding Date!");
+        return "none";
       }
       return response;
     }
