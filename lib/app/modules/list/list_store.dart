@@ -172,6 +172,92 @@ abstract class _ListStoreBase with Store {
     );
   }
 
+  Widget cardGame(game) {
+    DateTime dtRelease = DateTime.parse(game.releaseDate);
+
+    return Container(
+      padding: EdgeInsets.all(3),
+      height: 150,
+      width: double.maxFinite,
+      child: InkWell(
+        onTap: () {
+          Modular.to.pushNamed('/lists/publisher',
+              arguments: game);
+        },
+        child: Card(
+          elevation: 3,
+          child: Wrap(
+            alignment: WrapAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 20, 1, 5),
+                    child: Text(
+                      "Name : ",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  Container(
+                    child: Flexible(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
+                        child: Text(game.name, overflow: TextOverflow.ellipsis,),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 20, 1, 5),
+                    child: Text(
+                      "Publisher : ",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  Container(
+                    child: Flexible(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
+                        child: Text(game.name, overflow: TextOverflow.ellipsis,),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 15, 1, 5),
+                    child: Text(
+                      "Release Date : ",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+                      child: Text('${dtRelease.day}/${dtRelease.month}/${dtRelease.year}')//publisher.foundingDate),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget crudLists(sizewidth, sizeHeight) {
     if (selectedIndex == 0) {
       return responsePubs != null
