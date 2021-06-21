@@ -4,6 +4,7 @@ import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
+import '../list_store.dart';
 import 'entities/game_model.dart';
 
 part 'game_store.g.dart';
@@ -13,12 +14,16 @@ abstract class _GameStoreBase with Store {
 
   final AuthStore _auth = Modular.get();
   final IGameApi _gameApi = Modular.get();
+  final ListStore listStore = Modular.get<ListStore>();
 
   @observable
   DateTime releaseDate;
 
   @observable
   var pub;
+
+  @observable
+  var pubChoice;
 
   @observable
   String gameName;

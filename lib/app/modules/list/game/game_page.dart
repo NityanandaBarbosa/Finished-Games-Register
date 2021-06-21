@@ -1,9 +1,10 @@
 import 'package:finished_games_register/app/modules/list/game/entities/game_model.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/list/game/game_store.dart';
+import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:flutter/material.dart';
 import 'package:finished_games_register/app/styles/gradient_containers.dart'
 as gradientComp;
+import 'package:flutter_modular/flutter_modular.dart';
 
 class GamePage extends StatefulWidget {
   final String title;
@@ -111,15 +112,34 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                             fontWeight: FontWeight.normal),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 5, 10, 3),
-                      child: DropdownButton(
-                        hint: Text("Select Item"),
-                        //items: ["Item1", "Item2"].toList(),
-                      ),
-                    ),
                   ],
                 ),
+              Column(
+                //crossAxisAlignment: CrossAxisAlignment.stretch,
+                children : [
+                  Padding(
+                  padding: EdgeInsets.fromLTRB(15, 5, 10, 3),
+                  child: DropdownButtonHideUnderline(
+                    child:  DropdownButton(
+                      isExpanded: true,
+                      value: store.pubChoice,
+                      onChanged: (value){
+                        setState(() {
+                          store.pubChoice = value;
+                        });
+                      },
+                      items: store.listStore.responsePubs.map((PublisherModel pub) {
+                        return new DropdownMenuItem<String>(
+                          child: new Text(pub.name, overflow: TextOverflow.ellipsis,),
+                          value: pub.name,
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ],
+              ),
+
 
               Column(
                 children: [

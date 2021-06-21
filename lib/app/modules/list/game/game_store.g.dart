@@ -39,6 +39,21 @@ mixin _$GameStore on _GameStoreBase, Store {
     });
   }
 
+  final _$pubChoiceAtom = Atom(name: '_GameStoreBase.pubChoice');
+
+  @override
+  dynamic get pubChoice {
+    _$pubChoiceAtom.reportRead();
+    return super.pubChoice;
+  }
+
+  @override
+  set pubChoice(dynamic value) {
+    _$pubChoiceAtom.reportWrite(value, super.pubChoice, () {
+      super.pubChoice = value;
+    });
+  }
+
   final _$gameNameAtom = Atom(name: '_GameStoreBase.gameName');
 
   @override
@@ -125,6 +140,7 @@ mixin _$GameStore on _GameStoreBase, Store {
     return '''
 releaseDate: ${releaseDate},
 pub: ${pub},
+pubChoice: ${pubChoice},
 gameName: ${gameName},
 response: ${response},
 game: ${game}
