@@ -173,7 +173,10 @@ abstract class _ListStoreBase with Store {
   }
 
   Widget cardGame(game) {
-    DateTime dtRelease = DateTime.parse(game.releaseDate);
+
+    DateTime dtRelease;
+
+    if(game != null) dtRelease = DateTime.parse(game.releaseDate);
 
     return Container(
       padding: EdgeInsets.all(3),
@@ -205,7 +208,7 @@ abstract class _ListStoreBase with Store {
                     child: Flexible(
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
-                        child: Text(game.name, overflow: TextOverflow.ellipsis,),
+                        child: Text(game != null ? game.name : "AQUIIIII", overflow: TextOverflow.ellipsis,),
                       ),
                     ),
                   ),
@@ -227,7 +230,7 @@ abstract class _ListStoreBase with Store {
                     child: Flexible(
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
-                        child: Text(game.name, overflow: TextOverflow.ellipsis,),
+                        child: Text(game != null ? game.name : "AQUIIIII", overflow: TextOverflow.ellipsis,),
                       ),
                     ),
                   ),
@@ -247,7 +250,7 @@ abstract class _ListStoreBase with Store {
                   ),
                   Padding(
                       padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
-                      child: Text('${dtRelease.day}/${dtRelease.month}/${dtRelease.year}')//publisher.foundingDate),
+                      child: Text(game != null ? "${dtRelease.day}/${dtRelease.month}/${dtRelease.year}" : "AQUIIIII")//publisher.foundingDate),
                   ),
                 ],
               ),
@@ -286,7 +289,7 @@ abstract class _ListStoreBase with Store {
               height: sizeHeight / 1.3,
               child: ListView(
                 children: [
-                  Text("Empty List"),
+                  Text("Something Here"),
                 ],
               ),
             )
@@ -295,6 +298,8 @@ abstract class _ListStoreBase with Store {
               height: sizeHeight / 1.3,
               child: ListView(
                 children: [
+                  cardGame(null),
+                  cardGame(null),
                   Text("Empty List"),
                 ],
               ),

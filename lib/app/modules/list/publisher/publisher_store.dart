@@ -67,7 +67,7 @@ abstract class _PublisherStoreBase with Store {
     if (publisherName == null || publisherName == "" || foundingDate == null) {
       return false;
     } else {
-      if(closedDate.compareTo(foundingDate)>0){
+      if( closedDate != null ? closedDate.compareTo(foundingDate)>0 : true ){
         if(pub == null){
           response = await _publisherApi.postPublisher(_auth.myId, publisherName,
               foundingDate.toString(), closedDate.toString());
