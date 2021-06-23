@@ -19,14 +19,15 @@ class GamePageState extends ModularState<GamePage, GameStore> {
 
   GameModel game = Modular.args.data;
 
-  /*@override
+  @override
     void initState() {
-      if(publisher != null) {
+      store.getPubsName();
+      /*if(publisher != null) {
         store.setPub(publisher);
         store.setPubValues();
-      }
+      }*/
       super.initState();
-    }*/
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -120,18 +121,25 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                   Padding(
                   padding: EdgeInsets.fromLTRB(15, 5, 10, 3),
                   child: DropdownButtonHideUnderline(
-                    child:  DropdownButton(
+                    child:  DropdownButtonFormField(
                       isExpanded: true,
                       value: store.pubChoice,
+                      validator: (value) {
+                        print("VALUE AQUI ${value}");
+                        if (value == null) {
+                          return 'Fill in the field';
+                        }
+                        return null;
+                      },
                       onChanged: (value){
                         setState(() {
                           store.pubChoice = value;
                         });
                       },
-                      items: store.listStore.responsePubs.map((PublisherModel pub) {
+                      items: store.listPubs.map((pub) {
                         return new DropdownMenuItem<String>(
-                          child: new Text(pub.name, overflow: TextOverflow.ellipsis,),
-                          value: pub.name,
+                          child: new Text(pub, overflow: TextOverflow.ellipsis,),
+                          value: pub,
                         );
                       }).toList(),
                     ),
@@ -170,7 +178,13 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
-                    child: TextField(
+                    child: TextFormField(
+                      validator: (value) {
+                        if (store.releaseDate == null || store.releaseDate == "") {
+                          return 'Fill in the field';
+                        }
+                        return null;
+                      },
                       keyboardType: TextInputType.emailAddress,
                       readOnly: true,
                       onTap: () {
@@ -208,25 +222,29 @@ class GamePageState extends ModularState<GamePage, GameStore> {
         ),
       );
     }
-
-      return Scaffold(
-        appBar: game == null ? gradientComp.appBarGradient(
-            context, "Game Page") : null,
-        //gradientComp.appBarDelete(context, store.publisherName, store.delete),
-        body: gradientComp.backgroundGradient(context, gamePage(context)),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue,
-          onPressed: () async {
-            if (_formKey.currentState.validate()) {}
-            var responseSave = await store.saveGame(context);
-            if (responseSave == true) {
-              store.response == null ? CircularProgressIndicator() : null;
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/lists', ModalRoute.withName('/'));
-            }
-          },
-          child: Icon(Icons.save_rounded),
-        ),
+    return WillPopScope(
+        onWillPop: () async {
+          Modular.to.pushReplacementNamed('/lists');
+        },
+        child: Scaffold(
+          appBar: game == null ? gradientComp.appBarGradient(
+              context, "Game Page") : null,
+          //gradientComp.appBarDelete(context, store.publisherName, store.delete),
+          body: gradientComp.backgroundGradient(context, gamePage(context)),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.blue,
+            onPressed: () async {
+              if (_formKey.currentState.validate()) {}
+              var responseSave = await store.saveGame(context);
+              if (responseSave == true) {
+                store.response == null ? CircularProgressIndicator() : null;
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/lists', ModalRoute.withName('/'));
+              }
+            },
+            child: Icon(Icons.save_rounded),
+          ),
+        )
       );
     }
   }

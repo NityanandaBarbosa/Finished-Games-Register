@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:finished_games_register/app/modules/list/game/entities/game_model.dart';
 import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/games/games_api_interface.dart';
@@ -33,7 +36,7 @@ abstract class _ListStoreBase with Store {
   List<PublisherModel> responsePubs;
 
   @observable
-  var responseGames;
+  List<GameModel> responseGames;
 
   @observable
   var responseRegister;
@@ -61,11 +64,11 @@ abstract class _ListStoreBase with Store {
 
   Future openCrud() async {
     if (selectedIndex == 0) {
-      Modular.to.pushNamed('/lists/publisher');
+      Modular.to.pushReplacementNamed('/lists/publisher');
     } else if (selectedIndex == 1) {
-      Modular.to.pushNamed('/lists/game');
+      Modular.to.pushReplacementNamed('/lists/game');
     } else {
-      Modular.to.pushNamed('/lists/register');
+      Modular.to.pushReplacementNamed('/lists/register');
     }
   }
 
@@ -99,7 +102,7 @@ abstract class _ListStoreBase with Store {
       width: double.maxFinite,
       child: InkWell(
         onTap: () {
-          Modular.to.pushNamed('/lists/publisher',
+          Modular.to.pushReplacementNamed('/lists/publisher',
               arguments: publisher);
         },
         child: Card(
@@ -184,7 +187,7 @@ abstract class _ListStoreBase with Store {
       width: double.maxFinite,
       child: InkWell(
         onTap: () {
-          Modular.to.pushNamed('/lists/publisher',
+          Modular.to.pushReplacementNamed('/lists/publisher',
               arguments: game);
         },
         child: Card(
@@ -230,7 +233,7 @@ abstract class _ListStoreBase with Store {
                     child: Flexible(
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
-                        child: Text(game != null ? game.name : "AQUIIIII", overflow: TextOverflow.ellipsis,),
+                        child: Text(game != null ? game.idGame : "AQUIIIII", overflow: TextOverflow.ellipsis,),
                       ),
                     ),
                   ),
@@ -287,11 +290,11 @@ abstract class _ListStoreBase with Store {
           ? Container(
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,
-              child: ListView(
-                children: [
-                  Text("Something Here"),
-                ],
-              ),
+              child: ListView.builder(
+                  itemCount: responseGames.length,
+                  itemBuilder: (context, index) {
+                    return cardGame(responseGames[index]);
+                  }),
             )
           : Container(
               width: sizewidth / 1.1,

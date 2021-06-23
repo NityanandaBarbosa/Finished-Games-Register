@@ -27,10 +27,14 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
         ),
       );
     }
-
-    return Scaffold(
-      appBar: gradientComp.appBarGradient(context, "Register Page"),
-      body: gradientComp.backgroundGradient(context, publisherPage(context)),
+    return WillPopScope(
+        onWillPop: () async {
+          Modular.to.pushReplacementNamed('/lists');
+        },
+      child: Scaffold(
+        appBar: gradientComp.appBarGradient(context, "Register Page"),
+        body: gradientComp.backgroundGradient(context, publisherPage(context)),
+      )
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/modules/list/list_store.dart';
 import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/publishers/publishers_api_interface.dart';

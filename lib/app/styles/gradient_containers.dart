@@ -1,6 +1,7 @@
 import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 final colorInit = 0xFFde6262;
 final colorEnd = 0xFFffb88c;
@@ -48,8 +49,7 @@ Widget appBarDelete(context, barTitle,[deletefunc = null]) {
         icon: Icon(Icons.delete_forever_outlined),
         onPressed:() async{
           var response = await deletefunc();
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/lists', ModalRoute.withName('/'));
+          Modular.to.pushReplacementNamed('/lists');
         },
       ),
     ],

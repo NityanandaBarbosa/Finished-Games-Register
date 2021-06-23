@@ -69,6 +69,21 @@ mixin _$GameStore on _GameStoreBase, Store {
     });
   }
 
+  final _$listPubsAtom = Atom(name: '_GameStoreBase.listPubs');
+
+  @override
+  List<String> get listPubs {
+    _$listPubsAtom.reportRead();
+    return super.listPubs;
+  }
+
+  @override
+  set listPubs(List<String> value) {
+    _$listPubsAtom.reportWrite(value, super.listPubs, () {
+      super.listPubs = value;
+    });
+  }
+
   final _$responseAtom = Atom(name: '_GameStoreBase.response');
 
   @override
@@ -142,6 +157,7 @@ releaseDate: ${releaseDate},
 pub: ${pub},
 pubChoice: ${pubChoice},
 gameName: ${gameName},
+listPubs: ${listPubs},
 response: ${response},
 game: ${game}
     ''';

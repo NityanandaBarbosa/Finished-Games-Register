@@ -29,6 +29,9 @@ abstract class _GameStoreBase with Store {
   String gameName;
 
   @observable
+  List<String> listPubs = [];
+
+  @observable
   var response;
 
   @observable
@@ -50,6 +53,15 @@ abstract class _GameStoreBase with Store {
     idPub = game.idPub;
     gameName = game.name;
   }*/
+
+  Future<void> getPubsName() async {
+    print("AQUI ${listStore.responsePubs}");
+    for(var i in listStore.responsePubs){
+      listPubs.add(i.name);
+    }
+    print("LIST OF PUBS");
+    print(listPubs);
+  }
 
   Future saveGame(context) async {
     var returnResponse = await verifyFields(context);
