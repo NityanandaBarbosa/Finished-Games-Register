@@ -24,21 +24,6 @@ mixin _$GameStore on _GameStoreBase, Store {
     });
   }
 
-  final _$pubAtom = Atom(name: '_GameStoreBase.pub');
-
-  @override
-  dynamic get pub {
-    _$pubAtom.reportRead();
-    return super.pub;
-  }
-
-  @override
-  set pub(dynamic value) {
-    _$pubAtom.reportWrite(value, super.pub, () {
-      super.pub = value;
-    });
-  }
-
   final _$pubChoiceAtom = Atom(name: '_GameStoreBase.pubChoice');
 
   @override
@@ -69,18 +54,18 @@ mixin _$GameStore on _GameStoreBase, Store {
     });
   }
 
-  final _$listPubsAtom = Atom(name: '_GameStoreBase.listPubs');
+  final _$idPubAtom = Atom(name: '_GameStoreBase.idPub');
 
   @override
-  List<String> get listPubs {
-    _$listPubsAtom.reportRead();
-    return super.listPubs;
+  String get idPub {
+    _$idPubAtom.reportRead();
+    return super.idPub;
   }
 
   @override
-  set listPubs(List<String> value) {
-    _$listPubsAtom.reportWrite(value, super.listPubs, () {
-      super.listPubs = value;
+  set idPub(String value) {
+    _$idPubAtom.reportWrite(value, super.idPub, () {
+      super.idPub = value;
     });
   }
 
@@ -151,13 +136,23 @@ mixin _$GameStore on _GameStoreBase, Store {
   }
 
   @override
+  dynamic setPubChoice(dynamic value) {
+    final _$actionInfo = _$_GameStoreBaseActionController.startAction(
+        name: '_GameStoreBase.setPubChoice');
+    try {
+      return super.setPubChoice(value);
+    } finally {
+      _$_GameStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 releaseDate: ${releaseDate},
-pub: ${pub},
 pubChoice: ${pubChoice},
 gameName: ${gameName},
-listPubs: ${listPubs},
+idPub: ${idPub},
 response: ${response},
 game: ${game}
     ''';

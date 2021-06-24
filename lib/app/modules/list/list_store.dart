@@ -178,90 +178,100 @@ abstract class _ListStoreBase with Store {
   Widget cardGame(game) {
 
     DateTime dtRelease;
+    int index;
+    PublisherModel pub;
 
-    if(game != null) dtRelease = DateTime.parse(game.releaseDate);
+    if(game != null){
+      dtRelease = DateTime.parse(game.releaseDate);
+      for(index = 0; index < responsePubs.length; index++) {
+        if(responsePubs[index].idPub == game.idPub){
+          pub = responsePubs[index];
+          break;
+      }
+    }
 
-    return Container(
-      padding: EdgeInsets.all(3),
-      height: 150,
-      width: double.maxFinite,
-      child: InkWell(
-        onTap: () {
-          Modular.to.pushReplacementNamed('/lists/publisher',
-              arguments: game);
-        },
-        child: Card(
-          elevation: 3,
-          child: Wrap(
-            alignment: WrapAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 20, 1, 5),
-                    child: Text(
-                      "Name : ",
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  Container(
-                    child: Flexible(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
-                        child: Text(game != null ? game.name : "AQUIIIII", overflow: TextOverflow.ellipsis,),
+      return Container(
+        padding: EdgeInsets.all(3),
+        height: 150,
+        width: double.maxFinite,
+        child: InkWell(
+          onTap: () {
+            Modular.to.pushReplacementNamed('/lists/game',
+                arguments: [game, pub]);
+          },
+          child: Card(
+            elevation: 3,
+            child: Wrap(
+              alignment: WrapAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 20, 1, 5),
+                      child: Text(
+                        "Name : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 20, 1, 5),
-                    child: Text(
-                      "Publisher : ",
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  Container(
-                    child: Flexible(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
-                        child: Text(game != null ? game.idGame : "AQUIIIII", overflow: TextOverflow.ellipsis,),
+                    Container(
+                      child: Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
+                          child: Text(game != null ? game.name : "AQUIIIII", overflow: TextOverflow.ellipsis,),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 15, 1, 5),
-                    child: Text(
-                      "Release Date : ",
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.normal),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 20, 1, 5),
+                      child: Text(
+                        "Publisher : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal),
+                      ),
                     ),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
-                      child: Text(game != null ? "${dtRelease.day}/${dtRelease.month}/${dtRelease.year}" : "AQUIIIII")//publisher.foundingDate),
-                  ),
-                ],
-              ),
-            ],
+                    Container(
+                      child: Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
+                          child: Text(index != null ? responsePubs[index].name : "AQUIIIII", overflow: TextOverflow.ellipsis,),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 15, 1, 5),
+                      child: Text(
+                        "Release Date : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+                        child: Text(game != null ? "${dtRelease.day}/${dtRelease.month}/${dtRelease.year}" : "AQUIIIII")//publisher.foundingDate),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   Widget crudLists(sizewidth, sizeHeight) {

@@ -6,6 +6,8 @@ import 'package:finished_games_register/app/styles/gradient_containers.dart'
 as gradientComp;
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../list_store.dart';
+
 class GamePage extends StatefulWidget {
   final String title;
   const GamePage({key, this.title = 'GamePage'}) : super(key: key);
@@ -14,18 +16,20 @@ class GamePage extends StatefulWidget {
 }
 class GamePageState extends ModularState<GamePage, GameStore> {
   final GameStore store = Modular.get();
+  final ListStore listStore = Modular.get();
 
   final _formKey = GlobalKey<FormState>();
 
-  GameModel game = Modular.args.data;
+  GameModel game = Modular.args.data[0];
+  var pub = Modular.args.data[1];
 
   @override
     void initState() {
-      store.getPubsName();
-      /*if(publisher != null) {
-        store.setPub(publisher);
-        store.setPubValues();
-      }*/
+      if(game != null) {
+        store.setGame(game);
+        store.setGameValues();
+        store.setPubChoice(pub);
+      }
       super.initState();
     }
 
@@ -62,9 +66,7 @@ class GamePageState extends ModularState<GamePage, GameStore> {
               Padding(
                 padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
                 child: TextFormField(
-                  initialValue: store.gameName != null
-                      ? store.gameName
-                      : null,
+                  initialValue: store.gameName != null ? store.gameName : null,
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Fill in the field';
@@ -119,15 +121,31 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                 //crossAxisAlignment: CrossAxisAlignment.stretch,
                 children : [
                   Padding(
-                  padding: EdgeInsets.fromLTRB(15, 5, 10, 3),
+                  padding: EdgeInsets.fromLTRB(10, 5, 10, 3),
                   child: DropdownButtonHideUnderline(
                     child:  DropdownButtonFormField(
                       isExpanded: true,
+                      hint: store.pubChoice == null ? Text("Select Publisher") : null,
                       value: store.pubChoice,
+                      decoration: InputDecoration(
+                        //hintText: "Publisher Name",
+                        //labelText: "Name",
+                        labelStyle: TextStyle(
+                            fontSize: 13, color: Colors.black54),
+                        border: OutlineInputBorder(
+                            borderSide: new BorderSide(color: Colors.black54)),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.refresh),
+                          onPressed: (){
+                            setState(() {
+                              store.pubChoice = null;
+                            });
+                          },
+                        ),
+                      ),
                       validator: (value) {
-                        print("VALUE AQUI ${value}");
                         if (value == null) {
-                          return 'Fill in the field';
+                          return 'Select a publisher';
                         }
                         return null;
                       },
@@ -136,9 +154,9 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                           store.pubChoice = value;
                         });
                       },
-                      items: store.listPubs.map((pub) {
-                        return new DropdownMenuItem<String>(
-                          child: new Text(pub, overflow: TextOverflow.ellipsis,),
+                      items: listStore.responsePubs.map((PublisherModel pub) {
+                        return new DropdownMenuItem<PublisherModel>(
+                          child: new Text(pub.name, overflow: TextOverflow.ellipsis,),
                           value: pub,
                         );
                       }).toList(),
@@ -228,8 +246,7 @@ class GamePageState extends ModularState<GamePage, GameStore> {
         },
         child: Scaffold(
           appBar: game == null ? gradientComp.appBarGradient(
-              context, "Game Page") : null,
-          //gradientComp.appBarDelete(context, store.publisherName, store.delete),
+              context, "Game Page") : gradientComp.appBarDelete(context, store.gameName, store.delete),
           body: gradientComp.backgroundGradient(context, gamePage(context)),
           floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.blue,
@@ -238,8 +255,7 @@ class GamePageState extends ModularState<GamePage, GameStore> {
               var responseSave = await store.saveGame(context);
               if (responseSave == true) {
                 store.response == null ? CircularProgressIndicator() : null;
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/lists', ModalRoute.withName('/'));
+                Modular.to.pushReplacementNamed('/lists');
               }
             },
             child: Icon(Icons.save_rounded),
