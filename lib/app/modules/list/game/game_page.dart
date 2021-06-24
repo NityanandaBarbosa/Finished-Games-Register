@@ -20,16 +20,21 @@ class GamePageState extends ModularState<GamePage, GameStore> {
 
   final _formKey = GlobalKey<FormState>();
 
-  GameModel game = Modular.args.data[0];
-  var pub = Modular.args.data[1];
+  /*GameModel game = Modular.args.data[0];
+  var pubGame = Modular.args.data[1];*/
 
+  var argsGame = Modular.args.data;
   @override
     void initState() {
-      if(game != null) {
-        store.setGame(game);
+    try{
+      if(argsGame != null) {
+        store.setGame(argsGame[0]);
         store.setGameValues();
-        store.setPubChoice(pub);
+        store.setPubChoice(argsGame[1]);
       }
+    }catch(e){
+
+    }
       super.initState();
     }
 
@@ -245,7 +250,7 @@ class GamePageState extends ModularState<GamePage, GameStore> {
           Modular.to.pushReplacementNamed('/lists');
         },
         child: Scaffold(
-          appBar: game == null ? gradientComp.appBarGradient(
+          appBar: argsGame == null ? gradientComp.appBarGradient(
               context, "Game Page") : gradientComp.appBarDelete(context, store.gameName, store.delete),
           body: gradientComp.backgroundGradient(context, gamePage(context)),
           floatingActionButton: FloatingActionButton(

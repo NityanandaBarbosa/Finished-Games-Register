@@ -55,7 +55,7 @@ class GameApi implements IGameApi {
     var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/game/${idGame}/.json';
     var response;
     try{
-      response = await dio.put(url, data:{'name': name, 'idPublisher': idPublisher, 'releaseDate': releaseDate});
+      response = await dio.patch(url, data:{'name': name, 'idPublisher': idPublisher, 'releaseDate': releaseDate});
       return response.data;
     }catch(e){
       return null;

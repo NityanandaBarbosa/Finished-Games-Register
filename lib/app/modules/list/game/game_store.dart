@@ -74,7 +74,7 @@ abstract class _GameStoreBase with Store {
       if(game == null){
         response = await _gameApi.postGame(_auth.myId, pubChoice.idPub,gameName, releaseDate.toString());
       }else{
-        response = await _gameApi.putGame(_auth.myId, pubChoice.idPub,gameName, releaseDate.toString());
+        response = await _gameApi.putGame(_auth.myId, pubChoice.idPub,game.idGame,gameName, releaseDate.toString());
       }
       /*}else{
         ShowAlertDialog(context, "Closed Date are bigger then Founding Date!");
