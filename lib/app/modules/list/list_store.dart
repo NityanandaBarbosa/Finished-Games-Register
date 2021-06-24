@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:finished_games_register/app/modules/list/game/entities/game_model.dart';
 import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/games/games_api_interface.dart';
@@ -33,7 +36,7 @@ abstract class _ListStoreBase with Store {
   List<PublisherModel> responsePubs;
 
   @observable
-  var responseGames;
+  List<GameModel> responseGames;
 
   @observable
   var responseRegister;
@@ -61,11 +64,11 @@ abstract class _ListStoreBase with Store {
 
   Future openCrud() async {
     if (selectedIndex == 0) {
-      Modular.to.pushNamed('/lists/publisher');
+      Modular.to.pushReplacementNamed('/lists/publisher');
     } else if (selectedIndex == 1) {
-      Modular.to.pushNamed('/lists/game');
+      Modular.to.pushReplacementNamed('/lists/game');
     } else {
-      Modular.to.pushNamed('/lists/register');
+      Modular.to.pushReplacementNamed('/lists/register');
     }
   }
 
@@ -99,7 +102,7 @@ abstract class _ListStoreBase with Store {
       width: double.maxFinite,
       child: InkWell(
         onTap: () {
-          Modular.to.pushNamed('/lists/publisher',
+          Modular.to.pushReplacementNamed('/lists/publisher',
               arguments: publisher);
         },
         child: Card(
@@ -172,6 +175,105 @@ abstract class _ListStoreBase with Store {
     );
   }
 
+  Widget cardGame(game) {
+
+    DateTime dtRelease;
+    int index;
+    PublisherModel pub;
+
+    if(game != null){
+      dtRelease = DateTime.parse(game.releaseDate);
+      for(index = 0; index < responsePubs.length; index++) {
+        if(responsePubs[index].idPub == game.idPub){
+          pub = responsePubs[index];
+          break;
+      }
+    }
+
+      return Container(
+        padding: EdgeInsets.all(3),
+        height: 150,
+        width: double.maxFinite,
+        child: InkWell(
+          onTap: () {
+            Modular.to.pushReplacementNamed('/lists/game',
+                arguments: [game, pub]);
+          },
+          child: Card(
+            elevation: 3,
+            child: Wrap(
+              alignment: WrapAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 20, 1, 5),
+                      child: Text(
+                        "Name : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    Container(
+                      child: Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
+                          child: Text(game != null ? game.name : "AQUIIIII", overflow: TextOverflow.ellipsis,),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 20, 1, 5),
+                      child: Text(
+                        "Publisher : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    Container(
+                      child: Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
+                          child: Text(index != null ? responsePubs[index].name : "AQUIIIII", overflow: TextOverflow.ellipsis,),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 15, 1, 5),
+                      child: Text(
+                        "Release Date : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+                        child: Text(game != null ? "${dtRelease.day}/${dtRelease.month}/${dtRelease.year}" : "AQUIIIII")//publisher.foundingDate),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
   Widget crudLists(sizewidth, sizeHeight) {
     if (selectedIndex == 0) {
       return responsePubs != null
@@ -198,17 +300,19 @@ abstract class _ListStoreBase with Store {
           ? Container(
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,
-              child: ListView(
-                children: [
-                  Text("Empty List"),
-                ],
-              ),
+              child: ListView.builder(
+                  itemCount: responseGames.length,
+                  itemBuilder: (context, index) {
+                    return cardGame(responseGames[index]);
+                  }),
             )
           : Container(
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,
               child: ListView(
                 children: [
+                  cardGame(null),
+                  cardGame(null),
                   Text("Empty List"),
                 ],
               ),

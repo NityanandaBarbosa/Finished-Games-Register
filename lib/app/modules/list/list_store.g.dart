@@ -72,13 +72,13 @@ mixin _$ListStore on _ListStoreBase, Store {
   final _$responseGamesAtom = Atom(name: '_ListStoreBase.responseGames');
 
   @override
-  dynamic get responseGames {
+  List<GameModel> get responseGames {
     _$responseGamesAtom.reportRead();
     return super.responseGames;
   }
 
   @override
-  set responseGames(dynamic value) {
+  set responseGames(List<GameModel> value) {
     _$responseGamesAtom.reportWrite(value, super.responseGames, () {
       super.responseGames = value;
     });

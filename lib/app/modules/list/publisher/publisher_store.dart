@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/modules/list/list_store.dart';
 import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/publishers/publishers_api_interface.dart';
@@ -67,7 +68,7 @@ abstract class _PublisherStoreBase with Store {
     if (publisherName == null || publisherName == "" || foundingDate == null) {
       return false;
     } else {
-      if(closedDate.compareTo(foundingDate)>0){
+      if( closedDate != null ? closedDate.compareTo(foundingDate)>0 : true ){
         if(pub == null){
           response = await _publisherApi.postPublisher(_auth.myId, publisherName,
               foundingDate.toString(), closedDate.toString());

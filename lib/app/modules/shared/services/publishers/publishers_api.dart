@@ -43,7 +43,6 @@ class PublisherApi implements IPublisherApi {
 
   @override
   Future putPublisher(id, idPublisher, name, foundingDate, closedDate) async {
-    print("Try to put / ID ${id} / PUB ID ${idPublisher}");
     var response;
     var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/publisher/${idPublisher}/.json';
     try{

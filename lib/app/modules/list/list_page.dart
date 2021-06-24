@@ -44,7 +44,6 @@ class ListPageState extends ModularState<ListPage, ListStore> {
     final fullMediaWidth = MediaQuery.of(context).size.width;
     final fullMediaHeight = MediaQuery.of(context).size.height;
 
-
     Widget listComponents(context) {
       return Container(
         alignment: Alignment.center,
