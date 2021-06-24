@@ -70,16 +70,16 @@ abstract class _GameStoreBase with Store {
     if (gameName == null || gameName == "" || releaseDate == null || pubChoice == null) {
       return false;
     } else {
-      //if(closedDate.compareTo(foundingDate)>0){
-      if(game == null){
-        response = await _gameApi.postGame(_auth.myId, pubChoice.idPub,gameName, releaseDate.toString());
+    if((releaseDate.compareTo(DateTime.parse(pubChoice.foundingDate))>0) && (releaseDate.compareTo(DateTime.parse(pubChoice.closedDate))<0)){
+        if(game == null){
+          response = await _gameApi.postGame(_auth.myId, pubChoice.idPub,gameName, releaseDate.toString());
+        }else{
+          response = await _gameApi.putGame(_auth.myId, pubChoice.idPub,game.idGame,gameName, releaseDate.toString());
+        }
       }else{
-        response = await _gameApi.putGame(_auth.myId, pubChoice.idPub,game.idGame,gameName, releaseDate.toString());
-      }
-      /*}else{
-        ShowAlertDialog(context, "Closed Date are bigger then Founding Date!");
+        ShowAlertDialog(context, "Release Date is invalid!");
         return "none";
-      }*/
+      }
       return response;
     }
   }
