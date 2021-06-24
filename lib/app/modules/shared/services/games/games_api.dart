@@ -64,7 +64,13 @@ class GameApi implements IGameApi {
 
   @override
   Future deleteGame(id, idGame) async {
+    var response;
     var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/game/${idGame}/.json';
-    var responseDec = await dio.delete(url);
+    try{
+      response = await dio.delete(url);
+      return response;
+    }catch(e){
+      return null;
+    }
   }
 }

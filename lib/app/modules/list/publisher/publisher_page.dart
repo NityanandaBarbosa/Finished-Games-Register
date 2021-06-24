@@ -23,7 +23,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
 
   @override
   void initState() {
-    if(publisher != null) {
+    if (publisher != null) {
       store.setPub(publisher);
       store.setPubValues();
     }
@@ -66,7 +66,8 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
               Padding(
                 padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
                 child: TextFormField(
-                  initialValue: store.publisherName != null ? store.publisherName : null,
+                  initialValue:
+                      store.publisherName != null ? store.publisherName : null,
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Fill in the field';
@@ -126,12 +127,13 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                   onTap: () {
                     showDatePicker(
                             context: context,
-                            initialDate: store.foundingDate == null ? DateTime.now() : store.foundingDate,
+                            initialDate: store.foundingDate == null
+                                ? DateTime.now()
+                                : store.foundingDate,
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100))
                         .then((date) {
                       if (date != null && date != store.foundingDate) {
-                        print(date);
                         setState(() {
                           store.setFoundingDate(date);
                         });
@@ -170,7 +172,9 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                   onTap: () {
                     showDatePicker(
                             context: context,
-                            initialDate: store.closedDate == null ? DateTime.now() : store.closedDate,
+                            initialDate: store.closedDate == null
+                                ? DateTime.now()
+                                : store.closedDate,
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100))
                         .then((date) {
@@ -198,15 +202,20 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
         ),
       );
     }
+
     return WillPopScope(
         onWillPop: () async {
           Modular.to.pushReplacementNamed('/lists');
         },
-      child: Scaffold(
-        appBar: publisher == null ? gradientComp.appBarGradient(context, "Publisher Page") : gradientComp.appBarDelete(context, store.publisherName, store.delete),
-        body: gradientComp.backgroundGradient(context, publisherPage(context)),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue,
+        child: Scaffold(
+          appBar: publisher == null
+              ? gradientComp.appBarGradient(context, "Publisher Page")
+              : gradientComp.appBarDelete(
+                  context, store.publisherName, store.delete),
+          body:
+              gradientComp.backgroundGradient(context, publisherPage(context)),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.blue,
             onPressed: () async {
               if (_formKey.currentState.validate()) {}
               var responseSave = await store.savePublisher(context);
@@ -217,7 +226,6 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
             },
             child: Icon(Icons.save_rounded),
           ),
-        )
-      );
+        ));
   }
 }
