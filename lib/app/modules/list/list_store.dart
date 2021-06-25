@@ -90,11 +90,9 @@ abstract class _ListStoreBase with Store {
   Widget cardPublisher(publisher) {
     DateTime dtFounding = DateTime.parse(publisher.foundingDate);
     DateTime dtClosed;
-    try{
-      dtClosed = DateTime.parse(publisher.closedDate );
-    }catch(e){
-
-    }
+    try {
+      dtClosed = DateTime.parse(publisher.closedDate);
+    } catch (e) {}
 
     return Container(
       padding: EdgeInsets.all(3),
@@ -102,8 +100,8 @@ abstract class _ListStoreBase with Store {
       width: double.maxFinite,
       child: InkWell(
         onTap: () {
-          Modular.to.pushReplacementNamed('/lists/publisher',
-              arguments: publisher);
+          Modular.to
+              .pushReplacementNamed('/lists/publisher', arguments: publisher);
         },
         child: Card(
           elevation: 3,
@@ -126,10 +124,13 @@ abstract class _ListStoreBase with Store {
                     child: Flexible(
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
-                          child: Text(publisher.name, overflow: TextOverflow.ellipsis,),
+                        child: Text(
+                          publisher.name,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
+                  ),
                 ],
               ),
               Row(
@@ -145,9 +146,10 @@ abstract class _ListStoreBase with Store {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
-                    child: Text('${dtFounding.day}/${dtFounding.month}/${dtFounding.year}')//publisher.foundingDate),
-                  ),
+                      padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+                      child: Text(
+                          '${dtFounding.day}/${dtFounding.month}/${dtFounding.year}') //publisher.foundingDate),
+                      ),
                 ],
               ),
               Row(
@@ -163,9 +165,11 @@ abstract class _ListStoreBase with Store {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
-                    child: Text(publisher.closedDate == "null" ? "-" : '${dtClosed.day}/${dtClosed.month}/${dtClosed.year}')//publisher.closedDate),
-                  ),
+                      padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+                      child: Text(publisher.closedDate == "null"
+                          ? "-"
+                          : '${dtClosed.day}/${dtClosed.month}/${dtClosed.year}') //publisher.closedDate),
+                      ),
                 ],
               ),
             ],
@@ -176,19 +180,18 @@ abstract class _ListStoreBase with Store {
   }
 
   Widget cardGame(game) {
-
     DateTime dtRelease;
     int index;
     PublisherModel pub;
 
-    if(game != null){
+    if (game != null) {
       dtRelease = DateTime.parse(game.releaseDate);
-      for(index = 0; index < responsePubs.length; index++) {
-        if(responsePubs[index].idPub == game.idPub){
+      for (index = 0; index < responsePubs.length; index++) {
+        if (responsePubs[index].idPub == game.idPub) {
           pub = responsePubs[index];
           break;
+        }
       }
-    }
 
       return Container(
         padding: EdgeInsets.all(3),
@@ -196,8 +199,8 @@ abstract class _ListStoreBase with Store {
         width: double.maxFinite,
         child: InkWell(
           onTap: () {
-            Modular.to.pushReplacementNamed('/lists/game',
-                arguments: [game, pub]);
+            Modular.to
+                .pushReplacementNamed('/lists/game', arguments: [game, pub]);
           },
           child: Card(
             elevation: 3,
@@ -220,7 +223,10 @@ abstract class _ListStoreBase with Store {
                       child: Flexible(
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
-                          child: Text(game != null ? game.name : "AQUIIIII", overflow: TextOverflow.ellipsis,),
+                          child: Text(
+                            game != null ? game.name : "AQUIIIII",
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                     ),
@@ -242,7 +248,12 @@ abstract class _ListStoreBase with Store {
                       child: Flexible(
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(5, 20, 5, 5),
-                          child: Text(index != null ? responsePubs[index].name : "AQUIIIII", overflow: TextOverflow.ellipsis,),
+                          child: Text(
+                            index != null
+                                ? responsePubs[index].name
+                                : "AQUIIIII",
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                     ),
@@ -262,8 +273,10 @@ abstract class _ListStoreBase with Store {
                     ),
                     Padding(
                         padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
-                        child: Text(game != null ? "${dtRelease.day}/${dtRelease.month}/${dtRelease.year}" : "AQUIIIII")//publisher.foundingDate),
-                    ),
+                        child: Text(game != null
+                            ? "${dtRelease.day}/${dtRelease.month}/${dtRelease.year}"
+                            : "AQUIIIII") //publisher.foundingDate),
+                        ),
                   ],
                 ),
               ],
@@ -311,8 +324,6 @@ abstract class _ListStoreBase with Store {
               height: sizeHeight / 1.3,
               child: ListView(
                 children: [
-                  cardGame(null),
-                  cardGame(null),
                   Text("Empty List"),
                 ],
               ),
