@@ -3,7 +3,7 @@ import 'package:finished_games_register/app/modules/list/game/game_store.dart';
 import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:flutter/material.dart';
 import 'package:finished_games_register/app/styles/gradient_containers.dart'
-as gradientComp;
+    as gradientComp;
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../list_store.dart';
@@ -14,6 +14,7 @@ class GamePage extends StatefulWidget {
   @override
   GamePageState createState() => GamePageState();
 }
+
 class GamePageState extends ModularState<GamePage, GameStore> {
   final GameStore store = Modular.get();
   final ListStore listStore = Modular.get();
@@ -25,18 +26,16 @@ class GamePageState extends ModularState<GamePage, GameStore> {
 
   var argsGame = Modular.args.data;
   @override
-    void initState() {
-    try{
-      if(argsGame != null) {
+  void initState() {
+    try {
+      if (argsGame != null) {
         store.setGame(argsGame[0]);
         store.setGameValues();
         store.setPubChoice(argsGame[1]);
       }
-    }catch(e){
-
-    }
-      super.initState();
-    }
+    } catch (e) {}
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +81,7 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                   decoration: InputDecoration(
                     hintText: "Publisher Name",
                     labelText: "Name",
-                    labelStyle: TextStyle(
-                        fontSize: 13, color: Colors.black54),
+                    labelStyle: TextStyle(fontSize: 13, color: Colors.black54),
                     border: OutlineInputBorder(
                         borderSide: new BorderSide(color: Colors.black54)),
                     suffixIcon: IconButton(
@@ -97,88 +95,94 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                   },
                 ),
               ),
-                Row(
-                  children: [
-                    Padding(
-                      padding:
-                      EdgeInsets.only(left: 10.0, top: 10, right: 5, bottom: 10),
-                      child: Text(
-                        "Publisher : ",
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Text(
-                        "*",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.red,
-                            fontWeight: FontWeight.normal),
-                      ),
-                    ),
-                  ],
-                ),
-              Column(
-                //crossAxisAlignment: CrossAxisAlignment.stretch,
-                children : [
+              Row(
+                children: [
                   Padding(
-                  padding: EdgeInsets.fromLTRB(10, 5, 10, 3),
-                  child: DropdownButtonHideUnderline(
-                    child:  DropdownButtonFormField(
-                      isExpanded: true,
-                      hint: store.pubChoice == null ? Text("Select Publisher") : null,
-                      value: store.pubChoice,
-                      decoration: InputDecoration(
-                        //hintText: "Publisher Name",
-                        //labelText: "Name",
-                        labelStyle: TextStyle(
-                            fontSize: 13, color: Colors.black54),
-                        border: OutlineInputBorder(
-                            borderSide: new BorderSide(color: Colors.black54)),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.refresh),
-                          onPressed: (){
-                            setState(() {
-                              store.pubChoice = null;
-                            });
-                          },
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Select a publisher';
-                        }
-                        return null;
-                      },
-                      onChanged: (value){
-                        setState(() {
-                          store.pubChoice = value;
-                        });
-                      },
-                      items: listStore.responsePubs.map((PublisherModel pub) {
-                        return new DropdownMenuItem<PublisherModel>(
-                          child: new Text(pub.name, overflow: TextOverflow.ellipsis,),
-                          value: pub,
-                        );
-                      }).toList(),
+                    padding: EdgeInsets.only(
+                        left: 10.0, top: 10, right: 5, bottom: 10),
+                    child: Text(
+                      "Publisher : ",
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal),
                     ),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text(
+                      "*",
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.red,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                ],
               ),
-
-
+              Column(
+                //crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(10, 5, 10, 3),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField(
+                        isExpanded: true,
+                        hint: store.pubChoice == null
+                            ? Text("Select Publisher")
+                            : null,
+                        value: store.pubChoice,
+                        decoration: InputDecoration(
+                          //hintText: "Publisher Name",
+                          //labelText: "Name",
+                          labelStyle:
+                              TextStyle(fontSize: 13, color: Colors.black54),
+                          border: OutlineInputBorder(
+                              borderSide:
+                                  new BorderSide(color: Colors.black54)),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.refresh),
+                            onPressed: () {
+                              setState(() {
+                                store.pubChoice = null;
+                              });
+                            },
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Select a Publisher';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            store.pubChoice = value;
+                          });
+                        },
+                        items: listStore.responsePubs != null
+                            ? listStore.responsePubs.map((PublisherModel pub) {
+                                return new DropdownMenuItem<PublisherModel>(
+                                  child: new Text(
+                                    pub.name,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  value: pub,
+                                );
+                              }).toList()
+                            : null,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Column(
                 children: [
                   Row(
                     children: [
                       Padding(
-                        padding:
-                        EdgeInsets.only(left: 10.0, top: 10, right: 5, bottom: 10),
+                        padding: EdgeInsets.only(
+                            left: 10.0, top: 10, right: 5, bottom: 10),
                         child: Text(
                           "Release Date : ",
                           style: TextStyle(
@@ -203,7 +207,8 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                     padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
                     child: TextFormField(
                       validator: (value) {
-                        if (store.releaseDate == null || store.releaseDate == "") {
+                        if (store.releaseDate == null ||
+                            store.releaseDate == "") {
                           return 'Fill in the field';
                         }
                         return null;
@@ -212,11 +217,12 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                       readOnly: true,
                       onTap: () {
                         showDatePicker(
-                            context: context,
-                            initialDate: store.releaseDate == null ? DateTime
-                                .now() : store.releaseDate,
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime(2100))
+                                context: context,
+                                initialDate: store.releaseDate == null
+                                    ? DateTime.now()
+                                    : store.releaseDate,
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime(2100))
                             .then((date) {
                           if (date != null && date != store.releaseDate) {
                             setState(() {
@@ -228,13 +234,13 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                       decoration: InputDecoration(
                         hintText: (store.releaseDate == null
                             ? "-"
-                            : '${store.releaseDate.day}/${store.releaseDate
-                            .month}/${store.releaseDate.year}'),
-                        labelStyle: TextStyle(fontSize: 13, color: Colors.black),
+                            : '${store.releaseDate.day}/${store.releaseDate.month}/${store.releaseDate.year}'),
+                        labelStyle:
+                            TextStyle(fontSize: 13, color: Colors.black),
                         border: OutlineInputBorder(
                             borderSide: new BorderSide(color: Colors.black54)),
                         suffixIcon:
-                        IconButton(icon: Icon(Icons.date_range_outlined)),
+                            IconButton(icon: Icon(Icons.date_range_outlined)),
                       ),
                     ),
                   ),
@@ -245,13 +251,16 @@ class GamePageState extends ModularState<GamePage, GameStore> {
         ),
       );
     }
+
     return WillPopScope(
         onWillPop: () async {
           Modular.to.pushReplacementNamed('/lists');
         },
         child: Scaffold(
-          appBar: argsGame == null ? gradientComp.appBarGradient(
-              context, "Game Page") : gradientComp.appBarDelete(context, store.gameName, store.delete),
+          appBar: argsGame == null
+              ? gradientComp.appBarGradient(context, "Game Page")
+              : gradientComp.appBarDelete(
+                  context, store.gameName, store.delete),
           body: gradientComp.backgroundGradient(context, gamePage(context)),
           floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.blue,
@@ -265,7 +274,6 @@ class GamePageState extends ModularState<GamePage, GameStore> {
             },
             child: Icon(Icons.save_rounded),
           ),
-        )
-      );
-    }
+        ));
   }
+}
