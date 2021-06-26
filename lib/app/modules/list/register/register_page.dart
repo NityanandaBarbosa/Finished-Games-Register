@@ -16,19 +16,23 @@ class RegisterPage extends StatefulWidget {
 
 class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
   final RegisterStore store = Modular.get();
-
   final ListStore listStore = Modular.get();
 
   final _formKey = GlobalKey<FormState>();
 
-  /*@override
+  var argsRegister = Modular.args.data;
+
+  @override
   void initState() {
-    if (register != null) {
-      store.setRegister(register);
-      store.setRegisterValues();
-    }
+    try {
+      if (argsRegister != null) {
+        store.setRegister(argsRegister[0]);
+        store.setRegisterValues();
+        store.setGameChoice(argsRegister[1]);
+      }
+    } catch (e) {}
     super.initState();
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {

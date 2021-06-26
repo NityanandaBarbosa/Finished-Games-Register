@@ -118,11 +118,11 @@ mixin _$RegisterStore on _RegisterStoreBase, Store {
       ActionController(name: '_RegisterStoreBase');
 
   @override
-  dynamic setGame(RegisterModel value) {
+  dynamic setRegister(RegisterModel value) {
     final _$actionInfo = _$_RegisterStoreBaseActionController.startAction(
-        name: '_RegisterStoreBase.setGame');
+        name: '_RegisterStoreBase.setRegister');
     try {
-      return super.setGame(value);
+      return super.setRegister(value);
     } finally {
       _$_RegisterStoreBaseActionController.endAction(_$actionInfo);
     }

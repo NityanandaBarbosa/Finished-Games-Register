@@ -37,7 +37,7 @@ abstract class _RegisterStoreBase with Store {
   RegisterModel register;
 
   @action
-  setGame(RegisterModel value) => register = value;
+  setRegister(RegisterModel value) => register = value;
 
   @action
   setName(String value) => registerName = value;
@@ -51,12 +51,16 @@ abstract class _RegisterStoreBase with Store {
   @action
   setGameChoice(var value) => gameChoice = value;
 
-  /*void setGameValues() {
-    DateTime dtRelease = DateTime.parse(game.releaseDate);
-    releaseDate = dtRelease;
-    idPub = game.idPub;
-    gameName = game.name;
-  }*/
+  void setRegisterValues() {
+    DateTime dtInit = DateTime.parse(register.initDate);
+    if(register.endDate != 'null') {
+      DateTime dtEnd = DateTime.parse(register.endDate);
+      setEndDate(dtEnd);
+    }
+    setInitDate(dtInit);
+    registerName = register.name;
+    //gameName = game.name;
+  }
 
   Future saveRegister(context) async {
     var returnResponse = await verifyFields(context);

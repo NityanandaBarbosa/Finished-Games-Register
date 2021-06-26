@@ -408,7 +408,7 @@ abstract class _ListStoreBase with Store {
                     Padding(
                         padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
                         child: Text(dtEnd != null
-                            ? "${dtInit.day}/${dtInit.month}/${dtInit.year}"
+                            ? "${dtEnd.day}/${dtEnd.month}/${dtEnd.year}"
                             : "-") //publisher.foundingDate),
                     ),
                   ],
