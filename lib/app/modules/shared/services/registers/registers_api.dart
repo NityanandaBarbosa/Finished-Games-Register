@@ -31,32 +31,29 @@ class RegisterApi implements IRegisterApi {
   }
 
   @override
-  Future postRegister(id, idPublisher, idGame, name,
-      [initDate = "", endDate = ""]) async {
-    var url =
-        'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/register.json';
-    var response = await dio.post(url, data: {
-      'name': name,
-      'idGame': idGame,
-      'idPublisher': idPublisher,
-      'initDate': initDate,
-      'endDate': endDate
-    });
+  Future postRegister(id, idPublisher, idGame, name, [initDate = "", endDate = ""]) async {
+
     print("Try to post");
+    var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/register.json';
+    var response;
+    try{
+      response= await dio.post(url, data: {'name': name, 'idGame': idGame, 'idPublisher': idPublisher, 'initDate': initDate, 'endDate': endDate});
+      return response;
+    }catch(e){
+      return response;
+    }
   }
 
   @override
-  Future putRegister(id, idRegister, idPublisher, idGame, name,
-      [initDate = "", endDate = ""]) async {
-    var url =
-        'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/register/${idRegister}/.json';
-    var response = await dio.put(url, data: {
-      'name': name,
-      'idGame': idGame,
-      'idPublisher': idPublisher,
-      'initDate': initDate,
-      'endDate': endDate
-    });
+  Future putRegister(id, idRegister, idPublisher, idGame, name, [initDate = "", endDate = ""]) async {
     print("Try to put");
+    var response;
+    var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/register/${idRegister}/.json';
+    try{
+      response = await dio.put(url, data: {'name': name, 'idGame': idGame, 'idPublisher': idPublisher, 'initDate': initDate, 'endDate': endDate});
+      return response;
+    }catch(e){
+      return response;
+    }
   }
 }

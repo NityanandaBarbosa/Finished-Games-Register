@@ -109,16 +109,16 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
                               fontWeight: FontWeight.normal),
                         ),
                       ),
-                      /*Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Text(
-                      "*",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.red,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ),*/
+                      Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: Text(
+                          "*",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.red,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ),
                     ],
                   ),
                   Column(
@@ -161,8 +161,8 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
                                 store.gameChoice = value;
                               });
                             },
-                            items: listStore.responseRegister != null
-                                ? listStore.responseRegister
+                            items: listStore.responseGames != null
+                                ? listStore.responseGames
                                     .map((GameModel game) {
                                     return new DropdownMenuItem<GameModel>(
                                       child: new Text(
@@ -186,6 +186,40 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
                             padding: EdgeInsets.only(
                                 left: 10.0, top: 10, right: 5, bottom: 10),
                             child: Text(
+                              "Game Release Date : ",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            hintText: (store.gameChoice == null
+                                ? "-"
+                                : '${DateTime.parse(store.gameChoice.releaseDate).day}/${DateTime.parse(store.gameChoice.releaseDate).month}/${DateTime.parse(store.gameChoice.releaseDate).year}'),
+                            labelStyle:
+                            TextStyle(fontSize: 13, color: Colors.black),
+                            border: OutlineInputBorder(
+                                borderSide:
+                                new BorderSide(color: Colors.black54)),
+                            suffixIcon: IconButton(
+                                icon: Icon(Icons.date_range_outlined)),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 10.0, top: 10, right: 5, bottom: 10),
+                            child: Text(
                               "Init Date : ",
                               style: TextStyle(
                                   fontSize: 18,
@@ -194,7 +228,7 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 10),
+                            padding: EdgeInsets.only(top: 5),
                             child: Text(
                               "*",
                               style: TextStyle(
@@ -257,16 +291,6 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
                               style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              "*",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.red,
                                   fontWeight: FontWeight.normal),
                             ),
                           ),
@@ -334,11 +358,11 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
             backgroundColor: Colors.blue,
             onPressed: () async {
               if (_formKey.currentState.validate()) {}
-              /*var responseSave = await store.savePublisher(context);
+              var responseSave = await store.saveRegister(context);
               if (responseSave == true) {
                 store.response == null ? CircularProgressIndicator() : null;
                 Modular.to.pushReplacementNamed('/lists');
-              }*/
+              }
             },
             child: Icon(Icons.save_rounded),
           ),

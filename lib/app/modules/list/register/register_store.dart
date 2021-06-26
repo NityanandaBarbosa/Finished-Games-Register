@@ -63,12 +63,35 @@ abstract class _RegisterStoreBase with Store {
     if (returnResponse == false) {
       ShowAlertDialog(context, 'Fill the required fields!');
       return false;
-    } else if (returnResponse == null) {
+    } else if (returnResponse.statusCode == null) {
       ShowAlertDialog(context, 'Could not connect to server!');
       return null;
-    } else if (returnResponse != "none") {
+    } else if(returnResponse.statusCode == 200){
       return true;
     }
+  }
+  bool checkDates(context){
+    //Init and End cannot be less then founding date
+    //Init and End cannot be less then release date
+    //End cannot be less then Init date
+    if(endDate == null){
+      if(initDate.compareTo(DateTime.parse(gameChoice.releaseDate)) < 0) {
+        ShowAlertDialog(context, "Init date is bigger then game release date!");
+        return false;
+      }
+    }else{
+      if(initDate.compareTo(endDate) > 0){
+        ShowAlertDialog(context, "End date is bigger then init date!");
+        return false;
+      }else{
+        if(initDate.compareTo(DateTime.parse(gameChoice.releaseDate)) < 0) {
+          print("Init VAZIO");
+          ShowAlertDialog(context, "Init date is bigger then game release date!");
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   Future verifyFields(context) async {
@@ -78,31 +101,14 @@ abstract class _RegisterStoreBase with Store {
         gameChoice == null) {
       return false;
     } else {
-      //if ((releaseDate.compareTo(DateTime.parse(pubChoice.foundingDate)) > 0) &&
-      //    (releaseDate.compareTo(DateTime.parse(pubChoice.closedDate)) < 0)) {
-      if (register == null) {
-        response = await _registerApi.postRegister(
-            _auth.myId,
-            gameChoice.idPub,
-            gameChoice.idGame,
-            registerName,
-            initDate.toString(),
-            endDate.toString());
-      } else {
-        response = await _registerApi.putRegister(
-            _auth.myId,
-            register.idRegister,
-            gameChoice.idPub,
-            gameChoice.idGame,
-            registerName,
-            initDate.toString(),
-            endDate.toString());
+      if (checkDates(context) == true){
+        if (register == null) {
+          response = await _registerApi.postRegister(_auth.myId, gameChoice.idPub, gameChoice.idGame, registerName, initDate.toString(), endDate.toString());
+        } else {
+          response = await _registerApi.putRegister(_auth.myId, register.idRegister, gameChoice.idPub, gameChoice.idGame, registerName, initDate.toString(), endDate.toString());
+        }
+        return response;
       }
-      /*} else {
-        ShowAlertDialog(context, "Release Date is invalid!");
-        return "none";
-      }*/
-      return response;
     }
   }
 
