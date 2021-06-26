@@ -63,7 +63,7 @@ abstract class _RegisterStoreBase with Store {
     if (returnResponse == false) {
       ShowAlertDialog(context, 'Fill the required fields!');
       return false;
-    } else if (returnResponse.statusCode == null) {
+    } else if (returnResponse == "no connection") {
       ShowAlertDialog(context, 'Could not connect to server!');
       return null;
     } else if(returnResponse.statusCode == 200){
@@ -71,9 +71,6 @@ abstract class _RegisterStoreBase with Store {
     }
   }
   bool checkDates(context){
-    //Init and End cannot be less then founding date
-    //Init and End cannot be less then release date
-    //End cannot be less then Init date
     if(endDate == null){
       if(initDate.compareTo(DateTime.parse(gameChoice.releaseDate)) < 0) {
         ShowAlertDialog(context, "Init date is bigger then game release date!");
@@ -103,9 +100,9 @@ abstract class _RegisterStoreBase with Store {
     } else {
       if (checkDates(context) == true){
         if (register == null) {
-          response = await _registerApi.postRegister(_auth.myId, gameChoice.idPub, gameChoice.idGame, registerName, initDate.toString(), endDate.toString());
+          response = await _registerApi.postRegister(_auth.myId, gameChoice.idGame, registerName, initDate.toString(), endDate.toString());
         } else {
-          response = await _registerApi.putRegister(_auth.myId, register.idRegister, gameChoice.idPub, gameChoice.idGame, registerName, initDate.toString(), endDate.toString());
+          response = await _registerApi.putRegister(_auth.myId, register.idRegister, gameChoice.idGame, registerName, initDate.toString(), endDate.toString());
         }
         return response;
       }
