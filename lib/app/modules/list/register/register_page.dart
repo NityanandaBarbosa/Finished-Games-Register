@@ -303,12 +303,6 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(10, 3, 10, 30),
                         child: TextFormField(
-                          validator: (value) {
-                            if (store.endDate == null || store.endDate == "") {
-                              return 'Fill in the field';
-                            }
-                            return null;
-                          },
                           keyboardType: TextInputType.emailAddress,
                           readOnly: true,
                           onTap: () {
@@ -356,7 +350,7 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
           Modular.to.pushReplacementNamed('/lists');
         },
         child: Scaffold(
-          appBar: gradientComp.appBarGradient(context, "Register Page"),
+          appBar: store.register == null ? gradientComp.appBarGradient(context, "Register Page") : gradientComp.appBarDelete(context, store.registerName, store.delete),
           body: gradientComp.backgroundGradient(context, registerPage(context)),
           floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.blue,
