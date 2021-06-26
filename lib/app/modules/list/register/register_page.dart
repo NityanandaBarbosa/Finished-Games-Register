@@ -297,7 +297,7 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(10, 3, 10, 3),
+                        padding: EdgeInsets.fromLTRB(10, 3, 10, 30),
                         child: TextFormField(
                           validator: (value) {
                             if (store.endDate == null || store.endDate == "") {

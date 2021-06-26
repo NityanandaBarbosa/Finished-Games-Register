@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class RegisterModel {
+  var name;
   var idGame;
-  var idPub;
   var idRegister;
   var initDate;
   var endDate;
 
   RegisterModel(
-      {this.idGame, this.idRegister, this.idPub, this.initDate, this.endDate});
+      {this.idGame, this.idRegister,this.name, this.initDate, this.endDate});
 }

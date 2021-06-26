@@ -287,6 +287,140 @@ abstract class _ListStoreBase with Store {
     }
   }
 
+  Widget cardRegister(register) {
+    DateTime dtInit;
+    DateTime dtEnd;
+    int index;
+    GameModel game;
+
+    if (register != null) {
+      dtInit = DateTime.parse(register.initDate);
+      try{
+        dtEnd = DateTime.parse(register.endDate);
+      }catch(e){
+        print("Empty end date!");
+      }
+      for (index = 0; index < responseGames.length; index++) {
+        if (responseGames[index].idGame == register.idGame) {
+          game = responseGames[index];
+          break;
+        }
+      }
+
+      return Container(
+        padding: EdgeInsets.all(3),
+        height: 150,
+        width: double.maxFinite,
+        child: InkWell(
+          onTap: () {
+            Modular.to
+                .pushReplacementNamed('/lists/register', arguments: [register, game]);
+          },
+          child: Card(
+            elevation: 3,
+            child: Wrap(
+              alignment: WrapAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 1, 5),
+                      child: Text(
+                        "Name : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    Container(
+                      child: Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
+                          child: Text(
+                            register != null ? register.name : "AQUIIIII",
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 1, 5),
+                      child: Text(
+                        "Game : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    Container(
+                      child: Flexible(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
+                          child: Text(
+                            index != null
+                                ? responseGames[index].name
+                                : "AQUIIIII",
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 1, 5),
+                      child: Text(
+                        "Init Date : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
+                        child: Text(game != null
+                            ? "${dtInit.day}/${dtInit.month}/${dtInit.year}"
+                            : "AQUIIIII") //publisher.foundingDate),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 1, 5),
+                      child: Text(
+                        "End Date : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
+                        child: Text(dtEnd != null
+                            ? "${dtInit.day}/${dtInit.month}/${dtInit.year}"
+                            : "-") //publisher.foundingDate),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
   Widget crudLists(sizewidth, sizeHeight) {
     if (selectedIndex == 0) {
       return responsePubs != null
@@ -333,11 +467,11 @@ abstract class _ListStoreBase with Store {
           ? Container(
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,
-              child: ListView(
-                children: [
-                  Text("Something Here"),
-                ],
-              ),
+              child: ListView.builder(
+                  itemCount: responseRegister.length,
+                  itemBuilder: (context, index) {
+                    return cardRegister(responseRegister[index]);
+                  }),
             )
           : Container(
               width: sizewidth / 1.1,

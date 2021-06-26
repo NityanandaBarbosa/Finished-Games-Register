@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/modules/list/register/entities/register_model.dart';
 import 'package:finished_games_register/app/modules/shared/services/registers/registers_api_interface.dart';
 import 'package:dio/dio.dart';
 import 'dart:core';
@@ -16,10 +17,24 @@ class RegisterApi implements IRegisterApi {
 
   @override
   Future getRegister(id) async {
+    var responseDec;
+    List<RegisterModel> list = [];
     var url =
         'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/register.json';
-    var responseDec = await dio.get(url);
-    return responseDec.data;
+    //responseDec = await dio.get(url);
+    //return responseDec.data;
+    try{
+      responseDec = await dio.get(url);
+      var publishersJson = responseDec.data;
+      publishersJson.forEach((key, value) {
+        RegisterModel newRegister = new RegisterModel(idRegister: key, idGame: value["idGame"], initDate: value["initDate"], endDate: value["endDate"], name: value["name"]);
+        list.add(newRegister);
+      });
+      print("Number of Register : ${list.length}");
+      return list;
+    }catch(e){
+      return null;
+    }
   }
 
   @override
