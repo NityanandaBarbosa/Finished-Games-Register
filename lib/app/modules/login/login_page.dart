@@ -25,7 +25,7 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
         child: Container(
           alignment: Alignment.center,
           width: fullMediaWidth * 0.9,
-          height: fullMediaHeight * 0.4,
+          height: fullMediaHeight * 0.45,
           padding: const EdgeInsets.all(25.0),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black54),

@@ -19,8 +19,8 @@ class GameApi implements IGameApi {
       responseDec = await dio.get(url);
       var publishersJson = responseDec.data;
       publishersJson.forEach((key, value) {
-        GameModel newPub = new GameModel(idGame: key, idPub:value["idPublisher"],releaseDate: value["releaseDate"], name: value["name"]);
-        list.add(newPub);
+        GameModel newGame = new GameModel(idGame: key, idPub:value["idPublisher"],releaseDate: value["releaseDate"], name: value["name"]);
+        list.add(newGame);
       });
       print("Number of Games : ${list.length}");
       return list;
