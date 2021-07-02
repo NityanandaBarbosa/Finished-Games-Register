@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/modules/list/widgets/lists.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/list/list_store.dart';
@@ -19,15 +20,8 @@ class ListPageState extends ModularState<ListPage, ListStore>{
 
   @override
   void initState() {
-    var response = store.getCRUDsData();
-    store.setFutureLoadList(response);
+    store.refreshList();
     super.initState();
-  }
-
-  Future _onItemTapped(int index) async {
-    setState(() {
-      store.setIndex(index);
-    });
   }
 
   @override
@@ -51,7 +45,7 @@ class ListPageState extends ModularState<ListPage, ListStore>{
                         key: _refresh,
                         color: Colors.blue,
                         onRefresh: store.refreshList,
-                        child: store.listsWhenFailed(
+                        child: listsWhenFailed(
                             fullMediaWidth, fullMediaHeight),
                       );
                     }else{
@@ -61,13 +55,13 @@ class ListPageState extends ModularState<ListPage, ListStore>{
                         onRefresh: store.refreshList,
                         child: Observer(
                           builder: (_){
-                            return store.showLists(fullMediaWidth, fullMediaHeight);
+                            return showLists(fullMediaWidth, fullMediaHeight, store);
                           },
                         ),
                       );
                     }
                   }else{
-                    return store.crudListsWaiting(
+                    return crudListsWaiting(
                         fullMediaWidth, fullMediaHeight);
                   }
                 },
@@ -82,30 +76,36 @@ class ListPageState extends ModularState<ListPage, ListStore>{
     return Scaffold(
       appBar: gradientComp.appBarGradient(context, "Finished Games"),
       body: gradientComp.backgroundGradient(context, listComponents(context)),
-      bottomNavigationBar: gradientComp.containerGradient(
-        context,
-        BottomNavigationBar(
-          showUnselectedLabels: false,
-          backgroundColor: Colors.transparent,
-          //ype: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              label: 'Publisher',
+      bottomNavigationBar: Observer(
+        builder: (_){
+          return gradientComp.containerGradient(
+            context,
+            BottomNavigationBar(
+              showUnselectedLabels: false,
+              backgroundColor: Colors.transparent,
+              //ype: BottomNavigationBarType.fixed,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.business),
+                  label: 'Publisher',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.videogame_asset),
+                  label: 'Games',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.app_registration),
+                  label: 'Register',
+                ),
+              ],
+              currentIndex: store.selectedIndex,
+              selectedItemColor: Colors.white,
+              onTap: (index){
+                store.setIndex(index);
+              },
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.videogame_asset),
-              label: 'Games',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.app_registration),
-              label: 'Register',
-            ),
-          ],
-          currentIndex: store.selectedIndex,
-          selectedItemColor: Colors.white,
-          onTap: _onItemTapped,
-        ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFF13213b),
