@@ -20,7 +20,7 @@ class PublisherApi implements IPublisherApi {
        var publishersJson = responseDec.data;
        if(publishersJson != null){
          publishersJson.forEach((key, value) {
-           PublisherModel newPub = new PublisherModel(idPub: key,closedDate: value["closedDate"], foundingDate: value["foundingDate"],name: value["name"]);
+           PublisherModel newPub = new PublisherModel(idPub: key,closedDate: value["closedDate"] != "null" ? DateTime.parse(value["closedDate"]) : null , foundingDate: DateTime.parse(value["foundingDate"]),name: value["name"]);
            list.add(newPub);
          });
        }

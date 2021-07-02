@@ -42,12 +42,12 @@ abstract class _PublisherStoreBase with Store {
   setClosedDate(DateTime value) => closedDate = value;
 
   void setPubValues(){
-    DateTime dtFounding = DateTime.parse(pub.foundingDate);
-    if(pub.closedDate != 'null') {
-      DateTime dtClosed = DateTime.parse(pub.closedDate);
-      closedDate = dtClosed;
+    //DateTime dtFounding = pub.foundingDate;
+    if(pub.closedDate != null) {
+      //DateTime dtClosed = DateTime.parse(pub.closedDate);
+      closedDate = pub.closedDate;
     }
-    foundingDate = dtFounding;
+    foundingDate = pub.foundingDate;
     publisherName = pub.name;
   }
 

@@ -1,4 +1,3 @@
-import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/list/list_store.dart';
 import 'package:finished_games_register/app/styles/gradient_containers.dart'
@@ -19,7 +18,7 @@ class ListPageState extends ModularState<ListPage, ListStore>{
 
   @override
   void initState() {
-    var response = store.getCRUDs();
+    var response = store.getCRUDsData();
     store.setFutureLoadList(response);
     super.initState();
   }
@@ -32,7 +31,7 @@ class ListPageState extends ModularState<ListPage, ListStore>{
 
   Future refreshList() async {
     setState(() {
-      var response = store.getCRUDs();
+      var response = store.getCRUDsData();
       store.setFutureLoadList(response);
     });
   }
@@ -57,7 +56,7 @@ class ListPageState extends ModularState<ListPage, ListStore>{
                       key: _refresh,
                       color: Colors.blue,
                       onRefresh: refreshList,
-                      child: store.crudListsFailed(
+                      child: store.listsWhenFailed(
                           fullMediaWidth, fullMediaHeight),
                     );
                   }else{
@@ -65,7 +64,7 @@ class ListPageState extends ModularState<ListPage, ListStore>{
                       key: _refresh,
                       color: Colors.blue,
                       onRefresh: refreshList,
-                      child: store.crudLists(fullMediaWidth, fullMediaHeight),
+                      child: store.showLists(fullMediaWidth, fullMediaHeight),
                     );
                   }
                 }else{
