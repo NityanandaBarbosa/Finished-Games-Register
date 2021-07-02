@@ -73,19 +73,15 @@ abstract class _ListStoreBase with Store {
   }
 
   Future getCRUDs() async {
-    try {
-      responsePubs = await _publisherApi.getPublisher(auth.myId);
-      responseGames = await _gameApi.getGame(auth.myId);
-      responseRegister = await _registerApi.getRegister(auth.myId);
-      return true;
-    } catch (e) {
-      print("FALHOU  ${e}");
-      responsePubs = null;
-      responseGames = null;
-      responseRegister = null;
+    responsePubs = await _publisherApi.getPublisher(auth.myId);
+    responseGames = await _gameApi.getGame(auth.myId);
+    responseRegister = await _registerApi.getRegister(auth.myId);
+    if(responsePubs == null || responseGames == null || responseRegister == null) {
       return false;
     }
+    return true;
   }
+
 
   Widget cardPublisher(publisher) {
     DateTime dtFounding = DateTime.parse(publisher.foundingDate);
@@ -423,7 +419,7 @@ abstract class _ListStoreBase with Store {
 
   Widget crudLists(sizewidth, sizeHeight) {
     if (selectedIndex == 0) {
-      return responsePubs != null
+      return responsePubs.length > 0
           ? Container(
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,
@@ -443,7 +439,7 @@ abstract class _ListStoreBase with Store {
               ),
             );
     } else if (selectedIndex == 1) {
-      return responseGames != null
+      return responseGames.length > 0
           ? Container(
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,
@@ -463,7 +459,7 @@ abstract class _ListStoreBase with Store {
               ),
             );
     } else {
-      return responseRegister != null
+      return responseRegister.length > 0
           ? Container(
               width: sizewidth / 1.1,
               height: sizeHeight / 1.3,

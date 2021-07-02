@@ -12,12 +12,10 @@ class ListPage extends StatefulWidget {
   ListPageState createState() => ListPageState();
 }
 
-class ListPageState extends ModularState<ListPage, ListStore> {
+class ListPageState extends ModularState<ListPage, ListStore>{
   final ListStore store = Modular.get<ListStore>();
 
   final _refresh = GlobalKey<FormState>();
-
-  //Future _futureLoadLists;
 
   @override
   void initState() {
