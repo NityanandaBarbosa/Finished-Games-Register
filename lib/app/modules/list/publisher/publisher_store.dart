@@ -12,6 +12,7 @@ class PublisherStore = _PublisherStoreBase with _$PublisherStore;
 
 abstract class _PublisherStoreBase with Store {
   final AuthStore _auth = Modular.get();
+  final ListStore listStore = Modular.get();
   final IPublisherApi _publisherApi = Modular.get();
 
   @observable
@@ -60,6 +61,7 @@ abstract class _PublisherStoreBase with Store {
       ShowAlertDialog(context, 'Could not connect to server!');
       return null;
     } else if(returnResponse != "none") {
+      await listStore.refreshList();
       return true;
     }
   }

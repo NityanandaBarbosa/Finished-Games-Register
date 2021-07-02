@@ -64,14 +64,14 @@ abstract class _ListStoreBase with Store {
 
   Future openCrud() async {
     if (selectedIndex == 0) {
-      Modular.to.pushReplacementNamed('/lists/publisher');
+      Modular.to.pushNamed('/lists/publisher');
     } else if (selectedIndex == 1) {
-      Modular.to.pushReplacementNamed('/lists/game');
+      Modular.to.pushNamed('/lists/game');
     } else {
-      Modular.to.pushReplacementNamed('/lists/register');
+      Modular.to.pushNamed('/lists/register');
     }
   }
-
+  @action
   Future getCRUDsData() async {
     responsePubs = await _publisherApi.getPublisher(auth.myId);
     responseGames = await _gameApi.getGame(auth.myId);
@@ -80,6 +80,11 @@ abstract class _ListStoreBase with Store {
       return false;
     }
     return true;
+  }
+
+  Future refreshList() async{
+    var response = getCRUDsData();
+    setFutureLoadList(response);
   }
 
   Widget showLists(sizeWidth, sizeHeight) {
@@ -161,7 +166,7 @@ abstract class _ListStoreBase with Store {
     );
   }
 
-  Widget crudListsWaiting(sizewidth, sizeHeight) {
+  Widget crudListsWaiting(sizeWidth, sizeHeight) {
     return Center(
         child: CircularProgressIndicator(),
     );

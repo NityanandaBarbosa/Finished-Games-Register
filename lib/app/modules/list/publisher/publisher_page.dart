@@ -204,9 +204,9 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
     }
 
     return WillPopScope(
-        onWillPop: () async {
-          Modular.to.pushReplacementNamed('/lists');
-        },
+        // onWillPop: () async {
+        //   Modular.to.pushReplacementNamed('/lists');
+        // },
         child: Scaffold(
           appBar: publisher == null
               ? gradientComp.appBarGradient(context, "Publisher Page")
@@ -220,8 +220,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
               if (_formKey.currentState.validate()) {}
               var responseSave = await store.savePublisher(context);
               if (responseSave == true) {
-                store.response == null ? CircularProgressIndicator() : null;
-                Modular.to.pushReplacementNamed('/lists');
+                  Modular.to.pop();
               }
             },
             child: Icon(Icons.save_rounded),

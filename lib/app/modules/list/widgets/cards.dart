@@ -11,7 +11,7 @@ import 'package:flutter_modular/flutter_modular.dart';
       child: InkWell(
         onTap: () {
           Modular.to
-              .pushReplacementNamed('/lists/publisher', arguments: publisher);
+              .pushNamed('/lists/publisher', arguments: publisher);
         },
         child: Card(
           elevation: 3,
@@ -110,7 +110,7 @@ import 'package:flutter_modular/flutter_modular.dart';
         child: InkWell(
           onTap: () {
             Modular.to
-                .pushReplacementNamed('/lists/game', arguments: [game, pub]);
+                .pushNamed('/lists/game', arguments: [game, pub]);
           },
           child: Card(
             elevation: 3,
@@ -224,7 +224,7 @@ import 'package:flutter_modular/flutter_modular.dart';
         child: InkWell(
           onTap: () {
             Modular.to
-                .pushReplacementNamed('/lists/register', arguments: [register, game]);
+                .pushNamed('/lists/register', arguments: [register, game]);
           },
           child: Card(
             elevation: 3,

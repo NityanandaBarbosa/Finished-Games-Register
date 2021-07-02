@@ -114,6 +114,13 @@ mixin _$ListStore on _ListStoreBase, Store {
     });
   }
 
+  final _$getCRUDsDataAsyncAction = AsyncAction('_ListStoreBase.getCRUDsData');
+
+  @override
+  Future<dynamic> getCRUDsData() {
+    return _$getCRUDsDataAsyncAction.run(() => super.getCRUDsData());
+  }
+
   final _$_ListStoreBaseActionController =
       ActionController(name: '_ListStoreBase');
 

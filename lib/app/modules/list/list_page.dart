@@ -1,3 +1,4 @@
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/list/list_store.dart';
 import 'package:finished_games_register/app/styles/gradient_containers.dart'
@@ -29,13 +30,6 @@ class ListPageState extends ModularState<ListPage, ListStore>{
     });
   }
 
-  Future refreshList() async {
-    setState(() {
-      var response = store.getCRUDsData();
-      store.setFutureLoadList(response);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final fullMediaWidth = MediaQuery.of(context).size.width;
@@ -47,32 +41,39 @@ class ListPageState extends ModularState<ListPage, ListStore>{
         child: Wrap(
           alignment: WrapAlignment.center,
           children: [
-            FutureBuilder(
-              future: store.futureLoadLists,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.data == false) {
-                    return new RefreshIndicator(
-                      key: _refresh,
-                      color: Colors.blue,
-                      onRefresh: refreshList,
-                      child: store.listsWhenFailed(
-                          fullMediaWidth, fullMediaHeight),
-                    );
+            Observer(builder: (_){
+              return FutureBuilder(
+                future: store.futureLoadLists,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.data == false) {
+                      return new RefreshIndicator(
+                        key: _refresh,
+                        color: Colors.blue,
+                        onRefresh: store.refreshList,
+                        child: store.listsWhenFailed(
+                            fullMediaWidth, fullMediaHeight),
+                      );
+                    }else{
+                      return new RefreshIndicator(
+                        key: _refresh,
+                        color: Colors.blue,
+                        onRefresh: store.refreshList,
+                        child: Observer(
+                          builder: (_){
+                            return store.showLists(fullMediaWidth, fullMediaHeight);
+                          },
+                        ),
+                      );
+                    }
                   }else{
-                    return new RefreshIndicator(
-                      key: _refresh,
-                      color: Colors.blue,
-                      onRefresh: refreshList,
-                      child: store.showLists(fullMediaWidth, fullMediaHeight),
-                    );
+                    return store.crudListsWaiting(
+                        fullMediaWidth, fullMediaHeight);
                   }
-                }else{
-                  return store.crudListsWaiting(
-                      fullMediaWidth, fullMediaHeight);
-                }
-              },
-            )
+                },
+              );
+            }),
+
           ],
         ),
       );
