@@ -17,14 +17,17 @@ class GameApi implements IGameApi {
     var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/game.json';
     try{
       responseDec = await dio.get(url);
-      var publishersJson = responseDec.data;
-      publishersJson.forEach((key, value) {
-        GameModel newGame = new GameModel(idGame: key, idPub:value["idPublisher"],releaseDate: value["releaseDate"], name: value["name"]);
-        list.add(newGame);
-      });
+      var gamesJson = responseDec.data;
+      if(gamesJson != null){
+        gamesJson.forEach((key, value) {
+          GameModel newGame = new GameModel(idGame: key, idPub:value["idPublisher"],releaseDate: value["releaseDate"], name: value["name"]);
+          list.add(newGame);
+        });
+      }
       print("Number of Games : ${list.length}");
       return list;
     }catch(e){
+      print("Fail Games");
       return null;
     }
   }

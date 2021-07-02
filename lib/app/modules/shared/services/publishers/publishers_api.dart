@@ -18,13 +18,16 @@ class PublisherApi implements IPublisherApi {
     try{
        responseDec = await dio.get(url);
        var publishersJson = responseDec.data;
-       publishersJson.forEach((key, value) {
-         PublisherModel newPub = new PublisherModel(idPub: key,closedDate: value["closedDate"], foundingDate: value["foundingDate"],name: value["name"]);
-         list.add(newPub);
-       });
+       if(publishersJson != null){
+         publishersJson.forEach((key, value) {
+           PublisherModel newPub = new PublisherModel(idPub: key,closedDate: value["closedDate"] != "null" ? DateTime.parse(value["closedDate"]) : null , foundingDate: DateTime.parse(value["foundingDate"]),name: value["name"]);
+           list.add(newPub);
+         });
+       }
        print("Number of Publishers : ${list.length}");
        return list;
     }catch(e){
+      print("Fail Publisher");
       return null;
     }
   }

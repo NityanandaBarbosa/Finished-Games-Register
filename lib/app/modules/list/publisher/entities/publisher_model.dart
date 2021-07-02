@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 class PublisherModel {
-  var idPub;
-  var closedDate;
-  var foundingDate;
-  var name;
+  String idPub;
+  DateTime closedDate;
+  DateTime foundingDate;
+  String name;
 
   PublisherModel({
     this.idPub,

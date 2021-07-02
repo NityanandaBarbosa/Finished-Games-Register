@@ -25,14 +25,17 @@ class RegisterApi implements IRegisterApi {
     //return responseDec.data;
     try{
       responseDec = await dio.get(url);
-      var publishersJson = responseDec.data;
-      publishersJson.forEach((key, value) {
-        RegisterModel newRegister = new RegisterModel(idRegister: key, idGame: value["idGame"], initDate: value["initDate"], endDate: value["endDate"], name: value["name"]);
-        list.add(newRegister);
-      });
+      var registerJson = responseDec.data;
+      if(registerJson != null){
+        registerJson.forEach((key, value) {
+          RegisterModel newRegister = new RegisterModel(idRegister: key, idGame: value["idGame"], initDate: value["initDate"], endDate: value["endDate"], name: value["name"]);
+          list.add(newRegister);
+        });
+      }
       print("Number of Register : ${list.length}");
       return list;
     }catch(e){
+      print("Fail Register");
       return null;
     }
   }

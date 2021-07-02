@@ -87,13 +87,13 @@ mixin _$ListStore on _ListStoreBase, Store {
   final _$responseRegisterAtom = Atom(name: '_ListStoreBase.responseRegister');
 
   @override
-  dynamic get responseRegister {
+  List<RegisterModel> get responseRegister {
     _$responseRegisterAtom.reportRead();
     return super.responseRegister;
   }
 
   @override
-  set responseRegister(dynamic value) {
+  set responseRegister(List<RegisterModel> value) {
     _$responseRegisterAtom.reportWrite(value, super.responseRegister, () {
       super.responseRegister = value;
     });
