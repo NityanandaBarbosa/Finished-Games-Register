@@ -73,8 +73,10 @@ class ListPageState extends ModularState<ListPage, ListStore>{
       );
     }
 
-    return Scaffold(
-      appBar: gradientComp.appBarGradient(context, "Finished Games"),
+    return WillPopScope(
+        onWillPop: () async => false,
+      child: Scaffold(
+      appBar: gradientComp.appBarGradient(context, "Finished Games", true),
       body: gradientComp.backgroundGradient(context, listComponents(context)),
       bottomNavigationBar: Observer(
         builder: (_){
@@ -114,6 +116,7 @@ class ListPageState extends ModularState<ListPage, ListStore>{
         },
         child: Icon(Icons.my_library_add),
       ),
+    )
     );
   }
 }

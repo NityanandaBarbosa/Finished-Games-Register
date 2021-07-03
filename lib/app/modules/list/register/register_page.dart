@@ -345,11 +345,7 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
       );
     }
 
-    return WillPopScope(
-        onWillPop: () async {
-          Modular.to.pushReplacementNamed('/lists');
-        },
-        child: Scaffold(
+    return Scaffold(
           appBar: store.register == null ? gradientComp.appBarGradient(context, "Register Page") : gradientComp.appBarDelete(context, store.registerName, store.delete),
           body: gradientComp.backgroundGradient(context, registerPage(context)),
           floatingActionButton: FloatingActionButton(
@@ -364,6 +360,6 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
             },
             child: Icon(Icons.save_rounded),
           ),
-        ));
+        );
   }
 }

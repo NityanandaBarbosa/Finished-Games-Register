@@ -203,11 +203,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
       );
     }
 
-    return WillPopScope(
-        // onWillPop: () async {
-        //   Modular.to.pushReplacementNamed('/lists');
-        // },
-        child: Scaffold(
+    return Scaffold(
           appBar: publisher == null
               ? gradientComp.appBarGradient(context, "Publisher Page")
               : gradientComp.appBarDelete(
@@ -225,6 +221,6 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
             },
             child: Icon(Icons.save_rounded),
           ),
-        ));
+        );
   }
 }

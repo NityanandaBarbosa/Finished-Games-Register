@@ -252,11 +252,7 @@ class GamePageState extends ModularState<GamePage, GameStore> {
       );
     }
 
-    return WillPopScope(
-        onWillPop: () async {
-          Modular.to.pushReplacementNamed('/lists');
-        },
-        child: Scaffold(
+    return Scaffold(
           appBar: argsGame == null
               ? gradientComp.appBarGradient(context, "Game Page")
               : gradientComp.appBarDelete(
@@ -274,6 +270,6 @@ class GamePageState extends ModularState<GamePage, GameStore> {
             },
             child: Icon(Icons.save_rounded),
           ),
-        ));
+        );
   }
 }
