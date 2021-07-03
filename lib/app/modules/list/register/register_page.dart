@@ -166,8 +166,8 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
                                 store.gameChoice = value;
                               });
                             },
-                            items: listStore.responseGames != null
-                                ? listStore.responseGames
+                            items: listStore.listOfGames != null
+                                ? listStore.listOfGames
                                     .map((GameModel game) {
                                     return new DropdownMenuItem<GameModel>(
                                       child: new Text(

@@ -3,14 +3,14 @@ import 'cards.dart';
 
 Widget showLists(sizeWidth, sizeHeight, listStore) {
   if (listStore.selectedIndex == 0) {
-    return listStore.responsePubs.length > 0
+    return listStore.listOfPubs.length > 0
         ? Container(
           width: sizeWidth / 1.1,
           height: sizeHeight / 1.3,
           child: ListView.builder(
-              itemCount: listStore.responsePubs.length,
+              itemCount: listStore.listOfPubs.length,
               itemBuilder: (context, index) {
-                return cardPublisher(listStore.responsePubs[index]);
+                return cardPublisher(listStore.listOfPubs[index]);
               }),
         )
         : Container(
@@ -23,14 +23,14 @@ Widget showLists(sizeWidth, sizeHeight, listStore) {
           ),
         );
   } else if (listStore.selectedIndex == 1) {
-    return listStore.responseGames.length > 0
+    return listStore.listOfGames.length > 0
         ? Container(
           width: sizeWidth / 1.1,
           height: sizeHeight / 1.3,
           child: ListView.builder(
-              itemCount: listStore.responseGames.length,
+              itemCount: listStore.listOfGames.length,
               itemBuilder: (context, index) {
-                return cardGame(listStore.responseGames[index], listStore.responsePubs);
+                return cardGame(listStore.listOfGames[index], listStore.listOfPubs);
               }),
         )
         : Container(
@@ -43,14 +43,14 @@ Widget showLists(sizeWidth, sizeHeight, listStore) {
           ),
         );
   } else {
-    return listStore.responseRegister.length > 0
+    return listStore.listOfRegisters.length > 0
         ? Container(
           width: sizeWidth / 1.1,
           height: sizeHeight / 1.3,
           child: ListView.builder(
-              itemCount: listStore.responseRegister.length,
+              itemCount: listStore.listOfRegisters.length,
               itemBuilder: (context, index) {
-                return cardRegister(listStore.responseRegister[index], listStore.responseGames);
+                return cardRegister(listStore.listOfRegisters[index], listStore.listOfGames);
               }),
         )
         : Container(

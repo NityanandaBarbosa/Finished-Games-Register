@@ -28,14 +28,14 @@ class RegisterApi implements IRegisterApi {
       var registerJson = responseDec.data;
       if(registerJson != null){
         registerJson.forEach((key, value) {
-          RegisterModel newRegister = new RegisterModel(idRegister: key, idGame: value["idGame"], initDate: DateTime.parse(value["initDate"]), endDate: value["endDate"] != null ? DateTime.parse(value["endDate"]): null, name: value["name"]);
+          RegisterModel newRegister = new RegisterModel(idRegister: key, idGame: value["idGame"], initDate: DateTime.parse(value["initDate"]), endDate: value["endDate"] != "null" ? DateTime.parse(value["endDate"]) : null, name: value["name"]);
           list.add(newRegister);
         });
       }
       print("Number of Register : ${list.length}");
       return list;
     }catch(e){
-      print("Fail Register");
+      print("Fail Register ${e}");
       return null;
     }
   }

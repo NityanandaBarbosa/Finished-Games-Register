@@ -3,13 +3,10 @@ import 'dart:async';
 import 'package:finished_games_register/app/modules/list/game/entities/game_model.dart';
 import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/list/register/entities/register_model.dart';
-import 'package:finished_games_register/app/modules/list/widgets/cards.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/games/games_api_interface.dart';
 import 'package:finished_games_register/app/modules/shared/services/publishers/publishers_api_interface.dart';
 import 'package:finished_games_register/app/modules/shared/services/registers/registers_api_interface.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
@@ -33,13 +30,13 @@ abstract class _ListStoreBase with Store {
   int selectedIndex = 0;
 
   @observable
-  List<PublisherModel> responsePubs;
+  List<PublisherModel> listOfPubs;
 
   @observable
-  List<GameModel> responseGames;
+  List<GameModel> listOfGames;
 
   @observable
-  List<RegisterModel> responseRegister;
+  List<RegisterModel> listOfRegisters;
 
   @observable
   Future futureLoadLists;
@@ -73,10 +70,13 @@ abstract class _ListStoreBase with Store {
   }
   @action
   Future getCRUDsData() async {
-    responsePubs = await _publisherApi.getPublisher(auth.myId);
-    responseGames = await _gameApi.getGame(auth.myId);
-    responseRegister = await _registerApi.getRegister(auth.myId);
-    if(responsePubs == null || responseGames == null || responseRegister == null) {
+    listOfPubs = await _publisherApi.getPublisher(auth.myId);
+    listOfGames = await _gameApi.getGame(auth.myId);
+    listOfRegisters = await _registerApi.getRegister(auth.myId);
+    if(listOfPubs == null || listOfGames == null || listOfRegisters == null) {
+      listOfPubs = null;
+      listOfGames = null;
+      listOfRegisters  = null;
       return false;
     }
     return true;

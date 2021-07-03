@@ -54,48 +54,48 @@ mixin _$ListStore on _ListStoreBase, Store {
     });
   }
 
-  final _$responsePubsAtom = Atom(name: '_ListStoreBase.responsePubs');
+  final _$listOfPubsAtom = Atom(name: '_ListStoreBase.listOfPubs');
 
   @override
-  List<PublisherModel> get responsePubs {
-    _$responsePubsAtom.reportRead();
-    return super.responsePubs;
+  List<PublisherModel> get listOfPubs {
+    _$listOfPubsAtom.reportRead();
+    return super.listOfPubs;
   }
 
   @override
-  set responsePubs(List<PublisherModel> value) {
-    _$responsePubsAtom.reportWrite(value, super.responsePubs, () {
-      super.responsePubs = value;
+  set listOfPubs(List<PublisherModel> value) {
+    _$listOfPubsAtom.reportWrite(value, super.listOfPubs, () {
+      super.listOfPubs = value;
     });
   }
 
-  final _$responseGamesAtom = Atom(name: '_ListStoreBase.responseGames');
+  final _$listOfGamesAtom = Atom(name: '_ListStoreBase.listOfGames');
 
   @override
-  List<GameModel> get responseGames {
-    _$responseGamesAtom.reportRead();
-    return super.responseGames;
+  List<GameModel> get listOfGames {
+    _$listOfGamesAtom.reportRead();
+    return super.listOfGames;
   }
 
   @override
-  set responseGames(List<GameModel> value) {
-    _$responseGamesAtom.reportWrite(value, super.responseGames, () {
-      super.responseGames = value;
+  set listOfGames(List<GameModel> value) {
+    _$listOfGamesAtom.reportWrite(value, super.listOfGames, () {
+      super.listOfGames = value;
     });
   }
 
-  final _$responseRegisterAtom = Atom(name: '_ListStoreBase.responseRegister');
+  final _$listOfRegistersAtom = Atom(name: '_ListStoreBase.listOfRegisters');
 
   @override
-  List<RegisterModel> get responseRegister {
-    _$responseRegisterAtom.reportRead();
-    return super.responseRegister;
+  List<RegisterModel> get listOfRegisters {
+    _$listOfRegistersAtom.reportRead();
+    return super.listOfRegisters;
   }
 
   @override
-  set responseRegister(List<RegisterModel> value) {
-    _$responseRegisterAtom.reportWrite(value, super.responseRegister, () {
-      super.responseRegister = value;
+  set listOfRegisters(List<RegisterModel> value) {
+    _$listOfRegistersAtom.reportWrite(value, super.listOfRegisters, () {
+      super.listOfRegisters = value;
     });
   }
 
@@ -174,9 +174,9 @@ mixin _$ListStore on _ListStoreBase, Store {
 userId: ${userId},
 userEmail: ${userEmail},
 selectedIndex: ${selectedIndex},
-responsePubs: ${responsePubs},
-responseGames: ${responseGames},
-responseRegister: ${responseRegister},
+listOfPubs: ${listOfPubs},
+listOfGames: ${listOfGames},
+listOfRegisters: ${listOfRegisters},
 futureLoadLists: ${futureLoadLists}
     ''';
   }

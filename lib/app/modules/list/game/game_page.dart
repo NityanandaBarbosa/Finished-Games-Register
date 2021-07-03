@@ -153,8 +153,8 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                         onChanged: (value) {
                             store.setPubChoice(value);
                         },
-                        items: listStore.responsePubs != null
-                            ? listStore.responsePubs.map((PublisherModel pub) {
+                        items: listStore.listOfPubs != null
+                            ? listStore.listOfPubs.map((PublisherModel pub) {
                           return new DropdownMenuItem<PublisherModel>(
                             child: new Text(
                               pub.name,
