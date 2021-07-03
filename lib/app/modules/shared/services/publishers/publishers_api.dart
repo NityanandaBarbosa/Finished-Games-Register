@@ -38,9 +38,9 @@ class PublisherApi implements IPublisherApi {
     var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/publisher.json';
     try{
       response = await dio.post(url, data:{'name': name, 'foundingDate': foundingDate, 'closedDate': closedDate});
-      return response.data;
+      return response;
     }catch(e){
-      return null;
+      return "no connection";
     }
   }
 
@@ -49,10 +49,10 @@ class PublisherApi implements IPublisherApi {
     var response;
     var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/publisher/${idPublisher}/.json';
     try{
-      response = await dio.patch(url, data:{'closedDate': closedDate,'foundingDate': foundingDate, 'name': name});
-      return response.data;
+      response = await dio.put(url, data:{'closedDate': closedDate,'foundingDate': foundingDate, 'name': name});
+      return response;
     }catch(e){
-      return null;
+      return "no connection";
     }
   }
 

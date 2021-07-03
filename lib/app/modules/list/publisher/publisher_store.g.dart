@@ -132,6 +132,17 @@ mixin _$PublisherStore on _PublisherStoreBase, Store {
   }
 
   @override
+  dynamic setPubValues() {
+    final _$actionInfo = _$_PublisherStoreBaseActionController.startAction(
+        name: '_PublisherStoreBase.setPubValues');
+    try {
+      return super.setPubValues();
+    } finally {
+      _$_PublisherStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 foundingDate: ${foundingDate},

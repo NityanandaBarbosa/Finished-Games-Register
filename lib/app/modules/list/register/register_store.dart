@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/modules/list/list_store.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/registers/registers_api.dart';
 import 'package:finished_games_register/app/modules/shared/services/registers/registers_api_interface.dart';
@@ -14,6 +15,7 @@ class RegisterStore = _RegisterStoreBase with _$RegisterStore;
 abstract class _RegisterStoreBase with Store {
   final AuthStore _auth = Modular.get();
   final IRegisterApi _registerApi = Modular.get();
+  final ListStore listStore = Modular.get();
 
   @observable
   DateTime initDate;
@@ -52,18 +54,15 @@ abstract class _RegisterStoreBase with Store {
   setGameChoice(var value) => gameChoice = value;
 
   void setRegisterValues() {
-    DateTime dtInit = DateTime.parse(register.initDate);
     if(register.endDate != 'null') {
-      DateTime dtEnd = DateTime.parse(register.endDate);
-      setEndDate(dtEnd);
+      setEndDate(register.endDate);
     }
-    setInitDate(dtInit);
-    registerName = register.name;
-    //gameName = game.name;
+    setInitDate(register.initDate);
+    setName(register.name);
   }
 
   Future saveRegister(context) async {
-    var returnResponse = await verifyFields(context);
+    var returnResponse = await saveRequest(context);
     if (returnResponse == false) {
       ShowAlertDialog(context, 'Fill the required fields!');
       return false;
@@ -71,12 +70,25 @@ abstract class _RegisterStoreBase with Store {
       ShowAlertDialog(context, 'Could not connect to server!');
       return null;
     } else if(returnResponse.statusCode == 200){
+      listStore.refreshList();
       return true;
     }
   }
-  bool checkDates(context){
+
+  bool verifyFields(){
+    if (registerName == null ||
+        registerName == "" ||
+        initDate == null ||
+        gameChoice == null) {
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  bool verifyDates(context){
     if(endDate == null){
-      if(initDate.compareTo(DateTime.parse(gameChoice.releaseDate)) < 0) {
+      if(initDate.compareTo(gameChoice.releaseDate) < 0) {
         ShowAlertDialog(context, "Init date is bigger then game release date!");
         return false;
       }
@@ -85,8 +97,7 @@ abstract class _RegisterStoreBase with Store {
         ShowAlertDialog(context, "End date is bigger then init date!");
         return false;
       }else{
-        if(initDate.compareTo(DateTime.parse(gameChoice.releaseDate)) < 0) {
-          print("Init VAZIO");
+        if(initDate.compareTo(gameChoice.releaseDate) < 0) {
           ShowAlertDialog(context, "Init date is bigger then game release date!");
           return false;
         }
@@ -95,14 +106,11 @@ abstract class _RegisterStoreBase with Store {
     return true;
   }
 
-  Future verifyFields(context) async {
-    if (registerName == null ||
-        registerName == "" ||
-        initDate == null ||
-        gameChoice == null) {
+  Future saveRequest(context) async {
+    if (verifyFields() == false) {
       return false;
-    } else {
-      if (checkDates(context) == true){
+    }else{
+      if(verifyDates(context) == true){
         if (register == null) {
           response = await _registerApi.postRegister(_auth.myId, gameChoice.idGame, registerName, initDate.toString(), endDate.toString());
         } else {
@@ -117,6 +125,7 @@ abstract class _RegisterStoreBase with Store {
     try {
       var response =
           await _registerApi.deleteRegister(_auth.myId, register.idRegister);
+      listStore.refreshList();
       return response;
     } catch (e) {
       return null;

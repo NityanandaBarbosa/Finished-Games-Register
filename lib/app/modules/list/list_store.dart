@@ -3,13 +3,10 @@ import 'dart:async';
 import 'package:finished_games_register/app/modules/list/game/entities/game_model.dart';
 import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/list/register/entities/register_model.dart';
-import 'package:finished_games_register/app/modules/list/widgets/cards.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/games/games_api_interface.dart';
 import 'package:finished_games_register/app/modules/shared/services/publishers/publishers_api_interface.dart';
 import 'package:finished_games_register/app/modules/shared/services/registers/registers_api_interface.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
@@ -33,13 +30,13 @@ abstract class _ListStoreBase with Store {
   int selectedIndex = 0;
 
   @observable
-  List<PublisherModel> responsePubs;
+  List<PublisherModel> listOfPubs;
 
   @observable
-  List<GameModel> responseGames;
+  List<GameModel> listOfGames;
 
   @observable
-  List<RegisterModel> responseRegister;
+  List<RegisterModel> listOfRegisters;
 
   @observable
   Future futureLoadLists;
@@ -64,107 +61,29 @@ abstract class _ListStoreBase with Store {
 
   Future openCrud() async {
     if (selectedIndex == 0) {
-      Modular.to.pushReplacementNamed('/lists/publisher');
+      Modular.to.pushNamed('/lists/publisher');
     } else if (selectedIndex == 1) {
-      Modular.to.pushReplacementNamed('/lists/game');
+      Modular.to.pushNamed('/lists/game');
     } else {
-      Modular.to.pushReplacementNamed('/lists/register');
+      Modular.to.pushNamed('/lists/register');
     }
   }
-
+  @action
   Future getCRUDsData() async {
-    responsePubs = await _publisherApi.getPublisher(auth.myId);
-    responseGames = await _gameApi.getGame(auth.myId);
-    responseRegister = await _registerApi.getRegister(auth.myId);
-    if(responsePubs == null || responseGames == null || responseRegister == null) {
+    listOfPubs = await _publisherApi.getPublisher(auth.myId);
+    listOfGames = await _gameApi.getGame(auth.myId);
+    listOfRegisters = await _registerApi.getRegister(auth.myId);
+    if(listOfPubs == null || listOfGames == null || listOfRegisters == null) {
+      listOfPubs = null;
+      listOfGames = null;
+      listOfRegisters  = null;
       return false;
     }
     return true;
   }
 
-  Widget showLists(sizeWidth, sizeHeight) {
-    if (selectedIndex == 0) {
-      return responsePubs.length > 0
-          ? Container(
-              width: sizeWidth / 1.1,
-              height: sizeHeight / 1.3,
-              child: ListView.builder(
-                  itemCount: responsePubs.length,
-                  itemBuilder: (context, index) {
-                    return cardPublisher(responsePubs[index]);
-                  }),
-            )
-          : Container(
-              width: sizeWidth / 1.1,
-              height: sizeHeight / 1.3,
-              child: ListView(
-                children: [
-                  Text("Empty List"),
-                ],
-              ),
-            );
-    } else if (selectedIndex == 1) {
-      return responseGames.length > 0
-          ? Container(
-              width: sizeWidth / 1.1,
-              height: sizeHeight / 1.3,
-              child: ListView.builder(
-                  itemCount: responseGames.length,
-                  itemBuilder: (context, index) {
-                    return cardGame(responseGames[index], responsePubs);
-                  }),
-            )
-          : Container(
-              width: sizeWidth / 1.1,
-              height: sizeHeight / 1.3,
-              child: ListView(
-                children: [
-                  Text("Empty List"),
-                ],
-              ),
-            );
-    } else {
-      return responseRegister.length > 0
-          ? Container(
-              width: sizeWidth / 1.1,
-              height: sizeHeight / 1.3,
-              child: ListView.builder(
-                  itemCount: responseRegister.length,
-                  itemBuilder: (context, index) {
-                    return cardRegister(responseRegister[index], responseGames);
-                  }),
-            )
-          : Container(
-              width: sizeWidth / 1.1,
-              height: sizeHeight / 1.3,
-              child: ListView(
-                children: [
-                  Text("Empty List"),
-                ],
-              ),
-            );
-    }
-  }
-
-  Widget listsWhenFailed(sizeWidth, sizeHeight) {
-    return Container(
-      alignment: Alignment.center,
-      width: sizeWidth / 1.1,
-      height: sizeHeight / 1.3,
-      child: ListView(
-        children: [
-          Center(
-            child: Text("Error"),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget crudListsWaiting(sizewidth, sizeHeight) {
-    return Center(
-        child: CircularProgressIndicator(),
-    );
-
+  Future refreshList() async{
+    var response = getCRUDsData();
+    setFutureLoadList(response);
   }
 }

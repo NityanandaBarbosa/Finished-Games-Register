@@ -20,7 +20,7 @@ class GameApi implements IGameApi {
       var gamesJson = responseDec.data;
       if(gamesJson != null){
         gamesJson.forEach((key, value) {
-          GameModel newGame = new GameModel(idGame: key, idPub:value["idPublisher"],releaseDate: value["releaseDate"], name: value["name"]);
+          GameModel newGame = new GameModel(idGame: key, idPub:value["idPublisher"], releaseDate: DateTime.parse(value["releaseDate"]), name: value["name"]);
           list.add(newGame);
         });
       }
@@ -46,9 +46,9 @@ class GameApi implements IGameApi {
     var response;
     try{
       response = await dio.post(url, data:{'name': name, 'idPublisher': idPublisher, 'releaseDate': releaseDate});
-      return response.data;
+      return response;
     }catch(e){
-      return null;
+      return "no connection";
     }
   }
 
@@ -58,10 +58,10 @@ class GameApi implements IGameApi {
     var url = 'https://finishedgamesregister-default-rtdb.firebaseio.com/user/${id}/game/${idGame}/.json';
     var response;
     try{
-      response = await dio.patch(url, data:{'name': name, 'idPublisher': idPublisher, 'releaseDate': releaseDate});
-      return response.data;
+      response = await dio.put(url, data:{'name': name, 'idPublisher': idPublisher, 'releaseDate': releaseDate});
+      return response;
     }catch(e){
-      return null;
+      return "no connection";
     }
   }
 

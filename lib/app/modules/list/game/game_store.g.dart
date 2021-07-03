@@ -125,6 +125,17 @@ mixin _$GameStore on _GameStoreBase, Store {
   }
 
   @override
+  dynamic setIdPub(String value) {
+    final _$actionInfo = _$_GameStoreBaseActionController.startAction(
+        name: '_GameStoreBase.setIdPub');
+    try {
+      return super.setIdPub(value);
+    } finally {
+      _$_GameStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setReleaseDate(DateTime value) {
     final _$actionInfo = _$_GameStoreBaseActionController.startAction(
         name: '_GameStoreBase.setReleaseDate');
@@ -141,6 +152,17 @@ mixin _$GameStore on _GameStoreBase, Store {
         name: '_GameStoreBase.setPubChoice');
     try {
       return super.setPubChoice(value);
+    } finally {
+      _$_GameStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setGameValues() {
+    final _$actionInfo = _$_GameStoreBaseActionController.startAction(
+        name: '_GameStoreBase.setGameValues');
+    try {
+      return super.setGameValues();
     } finally {
       _$_GameStoreBaseActionController.endAction(_$actionInfo);
     }

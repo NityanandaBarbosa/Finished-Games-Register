@@ -1,4 +1,3 @@
-import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -19,9 +18,16 @@ Widget backgroundGradient(context, code) {
       child: buildScreen(context, code));
 }
 
-Widget appBarGradient(context, barTitle) {
+Widget appBarGradient(context, barTitle, [logout = false]) {
   return AppBar(
     backgroundColor: Color(0xFFF8F8F8),
+    leading: logout == true ? IconButton(
+      icon: Icon(Icons.exit_to_app),
+        onPressed: () => Navigator.of(context).pop(),
+    ) : IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () => Navigator.of(context).pop(),
+    ),
     iconTheme: new IconThemeData(color: Color(0xFF686868)),
     title: Text(barTitle, overflow: TextOverflow.ellipsis,),
     centerTitle: true,
@@ -48,8 +54,8 @@ Widget appBarDelete(context, barTitle,[deletefunc = null]) {
       IconButton(
         icon: Icon(Icons.delete_forever_outlined),
         onPressed:() async{
-          var response = await deletefunc();
-          Modular.to.pushReplacementNamed('/lists');
+          await deletefunc();
+          Modular.to.pop();
         },
       ),
     ],

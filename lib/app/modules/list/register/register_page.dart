@@ -1,4 +1,5 @@
 import 'package:finished_games_register/app/modules/list/game/entities/game_model.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/list/register/register_store.dart';
 import 'package:flutter/material.dart';
@@ -165,8 +166,8 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
                                 store.gameChoice = value;
                               });
                             },
-                            items: listStore.responseGames != null
-                                ? listStore.responseGames
+                            items: listStore.listOfGames != null
+                                ? listStore.listOfGames
                                     .map((GameModel game) {
                                     return new DropdownMenuItem<GameModel>(
                                       child: new Text(
@@ -207,7 +208,7 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
                           decoration: InputDecoration(
                             hintText: (store.gameChoice == null
                                 ? "-"
-                                : '${DateTime.parse(store.gameChoice.releaseDate).day}/${DateTime.parse(store.gameChoice.releaseDate).month}/${DateTime.parse(store.gameChoice.releaseDate).year}'),
+                                : '${store.gameChoice.releaseDate.day}/${store.gameChoice.releaseDate.month}/${store.gameChoice.releaseDate.year}'),
                             labelStyle:
                             TextStyle(fontSize: 13, color: Colors.black),
                             border: OutlineInputBorder(
@@ -345,25 +346,24 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
       );
     }
 
-    return WillPopScope(
-        onWillPop: () async {
-          Modular.to.pushReplacementNamed('/lists');
-        },
-        child: Scaffold(
-          appBar: store.register == null ? gradientComp.appBarGradient(context, "Register Page") : gradientComp.appBarDelete(context, store.registerName, store.delete),
-          body: gradientComp.backgroundGradient(context, registerPage(context)),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.blue,
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {}
-              var responseSave = await store.saveRegister(context);
-              if (responseSave == true) {
-                store.response == null ? CircularProgressIndicator() : null;
-                Modular.to.pushReplacementNamed('/lists');
-              }
-            },
-            child: Icon(Icons.save_rounded),
-          ),
-        ));
+    return Observer(builder: (_){
+      return Scaffold(
+        appBar: store.register == null ? gradientComp.appBarGradient(context, "Register Page") : gradientComp.appBarDelete(context, store.registerName, store.delete),
+        body: gradientComp.backgroundGradient(context, registerPage(context)),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.blue,
+          onPressed: () async {
+            if (_formKey.currentState.validate()) {}
+            var responseSave = await store.saveRegister(context);
+            if (responseSave == true) {
+              store.response == null ? CircularProgressIndicator() : null;
+              Modular.to.pop();
+            }
+          },
+          child: Icon(Icons.save_rounded),
+        ),
+      );
+    },);
+
   }
 }
