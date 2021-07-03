@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 class GameModel {
-  var idGame;
-  var idPub;
-  var releaseDate;
-  var name;
+  String idGame;
+  String idPub;
+  DateTime releaseDate;
+  String name;
 
   GameModel({
     this.idGame,

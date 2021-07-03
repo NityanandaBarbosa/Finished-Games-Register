@@ -21,10 +21,8 @@ class GamePageState extends ModularState<GamePage, GameStore> {
 
   final _formKey = GlobalKey<FormState>();
 
-  /*GameModel game = Modular.args.data[0];
-  var pubGame = Modular.args.data[1];*/
-
   var argsGame = Modular.args.data;
+
   @override
   void initState() {
     try {
@@ -265,7 +263,7 @@ class GamePageState extends ModularState<GamePage, GameStore> {
               var responseSave = await store.saveGame(context);
               if (responseSave == true) {
                 store.response == null ? CircularProgressIndicator() : null;
-                Modular.to.pushReplacementNamed('/lists');
+                Modular.to.pop();
               }
             },
             child: Icon(Icons.save_rounded),

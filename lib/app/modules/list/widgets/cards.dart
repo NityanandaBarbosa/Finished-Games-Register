@@ -95,7 +95,7 @@ import 'package:flutter_modular/flutter_modular.dart';
     PublisherModel pub;
 
     if (game != null) {
-      dtRelease = DateTime.parse(game.releaseDate);
+      dtRelease = game.releaseDate;
       for (index = 0; index < listOfPublishers.length; index++) {
         if (listOfPublishers[index].idPub == game.idPub) {
           pub = listOfPublishers[index];

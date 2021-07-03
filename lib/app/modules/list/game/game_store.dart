@@ -14,6 +14,7 @@ class GameStore = _GameStoreBase with _$GameStore;
 abstract class _GameStoreBase with Store {
   final AuthStore _auth = Modular.get();
   final IGameApi _gameApi = Modular.get();
+  final ListStore listStore = Modular.get();
 
   @observable
   DateTime releaseDate;
@@ -40,49 +41,69 @@ abstract class _GameStoreBase with Store {
   setName(String value) => gameName = value;
 
   @action
+  setIdPub(String value) => idPub = value;
+
+  @action
   setReleaseDate(DateTime value) => releaseDate = value;
 
   @action
   setPubChoice(var value) => pubChoice = value;
 
-  void setGameValues() {
-    DateTime dtRelease = DateTime.parse(game.releaseDate);
-    releaseDate = dtRelease;
-    idPub = game.idPub;
-    gameName = game.name;
+  @action
+  setGameValues() {
+    setReleaseDate(game.releaseDate);
+    setIdPub(game.idPub);
+    setName(game.name);
   }
 
   Future saveGame(context) async {
-    var returnResponse = await verifyFields(context);
+    var returnResponse = await saveRequest(context);
     if (returnResponse == false) {
       ShowAlertDialog(context, 'Fill the required fields!');
       return false;
-    } else if (returnResponse == null) {
+    } else if (returnResponse == 'no connection') {
       ShowAlertDialog(context, 'Could not connect to server!');
       return null;
-    } else if (returnResponse != "none") {
+    } else if (returnResponse.statusCode == 200) {
+      await listStore.refreshList();
       return true;
     }
   }
 
-  Future verifyFields(context) async {
-    bool closedControl = true;
-
+  bool verifyFields(){
     if (gameName == null ||
         gameName == "" ||
         releaseDate == null ||
         pubChoice == null) {
       return false;
     } else {
+      return true;
+    }
+  }
+
+  bool verifyDates(context){
+    bool closedControl = true;
       try{
-        releaseDate.compareTo(DateTime.parse(pubChoice.closedDate)) < 0
+        releaseDate.compareTo(pubChoice.closedDate) < 0
             ? closedControl = true
             : closedControl = false;
       }catch(e){
         closedControl = true;
       }
-      if ((releaseDate.compareTo(DateTime.parse(pubChoice.foundingDate)) > 0) &&
-          (closedControl == true)) {
+    if ((releaseDate.compareTo(pubChoice.foundingDate) > 0) &&
+        (closedControl == true)) {
+      return true;
+    }else {
+      ShowAlertDialog(context, "Release Date is invalid!");
+      return false;
+    }
+  }
+
+  Future saveRequest(context) async {
+    if(verifyFields() == false){
+      return false;
+    }else{
+      if(verifyDates(context) == true) {
         if (game == null) {
           response = await _gameApi.postGame(
               _auth.myId, pubChoice.idPub, gameName, releaseDate.toString());
@@ -90,17 +111,15 @@ abstract class _GameStoreBase with Store {
           response = await _gameApi.putGame(_auth.myId, pubChoice.idPub,
               game.idGame, gameName, releaseDate.toString());
         }
-      } else {
-        ShowAlertDialog(context, "Release Date is invalid!");
-        return "none";
+        return response;
       }
-      return response;
     }
   }
 
   Future delete() async {
     try {
       var response = await _gameApi.deleteGame(_auth.myId, game.idGame);
+      await listStore.refreshList();
       return response;
     } catch (e) {
       return null;
