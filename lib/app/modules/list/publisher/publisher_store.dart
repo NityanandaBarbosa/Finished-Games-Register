@@ -42,35 +42,53 @@ abstract class _PublisherStoreBase with Store {
   @action
   setClosedDate(DateTime value) => closedDate = value;
 
-  void setPubValues(){
-    //DateTime dtFounding = pub.foundingDate;
+  @action
+  setPubValues(){
     if(pub.closedDate != null) {
-      //DateTime dtClosed = DateTime.parse(pub.closedDate);
-      closedDate = pub.closedDate;
+      setClosedDate(pub.closedDate);
     }
-    foundingDate = pub.foundingDate;
-    publisherName = pub.name;
+    setFoundingDate(pub.foundingDate);
+    setName(pub.name);
+
   }
 
   Future savePublisher(context) async {
-    var returnResponse = await verifyFields(context);
+    var returnResponse = await saveRequest(context);
+
     if (returnResponse == false) {
       ShowAlertDialog(context, 'Fill the required fields!');
       return false;
-    } else if (returnResponse == null) {
+    } else if (returnResponse == 'no connection') {
       ShowAlertDialog(context, 'Could not connect to server!');
       return null;
-    } else if(returnResponse != "none") {
+    } else if(returnResponse.statusCode == 200) {
       await listStore.refreshList();
       return true;
     }
   }
 
-  Future verifyFields(context) async {
+  bool verifyDates(context){
+    if( closedDate != null ? closedDate.compareTo(foundingDate)>0 : true ){
+      return true;
+    }else{
+      ShowAlertDialog(context, "Closed Date are bigger then Founding Date!");
+      return false;
+    }
+  }
+
+  bool verifyField(){
     if (publisherName == null || publisherName == "" || foundingDate == null) {
       return false;
-    } else {
-      if( closedDate != null ? closedDate.compareTo(foundingDate)>0 : true ){
+    }else{
+      return true;
+    }
+  }
+
+  Future saveRequest(context) async {
+    if (verifyField() == false) {
+      return false;
+    }else{
+      if(verifyDates(context) == true){
         if(pub == null){
           response = await _publisherApi.postPublisher(_auth.myId, publisherName,
               foundingDate.toString(), closedDate.toString());
@@ -78,17 +96,15 @@ abstract class _PublisherStoreBase with Store {
           response = await _publisherApi.putPublisher(_auth.myId, pub.idPub, publisherName,
               foundingDate.toString(), closedDate.toString());
         }
-      }else{
-        ShowAlertDialog(context, "Closed Date are bigger then Founding Date!");
-        return "none";
+        return response;
       }
-      return response;
     }
   }
 
   Future delete() async{
     try{
       var response = await _publisherApi.deletePublisher(_auth.myId, pub.idPub);
+      listStore.refreshList();
       return response;
     }catch(e){
       return null;

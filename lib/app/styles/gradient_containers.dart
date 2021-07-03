@@ -54,8 +54,8 @@ Widget appBarDelete(context, barTitle,[deletefunc = null]) {
       IconButton(
         icon: Icon(Icons.delete_forever_outlined),
         onPressed:() async{
-          var response = await deletefunc();
-          Modular.to.pushReplacementNamed('/lists');
+          await deletefunc();
+          Modular.to.pop();
         },
       ),
     ],
