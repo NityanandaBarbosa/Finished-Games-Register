@@ -1,6 +1,7 @@
 import 'package:finished_games_register/app/modules/list/list_page.dart';
 import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/styles/system_pop_ups.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/list/publisher/publisher_store.dart';
 import 'package:flutter/material.dart';
@@ -86,9 +87,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                     ),
                   ),
                   onChanged: (value) {
-                    setState(() {
                       store.setName(value);
-                    });
                   },
                 ),
               ),
@@ -134,9 +133,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                             lastDate: DateTime(2100))
                         .then((date) {
                       if (date != null && date != store.foundingDate) {
-                        setState(() {
                           store.setFoundingDate(date);
-                        });
                       }
                     });
                   },
@@ -179,9 +176,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                             lastDate: DateTime(2100))
                         .then((date) {
                       if (date != null && date != store.closedDate) {
-                        setState(() {
                           store.setClosedDate(date);
-                        });
                       }
                     });
                   },
@@ -203,24 +198,27 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
       );
     }
 
-    return Scaffold(
-          appBar: publisher == null
-              ? gradientComp.appBarGradient(context, "Publisher Page")
-              : gradientComp.appBarDelete(
-                  context, store.publisherName, store.delete),
-          body:
-              gradientComp.backgroundGradient(context, publisherPage(context)),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.blue,
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {}
-              var responseSave = await store.savePublisher(context);
-              if (responseSave == true) {
-                  Modular.to.pop();
-              }
-            },
-            child: Icon(Icons.save_rounded),
-          ),
-        );
+    return Observer(builder: (_){
+      return Scaffold(
+        appBar: publisher == null
+            ? gradientComp.appBarGradient(context, "Publisher Page")
+            : gradientComp.appBarDelete(
+            context, store.publisherName, store.delete),
+        body:
+        gradientComp.backgroundGradient(context, publisherPage(context)),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.blue,
+          onPressed: () async {
+            if (_formKey.currentState.validate()) {}
+            var responseSave = await store.savePublisher(context);
+            if (responseSave == true) {
+              Modular.to.pop();
+            }
+          },
+          child: Icon(Icons.save_rounded),
+        ),
+      );
+    },);
+
   }
 }

@@ -4,6 +4,7 @@ import 'package:finished_games_register/app/modules/list/publisher/entities/publ
 import 'package:flutter/material.dart';
 import 'package:finished_games_register/app/styles/gradient_containers.dart'
     as gradientComp;
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../list_store.dart';
@@ -87,9 +88,7 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                     ),
                   ),
                   onChanged: (value) {
-                    setState(() {
-                      store.setName(value);
-                    });
+                    store.setName(value);
                   },
                 ),
               ),
@@ -134,16 +133,14 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                           //hintText: "Publisher Name",
                           //labelText: "Name",
                           labelStyle:
-                              TextStyle(fontSize: 13, color: Colors.black54),
+                          TextStyle(fontSize: 13, color: Colors.black54),
                           border: OutlineInputBorder(
                               borderSide:
-                                  new BorderSide(color: Colors.black54)),
+                              new BorderSide(color: Colors.black54)),
                           suffixIcon: IconButton(
                             icon: Icon(Icons.refresh),
                             onPressed: () {
-                              setState(() {
-                                store.pubChoice = null;
-                              });
+                                store.setPubChoice(null);
                             },
                           ),
                         ),
@@ -154,20 +151,18 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                           return null;
                         },
                         onChanged: (value) {
-                          setState(() {
-                            store.pubChoice = value;
-                          });
+                            store.setPubChoice(value);
                         },
                         items: listStore.responsePubs != null
                             ? listStore.responsePubs.map((PublisherModel pub) {
-                                return new DropdownMenuItem<PublisherModel>(
-                                  child: new Text(
-                                    pub.name,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  value: pub,
-                                );
-                              }).toList()
+                          return new DropdownMenuItem<PublisherModel>(
+                            child: new Text(
+                              pub.name,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            value: pub,
+                          );
+                        }).toList()
                             : null,
                       ),
                     ),
@@ -215,17 +210,15 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                       readOnly: true,
                       onTap: () {
                         showDatePicker(
-                                context: context,
-                                initialDate: store.releaseDate == null
-                                    ? DateTime.now()
-                                    : store.releaseDate,
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime(2100))
+                            context: context,
+                            initialDate: store.releaseDate == null
+                                ? DateTime.now()
+                                : store.releaseDate,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100))
                             .then((date) {
                           if (date != null && date != store.releaseDate) {
-                            setState(() {
                               store.setReleaseDate(date);
-                            });
                           }
                         });
                       },
@@ -234,11 +227,11 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                             ? "-"
                             : '${store.releaseDate.day}/${store.releaseDate.month}/${store.releaseDate.year}'),
                         labelStyle:
-                            TextStyle(fontSize: 13, color: Colors.black),
+                        TextStyle(fontSize: 13, color: Colors.black),
                         border: OutlineInputBorder(
                             borderSide: new BorderSide(color: Colors.black54)),
                         suffixIcon:
-                            IconButton(icon: Icon(Icons.date_range_outlined)),
+                        IconButton(icon: Icon(Icons.date_range_outlined)),
                       ),
                     ),
                   ),
@@ -250,24 +243,26 @@ class GamePageState extends ModularState<GamePage, GameStore> {
       );
     }
 
-    return Scaffold(
-          appBar: argsGame == null
-              ? gradientComp.appBarGradient(context, "Game Page")
-              : gradientComp.appBarDelete(
-                  context, store.gameName, store.delete),
-          body: gradientComp.backgroundGradient(context, gamePage(context)),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.blue,
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {}
-              var responseSave = await store.saveGame(context);
-              if (responseSave == true) {
-                store.response == null ? CircularProgressIndicator() : null;
-                Modular.to.pop();
-              }
-            },
-            child: Icon(Icons.save_rounded),
-          ),
-        );
+    return Observer(builder: (_) {
+      return Scaffold(
+        appBar: argsGame == null
+            ? gradientComp.appBarGradient(context, "Game Page")
+            : gradientComp.appBarDelete(
+            context, store.gameName, store.delete),
+        body: gradientComp.backgroundGradient(context, gamePage(context)),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.blue,
+          onPressed: () async {
+            if (_formKey.currentState.validate()) {}
+            var responseSave = await store.saveGame(context);
+            if (responseSave == true) {
+              Modular.to.pop();
+            }
+          },
+          child: Icon(Icons.save_rounded),
+        ),
+      );
+    },
+    );
   }
 }

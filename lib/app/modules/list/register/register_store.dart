@@ -52,14 +52,11 @@ abstract class _RegisterStoreBase with Store {
   setGameChoice(var value) => gameChoice = value;
 
   void setRegisterValues() {
-    DateTime dtInit = DateTime.parse(register.initDate);
     if(register.endDate != 'null') {
-      DateTime dtEnd = DateTime.parse(register.endDate);
-      setEndDate(dtEnd);
+      setEndDate(register.endDate);
     }
-    setInitDate(dtInit);
-    registerName = register.name;
-    //gameName = game.name;
+    setInitDate(register.initDate);
+    setName(register.name);
   }
 
   Future saveRegister(context) async {
@@ -76,7 +73,7 @@ abstract class _RegisterStoreBase with Store {
   }
   bool checkDates(context){
     if(endDate == null){
-      if(initDate.compareTo(DateTime.parse(gameChoice.releaseDate)) < 0) {
+      if(initDate.compareTo(gameChoice.releaseDate) < 0) {
         ShowAlertDialog(context, "Init date is bigger then game release date!");
         return false;
       }
@@ -85,7 +82,7 @@ abstract class _RegisterStoreBase with Store {
         ShowAlertDialog(context, "End date is bigger then init date!");
         return false;
       }else{
-        if(initDate.compareTo(DateTime.parse(gameChoice.releaseDate)) < 0) {
+        if(initDate.compareTo(gameChoice.releaseDate) < 0) {
           print("Init VAZIO");
           ShowAlertDialog(context, "Init date is bigger then game release date!");
           return false;
