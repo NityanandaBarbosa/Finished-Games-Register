@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/games/games_api_interface.dart';
 import 'package:finished_games_register/app/styles/system_pop_ups.dart';
@@ -20,7 +21,7 @@ abstract class _GameStoreBase with Store {
   DateTime releaseDate;
 
   @observable
-  var pubChoice;
+  PublisherModel pubChoice;
 
   @observable
   String gameName;
@@ -84,13 +85,13 @@ abstract class _GameStoreBase with Store {
   bool verifyDates(context){
     bool closedControl = true;
       try{
-        releaseDate.compareTo(pubChoice.closedDate) < 0
+        (releaseDate.compareTo(pubChoice.closedDate) < 0 || releaseDate == pubChoice.closedDate)
             ? closedControl = true
             : closedControl = false;
       }catch(e){
         closedControl = true;
       }
-    if ((releaseDate.compareTo(pubChoice.foundingDate) > 0) &&
+    if ((releaseDate.compareTo(pubChoice.foundingDate) > 0 || releaseDate  == pubChoice.foundingDate) &&
         (closedControl == true)) {
       return true;
     }else {

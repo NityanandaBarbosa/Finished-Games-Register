@@ -68,7 +68,7 @@ abstract class _PublisherStoreBase with Store {
   }
 
   bool verifyDates(context){
-    if( closedDate != null ? closedDate.compareTo(foundingDate)>0 : true ){
+    if( closedDate != null ? (closedDate.compareTo(foundingDate)>0 || foundingDate == closedDate) : true ){
       return true;
     }else{
       ShowAlertDialog(context, "Closed Date are bigger then Founding Date!");

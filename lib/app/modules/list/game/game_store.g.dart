@@ -27,13 +27,13 @@ mixin _$GameStore on _GameStoreBase, Store {
   final _$pubChoiceAtom = Atom(name: '_GameStoreBase.pubChoice');
 
   @override
-  dynamic get pubChoice {
+  PublisherModel get pubChoice {
     _$pubChoiceAtom.reportRead();
     return super.pubChoice;
   }
 
   @override
-  set pubChoice(dynamic value) {
+  set pubChoice(PublisherModel value) {
     _$pubChoiceAtom.reportWrite(value, super.pubChoice, () {
       super.pubChoice = value;
     });
