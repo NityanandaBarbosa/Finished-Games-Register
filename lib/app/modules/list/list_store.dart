@@ -68,6 +68,7 @@ abstract class _ListStoreBase with Store {
       Modular.to.pushNamed('/lists/register');
     }
   }
+  
   @action
   Future getCRUDsData() async {
     listOfPubs = await _publisherApi.getPublisher(auth.myId);

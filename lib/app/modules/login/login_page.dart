@@ -1,5 +1,4 @@
-import 'package:finished_games_register/app/styles/gradient_containers.dart'
-    as gradientComp;
+import 'package:finished_games_register/app/styles/gradient_containers.dart';
 import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -192,8 +191,7 @@ class LoginPageState extends ModularState<LoginPage, LoginStore> {
       child: Scaffold(
         //0xFFF1b1c37
         backgroundColor: Color(0xFFF1b1c37),
-        body:
-            gradientComp.backgroundGradient(context, loginComponents(context)),
+        body: backgroundGradient(context, loginComponents(context)),
       ),
     );
   }
