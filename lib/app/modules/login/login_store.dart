@@ -11,8 +11,15 @@ abstract class _LoginStoreBase with Store {
 
   @observable
   String emailField;
+
   @observable
   String passwordField;
+
+  @observable
+  bool obscurePassword = true;
+
+  @action
+  setObscurePassword(bool value) => obscurePassword = value;
 
   @action
   setEmail(String value) => emailField = value;
@@ -20,7 +27,6 @@ abstract class _LoginStoreBase with Store {
   @action
   setPassword(String value) => passwordField = value;
 
-  @action
   Future singUp() async {
     try {
       await auth.singupByEmailPassword(emailField, passwordField);
@@ -29,7 +35,6 @@ abstract class _LoginStoreBase with Store {
     }
   }
 
-  @action
   Future singIn() async {
     try {
       await auth.singinByEmailPassword(emailField, passwordField);
@@ -38,29 +43,15 @@ abstract class _LoginStoreBase with Store {
     }
   }
 
-  @action
-  Future getErrorSingUp() async {
+  getError() async {
     var messageError;
     if (emailField == null || passwordField == null) {
       messageError = "Email or Password Empty!";
-    } else if ((!emailField.contains("@") || !emailField.contains(".")) &&
-        passwordField != null) {
+    } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailField)) {
       messageError = "Email out of pattern!";
-    } else {
-      messageError = "Email already used!";
-    }
-    return messageError;
-  }
-
-  @action
-  Future getErrorSingIn() async {
-    var messageError;
-    if (emailField == null || passwordField == null) {
-      messageError = "Email or Password Empty!";
-    } else if ((!emailField.contains("@") || !emailField.contains(".")) &&
-        passwordField != null) {
-      messageError = "Email out of pattern!";
-    } else {
+    } else if(auth.user == null) {
+      messageError = "Could not connect!";
+    }else {
       messageError = "Email or Password incorrect!";
     }
     return messageError;

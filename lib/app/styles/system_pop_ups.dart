@@ -22,3 +22,16 @@ Widget ShowAlertDialog(context, message) {
     },
   );
 }
+
+Widget ShowLoadDialog(context) {
+  AlertDialog alert = AlertDialog(
+    //title: Text("Error"),
+    content: Row(children: [CircularProgressIndicator(), Padding(padding: EdgeInsets.fromLTRB(10, 10, 10, 0), child: Text("Checking connection"),)]),
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

@@ -30,7 +30,7 @@ abstract class _ListStoreBase with Store {
   int selectedIndex = 0;
 
   @observable
-  List<PublisherModel> listOfPubs;
+  List<PublisherModel> listOfPublishers;
 
   @observable
   List<GameModel> listOfGames;
@@ -40,6 +40,15 @@ abstract class _ListStoreBase with Store {
 
   @observable
   Future futureLoadLists;
+
+  @action
+  setListOfRegisters(List<RegisterModel> value) => listOfRegisters = value;
+
+  @action
+  setListOfGames(List<GameModel> value) => listOfGames = value;
+
+  @action
+  setListOfPublishers(List<PublisherModel> value) => listOfPublishers = value;
 
   @action
   setFutureLoadList(Future value) => futureLoadLists = value;
@@ -68,15 +77,16 @@ abstract class _ListStoreBase with Store {
       Modular.to.pushNamed('/lists/register');
     }
   }
+
   @action
   Future getCRUDsData() async {
-    listOfPubs = await _publisherApi.getPublisher(auth.myId);
-    listOfGames = await _gameApi.getGame(auth.myId);
-    listOfRegisters = await _registerApi.getRegister(auth.myId);
-    if(listOfPubs == null || listOfGames == null || listOfRegisters == null) {
-      listOfPubs = null;
-      listOfGames = null;
-      listOfRegisters  = null;
+    setListOfPublishers(await _publisherApi.getPublisher(auth.myId));
+    setListOfGames(await _gameApi.getGame(auth.myId));
+    setListOfRegisters(await _registerApi.getRegister(auth.myId));
+    if(listOfPublishers == null || listOfGames == null || listOfRegisters == null) {
+      setListOfPublishers(null);
+      setListOfGames(null);
+      setListOfRegisters(null);
       return false;
     }
     return true;

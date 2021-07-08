@@ -69,18 +69,19 @@ mixin _$PublisherStore on _PublisherStoreBase, Store {
     });
   }
 
-  final _$pubAtom = Atom(name: '_PublisherStoreBase.pub');
+  final _$publisherToEditAtom =
+      Atom(name: '_PublisherStoreBase.publisherToEdit');
 
   @override
-  PublisherModel get pub {
-    _$pubAtom.reportRead();
-    return super.pub;
+  PublisherModel get publisherToEdit {
+    _$publisherToEditAtom.reportRead();
+    return super.publisherToEdit;
   }
 
   @override
-  set pub(PublisherModel value) {
-    _$pubAtom.reportWrite(value, super.pub, () {
-      super.pub = value;
+  set publisherToEdit(PublisherModel value) {
+    _$publisherToEditAtom.reportWrite(value, super.publisherToEdit, () {
+      super.publisherToEdit = value;
     });
   }
 
@@ -88,11 +89,11 @@ mixin _$PublisherStore on _PublisherStoreBase, Store {
       ActionController(name: '_PublisherStoreBase');
 
   @override
-  dynamic setPub(PublisherModel value) {
+  dynamic setPublisherToEdit(PublisherModel value) {
     final _$actionInfo = _$_PublisherStoreBaseActionController.startAction(
-        name: '_PublisherStoreBase.setPub');
+        name: '_PublisherStoreBase.setPublisherToEdit');
     try {
-      return super.setPub(value);
+      return super.setPublisherToEdit(value);
     } finally {
       _$_PublisherStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -149,7 +150,7 @@ foundingDate: ${foundingDate},
 closedDate: ${closedDate},
 publisherName: ${publisherName},
 response: ${response},
-pub: ${pub}
+publisherToEdit: ${publisherToEdit}
     ''';
   }
 }

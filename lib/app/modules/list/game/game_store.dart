@@ -1,3 +1,4 @@
+import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
 import 'package:finished_games_register/app/modules/shared/auth/auth_store.dart';
 import 'package:finished_games_register/app/modules/shared/services/games/games_api_interface.dart';
 import 'package:finished_games_register/app/styles/system_pop_ups.dart';
@@ -20,7 +21,7 @@ abstract class _GameStoreBase with Store {
   DateTime releaseDate;
 
   @observable
-  var pubChoice;
+  PublisherModel pubChoice;
 
   @observable
   String gameName;
@@ -29,13 +30,10 @@ abstract class _GameStoreBase with Store {
   String idPub;
 
   @observable
-  var response;
-
-  @observable
-  GameModel game;
+  GameModel gameToEdit;
 
   @action
-  setGame(GameModel value) => game = value;
+  setGameToEdit(GameModel value) => gameToEdit = value;
 
   @action
   setName(String value) => gameName = value;
@@ -51,9 +49,9 @@ abstract class _GameStoreBase with Store {
 
   @action
   setGameValues() {
-    setReleaseDate(game.releaseDate);
-    setIdPub(game.idPub);
-    setName(game.name);
+    setReleaseDate(gameToEdit.releaseDate);
+    setIdPub(gameToEdit.idPub);
+    setName(gameToEdit.name);
   }
 
   Future saveGame(context) async {
@@ -84,13 +82,13 @@ abstract class _GameStoreBase with Store {
   bool verifyDates(context){
     bool closedControl = true;
       try{
-        releaseDate.compareTo(pubChoice.closedDate) < 0
+        (releaseDate.compareTo(pubChoice.closedDate) < 0 || releaseDate == pubChoice.closedDate)
             ? closedControl = true
             : closedControl = false;
       }catch(e){
         closedControl = true;
       }
-    if ((releaseDate.compareTo(pubChoice.foundingDate) > 0) &&
+    if ((releaseDate.compareTo(pubChoice.foundingDate) > 0 || releaseDate  == pubChoice.foundingDate) &&
         (closedControl == true)) {
       return true;
     }else {
@@ -100,25 +98,26 @@ abstract class _GameStoreBase with Store {
   }
 
   Future saveRequest(context) async {
+    var requestResponse;
     if(verifyFields() == false){
       return false;
     }else{
       if(verifyDates(context) == true) {
-        if (game == null) {
-          response = await _gameApi.postGame(
+        if (gameToEdit == null) {
+          requestResponse = await _gameApi.postGame(
               _auth.myId, pubChoice.idPub, gameName, releaseDate.toString());
         } else {
-          response = await _gameApi.putGame(_auth.myId, pubChoice.idPub,
-              game.idGame, gameName, releaseDate.toString());
+          requestResponse = await _gameApi.putGame(_auth.myId, pubChoice.idPub,
+              gameToEdit.idGame, gameName, releaseDate.toString());
         }
-        return response;
+        return requestResponse;
       }
     }
   }
 
   Future delete() async {
     try {
-      var response = await _gameApi.deleteGame(_auth.myId, game.idGame);
+      var response = await _gameApi.deleteGame(_auth.myId, gameToEdit.idGame);
       await listStore.refreshList();
       return response;
     } catch (e) {

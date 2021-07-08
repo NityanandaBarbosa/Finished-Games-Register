@@ -54,18 +54,18 @@ mixin _$ListStore on _ListStoreBase, Store {
     });
   }
 
-  final _$listOfPubsAtom = Atom(name: '_ListStoreBase.listOfPubs');
+  final _$listOfPublishersAtom = Atom(name: '_ListStoreBase.listOfPublishers');
 
   @override
-  List<PublisherModel> get listOfPubs {
-    _$listOfPubsAtom.reportRead();
-    return super.listOfPubs;
+  List<PublisherModel> get listOfPublishers {
+    _$listOfPublishersAtom.reportRead();
+    return super.listOfPublishers;
   }
 
   @override
-  set listOfPubs(List<PublisherModel> value) {
-    _$listOfPubsAtom.reportWrite(value, super.listOfPubs, () {
-      super.listOfPubs = value;
+  set listOfPublishers(List<PublisherModel> value) {
+    _$listOfPublishersAtom.reportWrite(value, super.listOfPublishers, () {
+      super.listOfPublishers = value;
     });
   }
 
@@ -125,6 +125,39 @@ mixin _$ListStore on _ListStoreBase, Store {
       ActionController(name: '_ListStoreBase');
 
   @override
+  dynamic setListOfRegisters(List<RegisterModel> value) {
+    final _$actionInfo = _$_ListStoreBaseActionController.startAction(
+        name: '_ListStoreBase.setListOfRegisters');
+    try {
+      return super.setListOfRegisters(value);
+    } finally {
+      _$_ListStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setListOfGames(List<GameModel> value) {
+    final _$actionInfo = _$_ListStoreBaseActionController.startAction(
+        name: '_ListStoreBase.setListOfGames');
+    try {
+      return super.setListOfGames(value);
+    } finally {
+      _$_ListStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setListOfPublishers(List<PublisherModel> value) {
+    final _$actionInfo = _$_ListStoreBaseActionController.startAction(
+        name: '_ListStoreBase.setListOfPublishers');
+    try {
+      return super.setListOfPublishers(value);
+    } finally {
+      _$_ListStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setFutureLoadList(Future<dynamic> value) {
     final _$actionInfo = _$_ListStoreBaseActionController.startAction(
         name: '_ListStoreBase.setFutureLoadList');
@@ -174,7 +207,7 @@ mixin _$ListStore on _ListStoreBase, Store {
 userId: ${userId},
 userEmail: ${userEmail},
 selectedIndex: ${selectedIndex},
-listOfPubs: ${listOfPubs},
+listOfPublishers: ${listOfPublishers},
 listOfGames: ${listOfGames},
 listOfRegisters: ${listOfRegisters},
 futureLoadLists: ${futureLoadLists}

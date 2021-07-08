@@ -36,10 +36,10 @@ abstract class _RegisterStoreBase with Store {
   var response;
 
   @observable
-  RegisterModel register;
+  RegisterModel registerToEdit;
 
   @action
-  setRegister(RegisterModel value) => register = value;
+  setRegisterToEdit(RegisterModel value) => registerToEdit = value;
 
   @action
   setName(String value) => registerName = value;
@@ -54,11 +54,11 @@ abstract class _RegisterStoreBase with Store {
   setGameChoice(var value) => gameChoice = value;
 
   void setRegisterValues() {
-    if(register.endDate != 'null') {
-      setEndDate(register.endDate);
+    if(registerToEdit.endDate != 'null') {
+      setEndDate(registerToEdit.endDate);
     }
-    setInitDate(register.initDate);
-    setName(register.name);
+    setInitDate(registerToEdit.initDate);
+    setName(registerToEdit.name);
   }
 
   Future saveRegister(context) async {
@@ -111,10 +111,10 @@ abstract class _RegisterStoreBase with Store {
       return false;
     }else{
       if(verifyDates(context) == true){
-        if (register == null) {
+        if (registerToEdit == null) {
           response = await _registerApi.postRegister(_auth.myId, gameChoice.idGame, registerName, initDate.toString(), endDate.toString());
         } else {
-          response = await _registerApi.putRegister(_auth.myId, register.idRegister, gameChoice.idGame, registerName, initDate.toString(), endDate.toString());
+          response = await _registerApi.putRegister(_auth.myId, registerToEdit.idRegister, gameChoice.idGame, registerName, initDate.toString(), endDate.toString());
         }
         return response;
       }
@@ -124,7 +124,7 @@ abstract class _RegisterStoreBase with Store {
   Future delete() async {
     try {
       var response =
-          await _registerApi.deleteRegister(_auth.myId, register.idRegister);
+          await _registerApi.deleteRegister(_auth.myId, registerToEdit.idRegister);
       listStore.refreshList();
       return response;
     } catch (e) {

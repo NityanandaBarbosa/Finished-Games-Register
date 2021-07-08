@@ -39,38 +39,34 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     });
   }
 
-  final _$singUpAsyncAction = AsyncAction('_LoginStoreBase.singUp');
+  final _$obscurePasswordAtom = Atom(name: '_LoginStoreBase.obscurePassword');
 
   @override
-  Future<dynamic> singUp() {
-    return _$singUpAsyncAction.run(() => super.singUp());
+  bool get obscurePassword {
+    _$obscurePasswordAtom.reportRead();
+    return super.obscurePassword;
   }
 
-  final _$singInAsyncAction = AsyncAction('_LoginStoreBase.singIn');
-
   @override
-  Future<dynamic> singIn() {
-    return _$singInAsyncAction.run(() => super.singIn());
-  }
-
-  final _$getErrorSingUpAsyncAction =
-      AsyncAction('_LoginStoreBase.getErrorSingUp');
-
-  @override
-  Future<dynamic> getErrorSingUp() {
-    return _$getErrorSingUpAsyncAction.run(() => super.getErrorSingUp());
-  }
-
-  final _$getErrorSingInAsyncAction =
-      AsyncAction('_LoginStoreBase.getErrorSingIn');
-
-  @override
-  Future<dynamic> getErrorSingIn() {
-    return _$getErrorSingInAsyncAction.run(() => super.getErrorSingIn());
+  set obscurePassword(bool value) {
+    _$obscurePasswordAtom.reportWrite(value, super.obscurePassword, () {
+      super.obscurePassword = value;
+    });
   }
 
   final _$_LoginStoreBaseActionController =
       ActionController(name: '_LoginStoreBase');
+
+  @override
+  dynamic setObscurePassword(bool value) {
+    final _$actionInfo = _$_LoginStoreBaseActionController.startAction(
+        name: '_LoginStoreBase.setObscurePassword');
+    try {
+      return super.setObscurePassword(value);
+    } finally {
+      _$_LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic setEmail(String value) {
@@ -98,7 +94,8 @@ mixin _$LoginStore on _LoginStoreBase, Store {
   String toString() {
     return '''
 emailField: ${emailField},
-passwordField: ${passwordField}
+passwordField: ${passwordField},
+obscurePassword: ${obscurePassword}
     ''';
   }
 }

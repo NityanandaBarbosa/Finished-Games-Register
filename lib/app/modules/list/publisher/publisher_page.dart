@@ -1,12 +1,9 @@
-import 'package:finished_games_register/app/modules/list/list_page.dart';
 import 'package:finished_games_register/app/modules/list/publisher/entities/publisher_model.dart';
-import 'package:finished_games_register/app/styles/system_pop_ups.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/list/publisher/publisher_store.dart';
 import 'package:flutter/material.dart';
-import 'package:finished_games_register/app/styles/gradient_containers.dart'
-    as gradientComp;
+import 'package:finished_games_register/app/styles/gradient_containers.dart';
 
 class PublisherPage extends StatefulWidget {
   final String title;
@@ -25,7 +22,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
   @override
   void initState() {
     if (publisher != null) {
-      store.setPub(publisher);
+      store.setPublisherToEdit(publisher);
       store.setPubValues();
     }
     super.initState();
@@ -86,9 +83,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
                       icon: Icon(Icons.business_sharp),
                     ),
                   ),
-                  onChanged: (value) {
-                      store.setName(value);
-                  },
+                  onChanged: store.setName,
                 ),
               ),
               Padding(
@@ -200,14 +195,13 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
 
     return Observer(builder: (_){
       return Scaffold(
-        appBar: publisher == null
-            ? gradientComp.appBarGradient(context, "Publisher Page")
-            : gradientComp.appBarDelete(
+        appBar: store.publisherToEdit == null
+            ? appBarGradient(context, "Publisher Page")
+            : appBarDelete(
             context, store.publisherName, store.delete),
-        body:
-        gradientComp.backgroundGradient(context, publisherPage(context)),
+        body: backgroundGradient(context, publisherPage(context)),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xff273e6c),
           onPressed: () async {
             if (_formKey.currentState.validate()) {}
             var responseSave = await store.savePublisher(context);
@@ -215,7 +209,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
               Modular.to.pop();
             }
           },
-          child: Icon(Icons.save_rounded),
+          child: Icon(store.publisherToEdit == null ? Icons.save_rounded : Icons.edit),
         ),
       );
     },);

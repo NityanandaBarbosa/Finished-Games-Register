@@ -31,20 +31,18 @@ abstract class _AuthStoreBase with Store {
   }
 
   Future singupByEmailPassword(email, password) async {
-    user = (await _authRepository.singupByEmailPassword(email, password));
+    user = (await _authRepository.singupByEmailPassword(email, password).timeout(Duration(seconds: 10)));
     setUser(user);
     var id = await _usersApi.postUser(user);
     await setMyId(id);
-    Modular.to.pushNamed('/lists');
   }
 
   Future singinByEmailPassword(email, password) async {
-    user = (await _authRepository.singinByEmailPassword(email, password));
+    user = (await _authRepository.singinByEmailPassword(email, password).timeout(Duration(seconds: 10)));
     if (user != null) {
       setUser(user);
       var users = await _usersApi.getUsers();
       await getMyId(users);
-      Modular.to.pushNamed('/lists');
     }
   }
 

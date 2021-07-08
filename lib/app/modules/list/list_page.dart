@@ -2,8 +2,7 @@ import 'package:finished_games_register/app/modules/list/widgets/lists.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:finished_games_register/app/modules/list/list_store.dart';
-import 'package:finished_games_register/app/styles/gradient_containers.dart'
-    as gradientComp;
+import 'package:finished_games_register/app/styles/gradient_containers.dart';
 import 'package:flutter/material.dart';
 
 class ListPage extends StatefulWidget {
@@ -78,11 +77,11 @@ class ListPageState extends ModularState<ListPage, ListStore>{
           return WillPopScope(
               onWillPop: () async => false,
               child: Scaffold(
-                appBar: gradientComp.appBarGradient(
+                appBar: appBarGradient(
                     context, "Finished Games", true),
-                body: gradientComp.backgroundGradient(
+                body: backgroundGradient(
                     context, listComponents(context)),
-                bottomNavigationBar: gradientComp.containerGradient(
+                bottomNavigationBar: containerGradient(
                   context,
                   BottomNavigationBar(
                     showUnselectedLabels: false,
@@ -104,9 +103,7 @@ class ListPageState extends ModularState<ListPage, ListStore>{
                     ],
                     currentIndex: store.selectedIndex,
                     selectedItemColor: Colors.white,
-                    onTap: (index) {
-                      store.setIndex(index);
-                    },
+                    onTap: store.setIndex,
                   ),
                 ),
                 floatingActionButton: store.listOfGames != null
