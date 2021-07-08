@@ -28,10 +28,10 @@ abstract class _PublisherStoreBase with Store {
   var response;
 
   @observable
-  PublisherModel pub;
+  PublisherModel publisherToEdit;
 
   @action
-  setPub(PublisherModel value) => pub = value;
+  setPublisherToEdit(PublisherModel value) => publisherToEdit = value;
 
   @action
   setName(String value) => publisherName = value;
@@ -44,11 +44,11 @@ abstract class _PublisherStoreBase with Store {
 
   @action
   setPubValues(){
-    if(pub.closedDate != null) {
-      setClosedDate(pub.closedDate);
+    if(publisherToEdit.closedDate != null) {
+      setClosedDate(publisherToEdit.closedDate);
     }
-    setFoundingDate(pub.foundingDate);
-    setName(pub.name);
+    setFoundingDate(publisherToEdit.foundingDate);
+    setName(publisherToEdit.name);
 
   }
 
@@ -89,11 +89,11 @@ abstract class _PublisherStoreBase with Store {
       return false;
     }else{
       if(verifyDates(context) == true){
-        if(pub == null){
+        if(publisherToEdit == null){
           response = await _publisherApi.postPublisher(_auth.myId, publisherName,
               foundingDate.toString(), closedDate.toString());
         }else{
-          response = await _publisherApi.putPublisher(_auth.myId, pub.idPub, publisherName,
+          response = await _publisherApi.putPublisher(_auth.myId, publisherToEdit.idPub, publisherName,
               foundingDate.toString(), closedDate.toString());
         }
         return response;
@@ -103,7 +103,7 @@ abstract class _PublisherStoreBase with Store {
 
   Future delete() async{
     try{
-      var response = await _publisherApi.deletePublisher(_auth.myId, pub.idPub);
+      var response = await _publisherApi.deletePublisher(_auth.myId, publisherToEdit.idPub);
       listStore.refreshList();
       return response;
     }catch(e){

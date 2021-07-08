@@ -27,7 +27,7 @@ class GamePageState extends ModularState<GamePage, GameStore> {
   void initState() {
     try {
       if (argsGame != null) {
-        store.setGame(argsGame[0]);
+        store.setGameToEdit(argsGame[0]);
         store.setGameValues();
         store.setPubChoice(argsGame[1]);
       }
@@ -151,8 +151,8 @@ class GamePageState extends ModularState<GamePage, GameStore> {
                           onChanged: (value) {
                             store.setPubChoice(value);
                           },
-                          items: listStore.listOfPubs != null
-                              ? listStore.listOfPubs.map((PublisherModel pub) {
+                          items: listStore.listOfPublishers != null
+                              ? listStore.listOfPublishers.map((PublisherModel pub) {
                             return new DropdownMenuItem<PublisherModel>(
                               child: new Text(
                                 pub.name,
@@ -259,7 +259,7 @@ class GamePageState extends ModularState<GamePage, GameStore> {
               Modular.to.pop();
             }
           },
-          child: Icon(store.game == null ? Icons.save_rounded : Icons.edit),
+          child: Icon(store.gameToEdit == null ? Icons.save_rounded : Icons.edit),
         ),
       );
     },

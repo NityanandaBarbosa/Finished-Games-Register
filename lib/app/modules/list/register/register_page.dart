@@ -26,7 +26,7 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
   void initState() {
     try {
       if (argsRegister != null) {
-        store.setRegister(argsRegister[0]);
+        store.setRegisterToEdit(argsRegister[0]);
         store.setRegisterValues();
         store.setGameChoice(argsRegister[1]);
       }
@@ -331,7 +331,7 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
 
     return Observer(builder: (_){
       return Scaffold(
-        appBar: store.register == null ? appBarGradient(context, "Register Page") : appBarDelete(context, store.registerName, store.delete),
+        appBar: store.registerToEdit == null ? appBarGradient(context, "Register Page") : appBarDelete(context, store.registerName, store.delete),
         body: backgroundGradient(context, registerPage(context)),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Color(0xff273e6c),
@@ -343,7 +343,7 @@ class RegisterPageState extends ModularState<RegisterPage, RegisterStore> {
               Modular.to.pop();
             }
           },
-          child: Icon(store.register == null ? Icons.save_rounded : Icons.edit),
+          child: Icon(store.registerToEdit == null ? Icons.save_rounded : Icons.edit),
         ),
       );
     },);

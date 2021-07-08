@@ -3,14 +3,14 @@ import 'cards.dart';
 
 Widget showLists(sizeWidth, sizeHeight, listStore) {
   if (listStore.selectedIndex == 0) {
-    return listStore.listOfPubs.length > 0
+    return listStore.listOfPublishers.length > 0
         ? Container(
           width: sizeWidth / 1.1,
           height: sizeHeight / 1.3,
           child: ListView.builder(
-              itemCount: listStore.listOfPubs.length,
+              itemCount: listStore.listOfPublishers.length,
               itemBuilder: (context, index) {
-                return cardPublisher(listStore.listOfPubs[index]);
+                return cardPublisher(listStore.listOfPublishers[index]);
               }),
         )
         : Container(
@@ -30,7 +30,7 @@ Widget showLists(sizeWidth, sizeHeight, listStore) {
           child: ListView.builder(
               itemCount: listStore.listOfGames.length,
               itemBuilder: (context, index) {
-                return cardGame(listStore.listOfGames[index], listStore.listOfPubs);
+                return cardGame(listStore.listOfGames[index], listStore.listOfPublishers);
               }),
         )
         : Container(

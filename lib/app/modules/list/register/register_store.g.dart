@@ -99,18 +99,18 @@ mixin _$RegisterStore on _RegisterStoreBase, Store {
     });
   }
 
-  final _$registerAtom = Atom(name: '_RegisterStoreBase.register');
+  final _$registerToEditAtom = Atom(name: '_RegisterStoreBase.registerToEdit');
 
   @override
-  RegisterModel get register {
-    _$registerAtom.reportRead();
-    return super.register;
+  RegisterModel get registerToEdit {
+    _$registerToEditAtom.reportRead();
+    return super.registerToEdit;
   }
 
   @override
-  set register(RegisterModel value) {
-    _$registerAtom.reportWrite(value, super.register, () {
-      super.register = value;
+  set registerToEdit(RegisterModel value) {
+    _$registerToEditAtom.reportWrite(value, super.registerToEdit, () {
+      super.registerToEdit = value;
     });
   }
 
@@ -118,11 +118,11 @@ mixin _$RegisterStore on _RegisterStoreBase, Store {
       ActionController(name: '_RegisterStoreBase');
 
   @override
-  dynamic setRegister(RegisterModel value) {
+  dynamic setRegisterToEdit(RegisterModel value) {
     final _$actionInfo = _$_RegisterStoreBaseActionController.startAction(
-        name: '_RegisterStoreBase.setRegister');
+        name: '_RegisterStoreBase.setRegisterToEdit');
     try {
-      return super.setRegister(value);
+      return super.setRegisterToEdit(value);
     } finally {
       _$_RegisterStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -181,7 +181,7 @@ gameChoice: ${gameChoice},
 registerName: ${registerName},
 idPub: ${idPub},
 response: ${response},
-register: ${register}
+registerToEdit: ${registerToEdit}
     ''';
   }
 }

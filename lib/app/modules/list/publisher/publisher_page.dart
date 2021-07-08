@@ -22,7 +22,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
   @override
   void initState() {
     if (publisher != null) {
-      store.setPub(publisher);
+      store.setPublisherToEdit(publisher);
       store.setPubValues();
     }
     super.initState();
@@ -195,7 +195,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
 
     return Observer(builder: (_){
       return Scaffold(
-        appBar: store.pub == null
+        appBar: store.publisherToEdit == null
             ? appBarGradient(context, "Publisher Page")
             : appBarDelete(
             context, store.publisherName, store.delete),
@@ -209,7 +209,7 @@ class PublisherPageState extends ModularState<PublisherPage, PublisherStore> {
               Modular.to.pop();
             }
           },
-          child: Icon(store.pub == null ? Icons.save_rounded : Icons.edit),
+          child: Icon(store.publisherToEdit == null ? Icons.save_rounded : Icons.edit),
         ),
       );
     },);

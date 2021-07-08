@@ -69,33 +69,18 @@ mixin _$GameStore on _GameStoreBase, Store {
     });
   }
 
-  final _$responseAtom = Atom(name: '_GameStoreBase.response');
+  final _$gameToEditAtom = Atom(name: '_GameStoreBase.gameToEdit');
 
   @override
-  dynamic get response {
-    _$responseAtom.reportRead();
-    return super.response;
+  GameModel get gameToEdit {
+    _$gameToEditAtom.reportRead();
+    return super.gameToEdit;
   }
 
   @override
-  set response(dynamic value) {
-    _$responseAtom.reportWrite(value, super.response, () {
-      super.response = value;
-    });
-  }
-
-  final _$gameAtom = Atom(name: '_GameStoreBase.game');
-
-  @override
-  GameModel get game {
-    _$gameAtom.reportRead();
-    return super.game;
-  }
-
-  @override
-  set game(GameModel value) {
-    _$gameAtom.reportWrite(value, super.game, () {
-      super.game = value;
+  set gameToEdit(GameModel value) {
+    _$gameToEditAtom.reportWrite(value, super.gameToEdit, () {
+      super.gameToEdit = value;
     });
   }
 
@@ -103,11 +88,11 @@ mixin _$GameStore on _GameStoreBase, Store {
       ActionController(name: '_GameStoreBase');
 
   @override
-  dynamic setGame(GameModel value) {
+  dynamic setGameToEdit(GameModel value) {
     final _$actionInfo = _$_GameStoreBaseActionController.startAction(
-        name: '_GameStoreBase.setGame');
+        name: '_GameStoreBase.setGameToEdit');
     try {
-      return super.setGame(value);
+      return super.setGameToEdit(value);
     } finally {
       _$_GameStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -175,8 +160,7 @@ releaseDate: ${releaseDate},
 pubChoice: ${pubChoice},
 gameName: ${gameName},
 idPub: ${idPub},
-response: ${response},
-game: ${game}
+gameToEdit: ${gameToEdit}
     ''';
   }
 }
